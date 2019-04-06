@@ -15,8 +15,7 @@ public class Pawn implements Piece {
 
 	@Override
 	public int getScoringValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	@Override

@@ -16,8 +16,7 @@ public class Bishop implements Piece
 
 	@Override
 	public int getScoringValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 3;
 	}
 
 	@Override
