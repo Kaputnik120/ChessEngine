@@ -5,12 +5,11 @@ import java.util.List;
 import de.buschbaum.chess.engine.model.Board;
 import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
-import de.buschbaum.chess.engine.model.PieceType;
 
 public class Knight implements Piece {
 
 	@Override
-	public List<Move> getAvailableMoves(Board board) {
+	public List<Move> getAvailableMoves(Board board, Field field) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -26,9 +25,5 @@ public class Knight implements Piece {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public PieceType getPieceType() {
-		return PieceType.KNIGHT;
-	}
+	
 }

@@ -1,5 +1,8 @@
 package de.buschbaum.chess.engine.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.buschbaum.chess.engine.model.piece.Piece;
 
 public class Field {
@@ -29,5 +32,11 @@ public class Field {
 		chars[0] = (char) (x + 65);
 		chars[1] = Character.forDigit(y + 1, 10);
 		return new String(chars);
+	}
+	
+	public List<Move> getAvailableMoves(Board board)
+	{
+		if (piece == null) return new ArrayList<>();
+		return piece.getAvailableMoves(board, this);
 	}
 }

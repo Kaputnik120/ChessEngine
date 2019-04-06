@@ -9,11 +9,9 @@ import de.buschbaum.chess.engine.model.PieceType;
 
 public interface Piece {
 
-	List<Move> getAvailableMoves(Board board);
+	List<Move> getAvailableMoves(Board board, Field field);
 	
 	int getScoringValue();
 	
 	boolean isOffending(Field field);
-	
-	PieceType getPieceType();
 }
