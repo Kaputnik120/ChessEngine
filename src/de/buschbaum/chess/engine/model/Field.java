@@ -7,10 +7,8 @@ import de.buschbaum.chess.engine.model.piece.Piece;
 
 public class Field {
 	
-	public final short x;
-	public final short y;
-	public final Piece piece;
-	public final Color color;
+	public final Coordinate coordinate;
+	private Piece piece;
 
 	/**
 	 * Creates a new Field.
@@ -18,20 +16,21 @@ public class Field {
 	 */
 	public Field(short x, short y, Piece piece)
 	{
-		super();
-		this.x = x;
-		this.y = y;
+		this.coordinate = new Coordinate(x, y);
 		this.piece = piece;
-		this.color = (x % 2 == 1) && (y % 2 == 0) ? Color.WHITE : Color.BLACK; 
+		
+	}
+	
+	public Field(Coordinate coordinate, Piece piece)
+	{
+		this.coordinate = coordinate;
+		this.piece = piece;
 		
 	}
 
 	public String getFieldName()
 	{
-		char[] chars = new char[2];
-		chars[0] = (char) (x + 65);
-		chars[1] = Character.forDigit(y + 1, 10);
-		return new String(chars);
+		return coordinate.getFieldName();
 	}
 	
 	public List<Move> getAvailableMoves(Board board)
