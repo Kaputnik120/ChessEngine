@@ -11,7 +11,7 @@ import de.buschbaum.chess.engine.model.piece.Rook;
 
 public class Board {
 
-	private final Field[][] fields;
+	public final Field[][] fields;
 	
 	private List<Move> appliedMoves = new ArrayList<>();
 	private List<Move> calculatedMoves = new ArrayList<>();
@@ -73,6 +73,10 @@ public class Board {
 				{
 					King king = new King(Color.BLACK);
 					fields[x][y] = new Field(x, y, king);
+				}
+				else
+				{
+					fields[x][y] = new Field(x, y, null);
 				}
 			}	
 		}

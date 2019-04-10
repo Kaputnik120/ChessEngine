@@ -36,6 +36,16 @@ public class Field {
 	public List<Move> getAvailableMoves(Board board)
 	{
 		if (piece == null) return new ArrayList<>();
-		return piece.getAvailableMoves(board, this);
+		return piece.getAvailableMoves(board, coordinate);
+	}
+
+	public void setPiece(Piece piece)
+	{
+		this.piece = piece;
+	}
+	
+	public boolean isEmpty()
+	{
+		return piece == null;
 	}
 }

@@ -13,7 +13,7 @@ public interface Piece {
 	
 	int getScoringValue();
 	
-	boolean isOffending(Board board, Coordinate fromCoordinate, List<Coordinate> toCoordinates);
+	boolean isOffending(Board board, Coordinate from, Coordinate to);
 	
 	Color getColor();
 }
