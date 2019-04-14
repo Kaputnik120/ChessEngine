@@ -37,4 +37,10 @@ public class Knight extends BasicPiece implements Piece
 	{
 		return getNotation('n');
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Knight [color=" + color + "]";
+	}
 }

@@ -37,4 +37,10 @@ public class Queen extends BasicPiece implements Piece
 	{
 		return getNotation('q');
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Queen [color=" + color + "]";
+	}
 }

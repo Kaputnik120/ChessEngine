@@ -37,4 +37,10 @@ public class Rook extends BasicPiece implements Piece
 	{
 		return getNotation('r');
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Rook [moved=" + moved + ", color=" + color + "]";
+	}
 }

@@ -37,5 +37,10 @@ public class Pawn extends BasicPiece implements Piece
 	{
 		return getNotation('p');
 	}
-	
+
+	@Override
+	public String toString()
+	{
+		return "Pawn [color=" + color + "]";
+	}
 }

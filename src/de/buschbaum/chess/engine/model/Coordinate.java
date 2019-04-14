@@ -26,4 +26,10 @@ public class Coordinate
 		chars[1] = Character.forDigit(y + 1, 10);
 		return new String(chars);
 	}
+
+	@Override
+	public String toString()
+	{
+		return "[" + x + ", " + y + ", color=" + color + "]";
+	}
 }

@@ -39,4 +39,10 @@ public class King extends BasicPiece implements Piece
 	{
 		return getNotation('k');
 	}
+
+	@Override
+	public String toString()
+	{
+		return "King [moved=" + moved + ", color=" + color + "]";
+	}
 }

@@ -53,10 +53,7 @@ class BasicTest
 	void testBishopOffendindFields()
 	{
 		Board board = new Board();
-		System.out.println(board);
-		
 		board.applyMove(4, 1, 4, 3);
-		System.out.println(board);
 		
 		Piece bishop = board.fields[5][0].piece;
 		assertTrue(bishop.isOffending(board, 5, 0, 4, 1));
@@ -64,5 +61,39 @@ class BasicTest
 		assertTrue(bishop.isOffending(board, 5, 0, 2, 3));
 		assertTrue(bishop.isOffending(board, 5, 0, 1, 4));
 		assertTrue(bishop.isOffending(board, 5, 0, 0, 5));
+		
+		assertFalse(bishop.isOffending(board, 5, 0, 5, 5));
+		assertFalse(bishop.isOffending(board, 5, 0, 1, 5));
+		assertFalse(bishop.isOffending(board, 5, 0, 3, 5));
+		assertFalse(bishop.isOffending(board, 5, 0, 7, 7));
+		assertFalse(bishop.isOffending(board, 5, 0, 0, 7));
+		assertFalse(bishop.isOffending(board, 5, 0, 7, 0));
+		assertFalse(bishop.isOffending(board, 5, 0, 3, 3));
+		assertFalse(bishop.isOffending(board, 5, 0, 2, 2));
+		
+		board.reset();
+		board.applyMove(3, 1, 3, 2);
+		board.applyMove(3, 6, 3, 4);
+		board.applyMove(2, 0, 6, 4);
+		board.applyMove(5, 6, 5, 5);
+		
+		System.out.println(board);
+		
+		bishop = board.fields[6][4].piece;
+		assertTrue(bishop.isOffending(board, 6, 4, 5, 5));
+		assertTrue(bishop.isOffending(board, 6, 4, 7, 3));
+		assertTrue(bishop.isOffending(board, 6, 4, 7, 5));
+		assertTrue(bishop.isOffending(board, 6, 4, 5, 3));
+		assertTrue(bishop.isOffending(board, 6, 4, 4, 2));
+		assertTrue(bishop.isOffending(board, 6, 4, 3, 1));
+		assertTrue(bishop.isOffending(board, 6, 4, 2, 0));
+		
+		assertFalse(bishop.isOffending(board, 6, 4, 5, 6));
+		assertFalse(bishop.isOffending(board, 6, 4, 4, 6));
+		assertFalse(bishop.isOffending(board, 6, 4, 3, 3));
+		assertFalse(bishop.isOffending(board, 6, 4, 2, 1));
+		assertFalse(bishop.isOffending(board, 6, 4, 0, 7));
+		assertFalse(bishop.isOffending(board, 6, 4, 7, 4));
+		assertFalse(bishop.isOffending(board, 6, 4, 3, 7));
 	}
 }

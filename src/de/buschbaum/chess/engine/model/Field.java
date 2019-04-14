@@ -60,4 +60,10 @@ public class Field {
 	{
 		return piece == null;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Field [coordinate=" + coordinate + ", piece=" + piece + "]";
+	}
 }

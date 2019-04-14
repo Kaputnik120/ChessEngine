@@ -1,6 +1,7 @@
 package de.buschbaum.chess.engine.model.piece;
 
 import java.util.List;
+import java.util.Objects;
 
 import de.buschbaum.chess.engine.model.Board;
 import de.buschbaum.chess.engine.model.Color;
@@ -29,6 +30,10 @@ public class Bishop extends BasicPiece implements Piece
 	@Override
 	public boolean isOffending(Board board, Coordinate from, Coordinate to) 
 	{
+		Objects.requireNonNull(board.fields[from.x][from.y].piece);
+		Objects.requireNonNull(from);
+		Objects.requireNonNull(to);
+		
 		if (!from.color.equals(to.color)) return false;
 		if (from.x == to.x) return false;
 		if (from.y == to.y) return false;
@@ -52,5 +57,11 @@ public class Bishop extends BasicPiece implements Piece
 	public String getNotation()
 	{
 		return getNotation('b');
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Bishop [color=" + color + "]";
 	}
 }

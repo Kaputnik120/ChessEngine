@@ -4,10 +4,14 @@ import de.buschbaum.chess.engine.model.Board;
 import de.buschbaum.chess.engine.model.Color;
 import de.buschbaum.chess.engine.model.Coordinate;
 
+/**
+ * @author Uli
+ *
+ */
 public abstract class BasicPiece implements Piece
 {
 	public boolean moved;
-	private final Color color;
+	protected final Color color;
 	
 	public BasicPiece(Color color)
 	{

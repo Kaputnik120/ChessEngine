@@ -71,4 +71,11 @@ public class Move
 	{
 		this.possibleFollowingMoves = possibleFollowingMoves;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Move [lastMove=" + lastMove + ", from=" + from + ", to=" + to + ", color=" + color + ", promotion="
+				+ promotion + "]";
+	}
 }
