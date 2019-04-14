@@ -15,5 +15,11 @@ public interface Piece {
 	
 	boolean isOffending(Board board, Coordinate from, Coordinate to);
 	
+	boolean isOffending(Board board, int fromX, int fromY, int toX, int toY);
+	
 	Color getColor();
+	
+	void setMoved();
+	
+	String getNotation();
 }

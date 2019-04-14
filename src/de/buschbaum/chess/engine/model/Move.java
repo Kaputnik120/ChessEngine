@@ -1,6 +1,7 @@
 package de.buschbaum.chess.engine.model;
 
 import java.util.List;
+import java.util.Objects;
 
 import de.buschbaum.chess.engine.model.piece.Piece;
 
@@ -14,14 +15,41 @@ public class Move
 	
 	private double score;
 	private List<Move> possibleFollowingMoves;
-	
+
+	/**
+	 * Creates a complete in game move.
+	 * @param lastMove May be null for the first move. Necessary for en-passent rule.
+	 * @param from Not null
+	 * @param to Not null
+	 * @param color Not null
+	 * @param promotion Is only unequal null if a pawn is promoted.
+	 */
 	public Move(Move lastMove, Field from, Field to, Color color, Piece promotion)
 	{
+		Objects.requireNonNull(from);
+		Objects.requireNonNull(to);
+		Objects.requireNonNull(color);
+		
 		this.lastMove = lastMove;
 		this.from = from;
 		this.to = to;
 		this.color = color;
 		this.promotion = promotion;
+	}
+	
+	/**
+	 * Creates a move for testing purposes. E.g. for creating a special field constellation.
+	 */
+	public Move(Field from, Field to)
+	{
+		Objects.requireNonNull(from);
+		Objects.requireNonNull(to);
+		this.from = from;
+		this.to = to;
+		
+		this.lastMove = null;
+		this.color = null;
+		this.promotion = null;
 	}
 
 	public double getScore()

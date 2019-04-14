@@ -8,15 +8,13 @@ import de.buschbaum.chess.engine.model.Coordinate;
 import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
 
-public class Rook implements Piece 
+public class Rook extends BasicPiece implements Piece 
 {
-	private final Color color;
-	
 	public Rook(Color color)
 	{
-		this.color = color;
+		super(color);
 	}
-	
+
 	@Override
 	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) {
 		// TODO Auto-generated method stub
@@ -29,14 +27,14 @@ public class Rook implements Piece
 	}
 
 	@Override
-	public boolean isOffending(Board board, Coordinate fromCoordinate, List<Coordinate> toCoordinates) {
+	public boolean isOffending(Board board, Coordinate from, Coordinate to) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
-	public Color getColor()
+	public String getNotation()
 	{
-		return color;
+		return getNotation('r');
 	}
 }

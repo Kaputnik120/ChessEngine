@@ -8,13 +8,11 @@ import de.buschbaum.chess.engine.model.Coordinate;
 import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
 
-public class Bishop implements Piece 
+public class Bishop extends BasicPiece implements Piece 
 {
-	private final Color color;
-	
 	public Bishop(Color color)
 	{
-		this.color = color;
+		super(color);
 	}
 
 	@Override
@@ -34,6 +32,7 @@ public class Bishop implements Piece
 		if (!from.color.equals(to.color)) return false;
 		if (from.x == to.x) return false;
 		if (from.y == to.y) return false;
+		
 		int diffAbsX = Math.abs(from.x - to.x);
 		if (diffAbsX != Math.abs(from.y - to.y)) return false;
 		
@@ -42,18 +41,16 @@ public class Bishop implements Piece
 		int yDirection = from.y > to.y ? -1 : 1;
 		for (int i = 1; i <= maxSteps; i++)
 		{
-			Field fieldBetween = board.fields[from.x - i * xDirection][from.y - i * yDirection];
+			Field fieldBetween = board.fields[from.x + i * xDirection][from.y + i * yDirection];
 			if (!fieldBetween.isEmpty()) return false;
 		}
 		
-		return false;
+		return true;
 	}
 
 	@Override
-	public Color getColor()
+	public String getNotation()
 	{
-		return color;
+		return getNotation('b');
 	}
-	
-	
 }
