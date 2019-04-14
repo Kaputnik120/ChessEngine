@@ -99,7 +99,6 @@ class BasicTest
 	void offendingKing()
 	{
 		Board board = new Board();
-		System.out.println(board);
 		
 		Piece king = board.fields[4][0].piece;
 		assertFalse(king.isOffending(board, 4, 0, 3, 0));
@@ -118,5 +117,33 @@ class BasicTest
 		board.reset();
 		board.applyMove(4, 6, 4, 1);
 		assertTrue(king.isOffending(board, 4, 0, 4, 1));
+	}
+	
+	@Test
+	void offendingKnight()
+	{
+		Board board = new Board();
+		
+		Piece knight = board.fields[1][0].piece;
+		assertTrue(knight.isOffending(board, 1, 0, 2, 2));
+		assertTrue(knight.isOffending(board, 1, 0, 0, 2));
+		
+		assertFalse(knight.isOffending(board, 1, 0, 1, 2));
+		assertFalse(knight.isOffending(board, 1, 0, 3, 2));
+		assertFalse(knight.isOffending(board, 1, 0, 3, 3));
+		assertFalse(knight.isOffending(board, 1, 0, 3, 4));
+		
+		board.applyMove(1, 7, 2, 2);
+		knight = board.fields[2][2].piece;
+		
+		assertTrue(knight.isOffending(board, 2, 2, 1, 0));
+		assertTrue(knight.isOffending(board, 2, 2, 1, 4));
+		assertTrue(knight.isOffending(board, 2, 2, 3, 4));
+		assertTrue(knight.isOffending(board, 2, 2, 3, 0));
+		
+		assertFalse(knight.isOffending(board, 2, 2, 3, 3));
+		assertFalse(knight.isOffending(board, 2, 2, 3, 5));
+		assertFalse(knight.isOffending(board, 2, 2, 3, 2));
+		
 	}
 }

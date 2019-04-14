@@ -12,6 +12,8 @@ public class Coordinate
 	 */
 	public Coordinate(int x, int y)
 	{
+		if (x < 0 || x > 7 || y < 0 || y > 7) throw new RuntimeException("invalid coordinates " + x + "," + y);
+		
 		this.x = x;
 		this.y = y;
 		boolean isEvenX = x % 2 == 0;
