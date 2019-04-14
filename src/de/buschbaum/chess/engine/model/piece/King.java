@@ -1,6 +1,7 @@
 package de.buschbaum.chess.engine.model.piece;
 
 import java.util.List;
+import java.util.Objects;
 
 import de.buschbaum.chess.engine.model.Board;
 import de.buschbaum.chess.engine.model.Color;
@@ -18,20 +19,28 @@ public class King extends BasicPiece implements Piece
 
 	@Override
 	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int getScoringValue() {
-		// TODO Auto-generated method stub
+		//0 because the king always is not part of the calculation
 		return 0;
 	}
 
 	@Override
-	public boolean isOffending(Board board, Coordinate from, Coordinate to) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isOffending(Board board, Coordinate from, Coordinate to) 
+	{
+		Piece king = board.fields[from.x][from.y].piece;
+		Objects.requireNonNull(king);
+		Objects.requireNonNull(from);
+		Objects.requireNonNull(to);
+		
+		if (Math.abs(from.x - to.x) > 1 || Math.abs(from.y - to.y) > 1) return false;
+		Piece toPiece = board.getField(to).piece;
+		if (toPiece != null && toPiece.getColor().equals(king.getColor())) return false;
+		
+		return true;
 	}
 	
 	@Override

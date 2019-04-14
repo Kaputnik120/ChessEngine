@@ -40,6 +40,11 @@ public class Board {
 		this.fields = fields;
 	}
 	
+	public Field getField(Coordinate coordinate)
+	{
+		return fields[coordinate.x][coordinate.y];
+	}
+	
 	/**
 	 * Applies the given moves.
 	 * No Rule checks are made.

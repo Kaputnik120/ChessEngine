@@ -15,7 +15,7 @@ class BasicTest
 {
 
 	@Test
-	void testFieldNames()
+	void fieldNames()
 	{
 		Queen queen = new Queen(Color.WHITE);
 		
@@ -37,7 +37,7 @@ class BasicTest
 	}
 	
 	@Test
-	void testCoordinateColors()
+	void coordinateColors()
 	{
 		assertEquals(new Coordinate(0, 0).color, Color.BLACK);
 		assertEquals(new Coordinate(5, 0).color, Color.WHITE);
@@ -50,7 +50,7 @@ class BasicTest
 	}
 	
 	@Test
-	void testBishopOffendindFields()
+	void offendingBishop()
 	{
 		Board board = new Board();
 		board.applyMove(4, 1, 4, 3);
@@ -77,8 +77,6 @@ class BasicTest
 		board.applyMove(2, 0, 6, 4);
 		board.applyMove(5, 6, 5, 5);
 		
-		System.out.println(board);
-		
 		bishop = board.fields[6][4].piece;
 		assertTrue(bishop.isOffending(board, 6, 4, 5, 5));
 		assertTrue(bishop.isOffending(board, 6, 4, 7, 3));
@@ -95,5 +93,30 @@ class BasicTest
 		assertFalse(bishop.isOffending(board, 6, 4, 0, 7));
 		assertFalse(bishop.isOffending(board, 6, 4, 7, 4));
 		assertFalse(bishop.isOffending(board, 6, 4, 3, 7));
+	}
+	
+	@Test
+	void offendingKing()
+	{
+		Board board = new Board();
+		System.out.println(board);
+		
+		Piece king = board.fields[4][0].piece;
+		assertFalse(king.isOffending(board, 4, 0, 3, 0));
+		assertFalse(king.isOffending(board, 4, 0, 3, 1));
+		assertFalse(king.isOffending(board, 4, 0, 4, 1));
+		assertFalse(king.isOffending(board, 4, 0, 5, 1));
+		assertFalse(king.isOffending(board, 4, 0, 5, 0));
+		assertFalse(king.isOffending(board, 4, 0, 5, 5));
+		assertFalse(king.isOffending(board, 4, 0, 7, 7));
+		assertFalse(king.isOffending(board, 4, 0, 0, 7));
+		assertFalse(king.isOffending(board, 4, 0, 7, 0));
+		
+		board.applyMove(4, 1, 4, 3);
+		assertTrue(king.isOffending(board, 4, 0, 4, 1));
+		
+		board.reset();
+		board.applyMove(4, 6, 4, 1);
+		assertTrue(king.isOffending(board, 4, 0, 4, 1));
 	}
 }
