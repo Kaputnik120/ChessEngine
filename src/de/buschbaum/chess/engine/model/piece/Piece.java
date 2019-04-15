@@ -19,6 +19,7 @@ public interface Piece {
 	
 	/**
 	 * Checks if to coordinate can be reached by the piece at the from coordinate.
+	 * No colors are checked - the method just checks if the piece could move to this coordinate.
 	 * The following rules are checked: en passent, basic movement rules
 	 * The following rules aren't checked: check, checkmate, stalemate, rochade
 	 * The field on the board relating to the from coordinate must contain the piece the method is called on.

@@ -42,9 +42,6 @@ public class Knight extends BasicPiece implements Piece
 		if (absY == 2 && absX != 1) return false;
 		if (absY == 1 && absX != 2) return false;
 		
-		Piece toPiece = board.getField(to).piece;
-		if (toPiece != null && toPiece.getColor().equals(knight.getColor())) return false;
-		
 		return true;
 	}
 

@@ -8,6 +8,7 @@ import de.buschbaum.chess.engine.model.Color;
 import de.buschbaum.chess.engine.model.Coordinate;
 import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
+import de.buschbaum.chess.engine.model.piece.Knight;
 import de.buschbaum.chess.engine.model.piece.Piece;
 import de.buschbaum.chess.engine.model.piece.Queen;
 
@@ -136,6 +137,8 @@ class BasicTest
 		board.applyMove(1, 7, 2, 2);
 		knight = board.fields[2][2].piece;
 		
+		System.out.println(board);
+		
 		assertTrue(knight.isOffending(board, 2, 2, 1, 0));
 		assertTrue(knight.isOffending(board, 2, 2, 1, 4));
 		assertTrue(knight.isOffending(board, 2, 2, 3, 4));
@@ -145,5 +148,10 @@ class BasicTest
 		assertFalse(knight.isOffending(board, 2, 2, 3, 5));
 		assertFalse(knight.isOffending(board, 2, 2, 3, 2));
 		
+		board.fields[1][0].piece = new Knight(Color.BLACK);
+		
+		System.out.println(board);
+		//Color shouldn't matter to isOffending method
+		assertTrue(knight.isOffending(board, 2, 2, 1, 0));
 	}
 }
