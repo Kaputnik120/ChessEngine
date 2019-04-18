@@ -1,11 +1,9 @@
 package de.buschbaum.chess.engine.model.piece;
 
 import java.util.List;
-
 import de.buschbaum.chess.engine.model.Board;
 import de.buschbaum.chess.engine.model.Color;
 import de.buschbaum.chess.engine.model.Coordinate;
-import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
 
 public class Rook extends BasicPiece implements Piece 
@@ -22,14 +20,15 @@ public class Rook extends BasicPiece implements Piece
 	}
 
 	@Override
-	public int getScoringValue() {
+	public int getScoringValue() 
+	{
 		return 5;
 	}
 
 	@Override
-	public boolean isOffending(Board board, Coordinate from, Coordinate to) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isOffending(Board board, Coordinate from, Coordinate to) 
+	{
+		return Pieces.ifOffendingRook(board, from, to);
 	}
 
 	@Override

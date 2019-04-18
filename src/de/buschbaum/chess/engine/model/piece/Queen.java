@@ -28,8 +28,7 @@ public class Queen extends BasicPiece implements Piece
 
 	@Override
 	public boolean isOffending(Board board, Coordinate from, Coordinate to) {
-		// TODO Auto-generated method stub
-		return false;
+		return Pieces.ifOffendingBishop(board, from, to) || Pieces.ifOffendingRook(board, from, to);
 	}
 
 	@Override
