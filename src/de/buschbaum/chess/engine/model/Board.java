@@ -72,6 +72,15 @@ public class Board {
 		applyMove(new Move(fields[fromX][fromY], fields[toX][toY]));
 	}
 
+	/**
+	 * Returns the last move or null if there are no moves applied, yet.
+	 */
+	public Move getLastMove()
+	{
+		if (appliedMoves == null || appliedMoves.isEmpty()) return null;
+		return appliedMoves.get(appliedMoves.size() - 1);
+	}
+	
 	@Override
 	public String toString()
 	{

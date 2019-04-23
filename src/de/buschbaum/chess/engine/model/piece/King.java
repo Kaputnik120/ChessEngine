@@ -37,8 +37,6 @@ public class King extends BasicPiece implements Piece
 		Objects.requireNonNull(to);
 		
 		if (Math.abs(from.x - to.x) > 1 || Math.abs(from.y - to.y) > 1) return false;
-		Piece toPiece = board.getField(to).piece;
-		if (toPiece != null && toPiece.getColor().equals(king.getColor())) return false;
 		
 		return true;
 	}

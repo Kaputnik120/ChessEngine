@@ -13,6 +13,17 @@ import de.buschbaum.chess.engine.model.piece.Queen;
 class IsOffendingTest
 {
 	@Test
+	void offendingPawn()
+	{
+		Board board = new Board();
+		System.out.println(board);
+		
+		Piece pawn = board.fields[3][1].piece;
+		assertTrue(pawn.isOffending(board, 3, 1, 3, 2));
+		assertTrue(pawn.isOffending(board, 3, 1, 3, 3));
+	}
+	
+	@Test
 	void offendingBishop()
 	{
 		Board board = new Board();
@@ -64,11 +75,8 @@ class IsOffendingTest
 		Board board = new Board();
 		
 		Piece king = board.fields[4][0].piece;
-		assertFalse(king.isOffending(board, 4, 0, 3, 0));
-		assertFalse(king.isOffending(board, 4, 0, 3, 1));
-		assertFalse(king.isOffending(board, 4, 0, 4, 1));
-		assertFalse(king.isOffending(board, 4, 0, 5, 1));
-		assertFalse(king.isOffending(board, 4, 0, 5, 0));
+		assertTrue(king.isOffending(board, 4, 0, 5, 1));
+		assertTrue(king.isOffending(board, 4, 0, 5, 0));
 		assertFalse(king.isOffending(board, 4, 0, 5, 5));
 		assertFalse(king.isOffending(board, 4, 0, 7, 7));
 		assertFalse(king.isOffending(board, 4, 0, 0, 7));
