@@ -16,11 +16,10 @@ class IsOffendingTest
 	void offendingPawn()
 	{
 		Board board = new Board();
-		System.out.println(board);
 		
 		Piece pawn = board.fields[3][1].piece;
-		assertTrue(pawn.isOffending(board, 3, 1, 3, 2));
-		assertTrue(pawn.isOffending(board, 3, 1, 3, 3));
+		assertTrue(pawn.isOffending(board, 3, 1, 2, 2));
+		assertTrue(pawn.isOffending(board, 3, 1, 4, 2));
 	}
 	
 	@Test
