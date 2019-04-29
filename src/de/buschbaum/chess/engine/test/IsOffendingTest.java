@@ -1,4 +1,4 @@
-package de.buschbaum.chess.engine.test.rules;
+package de.buschbaum.chess.engine.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -203,7 +203,6 @@ class IsOffendingTest
 		board2.applyMove(2, 0, 6, 4);
 		board2.applyMove(5, 6, 5, 5);
 		queen2 = board2.fields[6][4].piece;
-		System.out.println(board2);
 		
 		assertTrue(queen2.isOffending(board2, 6, 4, 5, 5));
 		assertTrue(queen2.isOffending(board2, 6, 4, 7, 3));

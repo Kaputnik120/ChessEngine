@@ -3,6 +3,7 @@ package de.buschbaum.chess.engine.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.PrimitiveIterator.OfDouble;
 
 import de.buschbaum.chess.engine.model.piece.Bishop;
 import de.buschbaum.chess.engine.model.piece.King;
@@ -197,5 +198,52 @@ public class Board {
 				}
 			}	
 		}
+	}
+	
+	public Field getKing(Color color)
+	{
+		for (int y = 7; y >= 0; y--)
+		{
+			for (int x = 0; x <= 7; x++)
+			{
+				Field field = fields[x][y];
+				Piece piece = field.piece;
+				if ((piece instanceof King) && piece.getColor().equals(color))
+				{
+					return field;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Is any piece of Color color offending Field field?
+	 */
+	public boolean isAnyPieceOffendingField(Color color, Field field)
+	{
+		for (int y = 7; y >= 0; y--)
+		{
+			for (int x = 0; x <= 7; x++)
+			{
+				Field pieceField = fields[x][y];
+				Piece piece = pieceField.piece;
+				if (piece == null || !piece.getColor().equals(color)) continue;
+				boolean isOffending = piece.isOffending(this, pieceField, field);
+				if (isOffending) return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isCheck(Color color)
+	{
+		Field kingsField = getKing(color);
+		System.out.println(kingsField);
+		
+		
+		
+		
+		return false;
 	}
 }

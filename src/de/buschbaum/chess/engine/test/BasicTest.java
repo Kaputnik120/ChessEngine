@@ -1,4 +1,5 @@
-package de.buschbaum.chess.engine.test.rules;
+package de.buschbaum.chess.engine.test;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -48,5 +49,18 @@ class BasicTest
 		assertEquals(new Coordinate(1, 4).color, Color.WHITE);
 		assertEquals(new Coordinate(0, 5).color, Color.WHITE);
 		assertEquals(new Coordinate(1, 1).color, Color.BLACK);
+	}
+	
+	@Test
+	void getKingTest()
+	{
+		Board board =  new Board();
+		Field field = board.getKing(Color.BLACK);
+		assertTrue(field.coordinate.x == 4);
+		assertTrue(field.coordinate.y == 7);
+		
+		field = board.getKing(Color.WHITE);
+		assertTrue(field.coordinate.x == 4);
+		assertTrue(field.coordinate.y == 0);
 	}
 }

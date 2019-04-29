@@ -5,6 +5,7 @@ import java.util.List;
 import de.buschbaum.chess.engine.model.Board;
 import de.buschbaum.chess.engine.model.Color;
 import de.buschbaum.chess.engine.model.Coordinate;
+import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
 
 public interface Piece {
@@ -20,8 +21,8 @@ public interface Piece {
 	/**
 	 * Checks if to-coordinate can be reached by the piece at the from-coordinate.
 	 * No colors are checked - the method just checks if the piece could move to this coordinate.
-	 * The following rules are checked: en passent, basic movement rules
-	 * The following rules aren't checked: check, checkmate, stalemate, rochade
+	 * The following rules are checked: basic movement rules (for pawns: basic capture rules)
+	 * The following rules aren't checked: check, checkmate, stalemate, rochade, en passent, pawns movement (single or double moves)
 	 * The field on the board relating to the from coordinate must contain the piece the method is called on.
 	 */
 	boolean isOffending(Board board, Coordinate from, Coordinate to);
@@ -30,6 +31,12 @@ public interface Piece {
 	 * @see Piece#isOffending(Board, Coordinate, Coordinate)
 	 */
 	boolean isOffending(Board board, int fromX, int fromY, int toX, int toY);
+	
+	
+	/**
+	 * @see Piece#isOffending(Board, Coordinate, Coordinate)
+	 */
+	boolean isOffending(Board board, Field fromField, Field toField);
 	
 	Color getColor();
 	
