@@ -57,11 +57,22 @@ public class Board {
 		Field from = move.from;
 		
 		Objects.requireNonNull(from.piece);
+		move.capture = to.piece;
 		to.piece = from.piece;
 		from.piece = null;
 		to.piece.setMoved();
-		
 		appliedMoves.add(move);
+	}
+	
+	/**
+	 * Unapplies the last move made. If applicable restores the captured piece
+	 */
+	public void unapplyMove()
+	{
+		if (appliedMoves == null || appliedMoves.isEmpty()) return;
+		Move lastMove = appliedMoves.get(appliedMoves.size() - 1);
+		lastMove.from.piece = lastMove.to.piece;
+		lastMove.to.piece = lastMove.capture;
 	}
 	
 	/**

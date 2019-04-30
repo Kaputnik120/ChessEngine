@@ -63,4 +63,31 @@ class BasicTest
 		assertTrue(field.coordinate.x == 4);
 		assertTrue(field.coordinate.y == 0);
 	}
+	
+	@Test
+	void checkTest()
+	{
+		Board board = new Board();
+		assertFalse(board.isCheck(Color.WHITE));
+		assertFalse(board.isCheck(Color.BLACK));
+		
+		board.applyMove(4, 0, 4, 3);
+		board.applyMove(2, 7, 2, 5);
+		assertTrue(board.isCheck(Color.WHITE));
+		assertFalse(board.isCheck(Color.BLACK));
+
+		board.applyMove(6, 7, 5, 5);
+		assertTrue(board.isCheck(Color.WHITE));
+		assertFalse(board.isCheck(Color.BLACK));
+		
+		board.applyMove(2, 5, 2, 7);
+		assertTrue(board.isCheck(Color.WHITE));
+		assertFalse(board.isCheck(Color.BLACK));
+		
+		board = new Board();
+		board.applyMove(4, 0, 4, 2);
+		board.applyMove(4, 7, 5, 3);
+		assertTrue(board.isCheck(Color.WHITE));
+		assertTrue(board.isCheck(Color.BLACK));
+	}
 }

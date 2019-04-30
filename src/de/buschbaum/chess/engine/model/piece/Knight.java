@@ -18,6 +18,8 @@ public class Knight extends BasicPiece implements Piece
 
 	@Override
 	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) {
+		
+		
 		return null;
 	}
 
