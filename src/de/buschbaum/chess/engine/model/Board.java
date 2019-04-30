@@ -239,11 +239,6 @@ public class Board {
 	public boolean isCheck(Color color)
 	{
 		Field kingsField = getKing(color);
-		System.out.println(kingsField);
-		
-		
-		
-		
-		return false;
+		return isAnyPieceOffendingField(Color.getOpposite(color), kingsField);
 	}
 }
