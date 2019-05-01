@@ -1,6 +1,7 @@
 package de.buschbaum.chess.engine.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.PrimitiveIterator.OfDouble;
@@ -73,6 +74,36 @@ public class Board {
 		Move lastMove = appliedMoves.get(appliedMoves.size() - 1);
 		lastMove.from.piece = lastMove.to.piece;
 		lastMove.to.piece = lastMove.capture;
+	}
+	
+	public Move createValidMove(Coordinate fromCoordinate, int toX, int toY)
+	{
+		if (toX < 0 || toX > 7 || toY < 0 || toY > 7) return null;
+		
+		Field toField = fields[toX][toY];
+		Piece toPiece = toField.piece;
+		
+		Field fromField = getField(fromCoordinate);
+		Piece fromPiece = fromField.piece;
+		
+		Color fromPieceColor = fromPiece.getColor();
+		if (toPiece != null && !fromPieceColor.isOpposite(toPiece.getColor())) return null;
+		
+		return new Move(getLastMove(), fromField, toField, fromPieceColor, null, toPiece);
+	}
+	
+	/**
+	 * Removes all moves that end in check for the given color. 
+	 */
+	public void stripCheckMoves(List<Move> moves, Color color)
+	{
+		Iterator<Move> moveIterator = moves.iterator();
+		while (moveIterator.hasNext())
+		{
+			Move move = moveIterator.next();
+			applyMove(move);
+			if (isCheck(color)) moveIterator.remove();
+		}
 	}
 	
 	/**

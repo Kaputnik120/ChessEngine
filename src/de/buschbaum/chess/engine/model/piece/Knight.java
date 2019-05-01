@@ -1,5 +1,6 @@
 package de.buschbaum.chess.engine.model.piece;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,10 +18,34 @@ public class Knight extends BasicPiece implements Piece
 	}
 
 	@Override
-	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) {
+	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) 
+	{
+		Piece knight = board.fields[coordinate.x][coordinate.y].piece;
+		Objects.requireNonNull(knight);
 		
+		int x = coordinate.x;
+		int y = coordinate.y;
 		
-		return null;
+		List<Move> moves = new ArrayList<>();
+		
+		addPossibleMove(board, coordinate, x + 2, y - 1, moves);
+		addPossibleMove(board, coordinate, x + 2, y + 1, moves);
+		addPossibleMove(board, coordinate, x - 2, y - 1, moves);
+		addPossibleMove(board, coordinate, x - 2, y + 1, moves);
+		addPossibleMove(board, coordinate, x + 1, y - 2, moves);
+		addPossibleMove(board, coordinate, x + 1, y + 2, moves);
+		addPossibleMove(board, coordinate, x - 1, y - 2, moves);
+		addPossibleMove(board, coordinate, x - 1, y + 2, moves);
+		
+		board.stripCheckMoves(moves, knight.getColor());
+		
+		return moves;
+	}
+
+	private void addPossibleMove(Board board, Coordinate coordinate, int toX, int toY, List<Move> moves)
+	{
+		Move move = board.createValidMove(coordinate, toX, toY);
+		if (move != null) moves.add(move);
 	}
 
 	@Override
@@ -32,10 +57,10 @@ public class Knight extends BasicPiece implements Piece
 	@Override
 	public boolean isOffending(Board board, Coordinate from, Coordinate to) 
 	{
-		Piece knight = board.fields[from.x][from.y].piece;
-		Objects.requireNonNull(knight);
 		Objects.requireNonNull(from);
 		Objects.requireNonNull(to);
+		Piece knight = board.fields[from.x][from.y].piece;
+		Objects.requireNonNull(knight);
 		
 		int absX = Math.abs(from.x - to.x);
 		int absY = Math.abs(from.y - to.y);

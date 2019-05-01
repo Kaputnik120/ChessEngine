@@ -14,6 +14,11 @@ public enum Color {
 		this.notation = notation;
 	}
 	
+	public boolean isOpposite(Color color)
+	{
+		return color.equals(Color.getOpposite(color));
+	}
+	
 	public static Color getOpposite(Color color)
 	{
 		if (color.equals(WHITE)) return BLACK;
