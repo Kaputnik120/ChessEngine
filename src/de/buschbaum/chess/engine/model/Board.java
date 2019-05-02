@@ -86,10 +86,9 @@ public class Board {
 		Field fromField = getField(fromCoordinate);
 		Piece fromPiece = fromField.piece;
 		
-		Color fromPieceColor = fromPiece.getColor();
-		if (toPiece != null && !fromPieceColor.isOpposite(toPiece.getColor())) return null;
+		if (toPiece != null && !fromPiece.isEnemy(toPiece)) return null;
 		
-		return new Move(getLastMove(), fromField, toField, fromPieceColor, null, toPiece);
+		return new Move(getLastMove(), fromField, toField, fromPiece.getColor(), null, toPiece);
 	}
 	
 	/**
@@ -102,7 +101,11 @@ public class Board {
 		{
 			Move move = moveIterator.next();
 			applyMove(move);
-			if (isCheck(color)) moveIterator.remove();
+			if (isCheck(color)) 
+			{
+				moveIterator.remove();
+			}
+			unapplyMove();
 		}
 	}
 	

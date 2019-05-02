@@ -43,4 +43,9 @@ public interface Piece {
 	void setMoved();
 	
 	String getNotation();
+	
+	/**
+	 * Return true if the parameter piece is not null and is of the opposite color of this piece.
+	 */
+	boolean isEnemy(Piece piece);
 }

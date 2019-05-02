@@ -31,11 +31,6 @@ public class King extends BasicPiece implements Piece
 	@Override
 	public boolean isOffending(Board board, Coordinate from, Coordinate to) 
 	{
-		Piece king = board.fields[from.x][from.y].piece;
-		Objects.requireNonNull(king);
-		Objects.requireNonNull(from);
-		Objects.requireNonNull(to);
-		
 		if (Math.abs(from.x - to.x) > 1 || Math.abs(from.y - to.y) > 1) return false;
 		
 		return true;

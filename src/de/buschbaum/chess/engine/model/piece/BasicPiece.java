@@ -48,4 +48,10 @@ public abstract class BasicPiece implements Piece
 	{
 		return isOffending(board, fromField.coordinate, toField.coordinate);
 	}
+	
+	public boolean isEnemy(Piece piece)
+	{
+		if (piece == null) return false;
+		return piece.getColor().isOpposite(getColor());
+	}
 }

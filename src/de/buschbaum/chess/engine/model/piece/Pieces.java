@@ -12,12 +12,8 @@ public class Pieces
 	/**
 	 * @see Piece#isOffending(Board, Coordinate, Coordinate) 
 	 */
-	public static boolean ifOffendingBishop(Board board, Coordinate from, Coordinate to)
+	public static boolean isOffendingBishop(Board board, Coordinate from, Coordinate to)
 	{
-		Objects.requireNonNull(board.fields[from.x][from.y].piece);
-		Objects.requireNonNull(from);
-		Objects.requireNonNull(to);
-		
 		if (!from.color.equals(to.color)) return false;
 		if (from.x == to.x) return false;
 		if (from.y == to.y) return false;
@@ -40,12 +36,8 @@ public class Pieces
 	/**
 	 * @see Piece#isOffending(Board, Coordinate, Coordinate) 
 	 */
-	public static boolean ifOffendingRook(Board board, Coordinate from, Coordinate to)
+	public static boolean isOffendingRook(Board board, Coordinate from, Coordinate to)
 	{
-		Objects.requireNonNull(board.fields[from.x][from.y].piece);
-		Objects.requireNonNull(from);
-		Objects.requireNonNull(to);
-		
 		if (from.x != to.x && from.y != to.y ) return false;
 		
 		int diffAbsX = Math.abs(from.x - to.x);

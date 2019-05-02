@@ -100,17 +100,12 @@ public class Pawn extends BasicPiece implements Piece
 	@Override
 	public boolean isOffending(Board board, Coordinate from, Coordinate to) 
 	{
-		Piece pawn = board.fields[from.x][from.y].piece;
-		Objects.requireNonNull(pawn);
-		Objects.requireNonNull(from);
-		Objects.requireNonNull(to);
-		
 		int diffX = to.x - from.x;
 		int diffY = to.y - from.y;
 		int diffXAbs = Math.abs(diffX);
 		if (diffXAbs > 1 || Math.abs(diffY) > 2) return false;
 		
-		boolean isWhite = pawn.getColor().equals(Color.WHITE);
+		boolean isWhite = getColor().equals(Color.WHITE);
 		int direction = isWhite ? 1 : -1;
 		
 		//potential capture

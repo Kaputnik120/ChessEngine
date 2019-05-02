@@ -28,7 +28,7 @@ public class Rook extends BasicPiece implements Piece
 	@Override
 	public boolean isOffending(Board board, Coordinate from, Coordinate to) 
 	{
-		return Pieces.ifOffendingRook(board, from, to);
+		return Pieces.isOffendingRook(board, from, to);
 	}
 
 	@Override

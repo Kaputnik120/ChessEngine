@@ -16,7 +16,7 @@ public enum Color {
 	
 	public boolean isOpposite(Color color)
 	{
-		return color.equals(Color.getOpposite(color));
+		return this.equals(Color.getOpposite(color));
 	}
 	
 	public static Color getOpposite(Color color)

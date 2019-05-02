@@ -20,9 +20,6 @@ public class Knight extends BasicPiece implements Piece
 	@Override
 	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) 
 	{
-		Piece knight = board.fields[coordinate.x][coordinate.y].piece;
-		Objects.requireNonNull(knight);
-		
 		int x = coordinate.x;
 		int y = coordinate.y;
 		
@@ -37,7 +34,7 @@ public class Knight extends BasicPiece implements Piece
 		addPossibleMove(board, coordinate, x - 1, y - 2, moves);
 		addPossibleMove(board, coordinate, x - 1, y + 2, moves);
 		
-		board.stripCheckMoves(moves, knight.getColor());
+		board.stripCheckMoves(moves, getColor());
 		
 		return moves;
 	}
@@ -57,11 +54,6 @@ public class Knight extends BasicPiece implements Piece
 	@Override
 	public boolean isOffending(Board board, Coordinate from, Coordinate to) 
 	{
-		Objects.requireNonNull(from);
-		Objects.requireNonNull(to);
-		Piece knight = board.fields[from.x][from.y].piece;
-		Objects.requireNonNull(knight);
-		
 		int absX = Math.abs(from.x - to.x);
 		int absY = Math.abs(from.y - to.y);
 		if (absX > 2 || absY > 2) return false;
