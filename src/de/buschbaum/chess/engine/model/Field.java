@@ -56,6 +56,25 @@ public class Field {
 		return piece.getAvailableMoves(board, coordinate);
 	}
 
+	/**
+	 * If there's no piece on this field false is returned.
+	 * Else @see Piece#isOffending(Board, Coordinate, Coordinate)
+	 */
+	public boolean isOffending(Board board, Field to)
+	{
+		if (piece == null) return false;
+		return piece.isOffending(board, coordinate, to.coordinate);
+	}
+	
+	/**
+	 * @see Field#isOffending(Board, Field)
+	 */
+	public boolean isOffending(Board board, int x, int y)
+	{
+		return isOffending(board, board.fields[x][y]);
+	}
+	
+	
 	public boolean isEmpty()
 	{
 		return piece == null;
