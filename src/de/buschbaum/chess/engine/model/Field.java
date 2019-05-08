@@ -75,6 +75,7 @@ public class Field {
 	}
 	
 	
+	
 	public boolean isEmpty()
 	{
 		return piece == null;

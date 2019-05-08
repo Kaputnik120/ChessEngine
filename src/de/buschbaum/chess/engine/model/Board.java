@@ -76,6 +76,13 @@ public class Board {
 		lastMove.to.piece = lastMove.capture;
 	}
 	
+	/**
+	 * Creates a move instance or null if one the following rules is violated:
+	 * <ul>
+	 * <li>The coordinates are within bounds of the board</li>
+	 * <li>The target field is empty or the piece on the field is of enemy color</li>
+	 * </ul>  
+	 */
 	public Move createValidMove(Coordinate fromCoordinate, int toX, int toY)
 	{
 		if (toX < 0 || toX > 7 || toY < 0 || toY > 7) return null;
@@ -274,7 +281,7 @@ public class Board {
 				Field pieceField = fields[x][y];
 				Piece piece = pieceField.piece;
 				if (piece == null || !piece.getColor().equals(color)) continue;
-				boolean isOffending = piece.isOffending(this, pieceField, field);
+				boolean isOffending = pieceField.isOffending(this, field);
 				if (isOffending) return true;
 			}
 		}
