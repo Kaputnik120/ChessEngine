@@ -78,7 +78,7 @@ public class Move
 	@Override
 	public String toString()
 	{
-		return "Move [lastMove=" + lastMove + ", from=" + from + ", to=" + to + ", color=" + color + ", promotion="
+		return "Move [from=" + from + ", to=" + to + ", color=" + color + ", promotion="
 				+ promotion + "]";
 	}
 }

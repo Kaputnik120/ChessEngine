@@ -1,6 +1,7 @@
 package de.buschbaum.chess.engine.test;
 
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import de.buschbaum.chess.engine.model.Board;
+import de.buschbaum.chess.engine.model.Color;
 import de.buschbaum.chess.engine.model.Coordinate;
 import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
@@ -70,5 +72,49 @@ class AvailabeMovesTest
 		moves = bishopField.getAvailableMoves(board);
 		assertTrue(TestSuite.containsTargetCoordinateMove(2, 5, moves));
 		assertTrue(moves.size() == 1);
+	}
+	
+	@Test
+	void kingAvailableMoves()
+	{
+		Board board = new Board();
+		
+		Field kingField = board.getKing(Color.WHITE);
+		List<Move> moves = kingField.getAvailableMoves(board);
+		assertTrue(moves.isEmpty());
+		
+		
+		board.applyMove(4, 0, 4, 3);
+		kingField = board.getKing(Color.WHITE);
+		moves = kingField.getAvailableMoves(board);
+		assertTrue(moves.size() == 8);
+		assertTrue(TestSuite.containsTargetCoordinateMove(3, 3, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMove(4, 4, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMove(4, 2, moves));
+		assertFalse(TestSuite.containsTargetCoordinateMove(4, 3, moves)); //king himself
+		
+		board.applyMove(1, 7, 2, 5);
+		
+		moves = kingField.getAvailableMoves(board);
+		assertTrue(moves.size() == 6);
+		assertTrue(TestSuite.containsTargetCoordinateMove(4, 2, moves));
+		assertFalse(TestSuite.containsTargetCoordinateMove(4, 3, moves)); //king himself
+		assertFalse(TestSuite.containsTargetCoordinateMove(3, 3, moves)); //check by knight
+		assertFalse(TestSuite.containsTargetCoordinateMove(4, 4, moves)); //check by knight
+		
+		board.applyMove(5, 1, 5, 3);
+		board.applyMove(7, 7, 5, 4);
+		System.out.println(board);
+		
+		moves = kingField.getAvailableMoves(board);
+		assertTrue(moves.size() == 4);
+		assertTrue(TestSuite.containsTargetCoordinateMove(4, 2, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMove(5, 4, moves)); //capturing enemy rook
+		assertFalse(TestSuite.containsTargetCoordinateMove(4, 3, moves)); //king himself
+		assertFalse(TestSuite.containsTargetCoordinateMove(3, 3, moves)); //check by knight
+		assertFalse(TestSuite.containsTargetCoordinateMove(4, 4, moves)); //check by knight
+		assertFalse(TestSuite.containsTargetCoordinateMove(3, 4, moves)); //check by rook
+		assertFalse(TestSuite.containsTargetCoordinateMove(5, 3, moves)); //allied pawn in the way
+		
 	}
 }
