@@ -28,7 +28,7 @@ public class Queen extends BasicPiece implements Piece
 
 	@Override
 	public boolean isOffending(Board board, Coordinate from, Coordinate to) {
-		return Pieces.isOffendingBishop(board, from, to) || Pieces.isOffendingRook(board, from, to);
+		return Bishop.isOffendingStatic(board, from, to) || Rook.isOffendingStatic(board, from, to);
 	}
 
 	@Override
