@@ -42,6 +42,8 @@ public interface Piece {
 	
 	void setMoved();
 	
+	boolean getMoved();
+	
 	String getNotation();
 	
 	/**

@@ -48,11 +48,13 @@ public class Board {
 	}
 	
 	/**
-	 * Applies the given moves.
+	 * Applies the given move.
 	 * No Rule checks are made.
 	 * If the piece on the from field is null, an exception is thrown.
+	 * If setMoved=true the moved piece gets the moved status. setMoved=false should only be used for calculations
+	 *  like validating a check situation and not for finally applied moves.
 	 */
-	public void applyMove(Move move)
+	public void applyMove(Move move, boolean setMoved)
 	{
 		Field to = move.to;
 		Field from = move.from;
@@ -61,8 +63,10 @@ public class Board {
 		move.capture = to.piece;
 		to.piece = from.piece;
 		from.piece = null;
-		to.piece.setMoved();
+		if (setMoved) to.piece.setMoved();
 		appliedMoves.add(move);
+		
+		//Check rochade and move rook as defined by rules
 	}
 	
 	/**
@@ -107,7 +111,7 @@ public class Board {
 		while (moveIterator.hasNext())
 		{
 			Move move = moveIterator.next();
-			applyMove(move);
+			applyMove(move, false);
 			if (isCheck(color)) 
 			{
 				moveIterator.remove();
@@ -122,7 +126,7 @@ public class Board {
 	 */
 	public void applyMove(int fromX, int fromY, int toX, int toY)
 	{
-		applyMove(new Move(fields[fromX][fromY], fields[toX][toY]));
+		applyMove(new Move(fields[fromX][fromY], fields[toX][toY]), true);
 	}
 
 	/**

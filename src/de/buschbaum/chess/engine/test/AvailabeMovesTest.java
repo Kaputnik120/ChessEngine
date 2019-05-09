@@ -104,7 +104,6 @@ class AvailabeMovesTest
 		
 		board.applyMove(5, 1, 5, 3);
 		board.applyMove(7, 7, 5, 4);
-		System.out.println(board);
 		
 		moves = kingField.getAvailableMoves(board);
 		assertTrue(moves.size() == 4);
@@ -115,6 +114,26 @@ class AvailabeMovesTest
 		assertFalse(TestSuite.containsTargetCoordinateMove(4, 4, moves)); //check by knight
 		assertFalse(TestSuite.containsTargetCoordinateMove(3, 4, moves)); //check by rook
 		assertFalse(TestSuite.containsTargetCoordinateMove(5, 3, moves)); //allied pawn in the way
+		
+		board.reset();
+		board.fields[1][0].piece = null;
+		board.fields[2][0].piece = null;
+		board.fields[3][0].piece = null;
+		board.fields[5][0].piece = null;
+		board.fields[6][0].piece = null;
+		System.out.println(board);
+		
+		kingField = board.getKing(Color.WHITE);
+		moves = kingField.getAvailableMoves(board);
+		
+		System.out.println(moves);
+		assertTrue(moves.size() == 4);
+		assertFalse(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertFalse(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		assertFalse(TestSuite.containsTargetCoordinateMove(1, 0, moves)); //rochade
+		assertFalse(TestSuite.containsTargetCoordinateMove(6, 0, moves)); //rochade
+		
+		//TODO: Further rochade tests
 		
 	}
 }

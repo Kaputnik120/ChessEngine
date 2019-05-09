@@ -26,6 +26,12 @@ public abstract class BasicPiece implements Piece
 		moved = true;
 	}
 	
+	@Override
+	public boolean getMoved()
+	{
+		return moved;
+	}
+	
 	protected String getNotation(char pieceShortNotation)
 	{
 		char[] notation = new char[2];

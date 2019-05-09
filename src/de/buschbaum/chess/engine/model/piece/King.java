@@ -26,6 +26,7 @@ public class King extends BasicPiece implements Piece
 		
 		List<Move> moves = new ArrayList<>();
 		
+		//basic Moves
 		addPossibleMove(board, coordinate, x, y - 1, moves);
 		addPossibleMove(board, coordinate, x, y + 1, moves);
 		addPossibleMove(board, coordinate, x + 1, y, moves);
@@ -37,7 +38,50 @@ public class King extends BasicPiece implements Piece
 		
 		board.stripCheckMoves(moves, getColor());
 		
+		//Rochades
+		if (getMoved() == true) return moves;
+		if (board.isCheck(getColor())) return moves;
+		int rochadeY = getColor().equals(Color.WHITE) ? 0 : 7;
+		if (coordinate.y != rochadeY) return moves;
+		
+		//long rochade
+		Piece rookLong = board.fields[0][rochadeY].piece;
+		//Check colors, pieces and moved status
+		if ((rookLong instanceof Rook) && rookLong.getColor().equals(getColor()) && !rookLong.getMoved())
+		{
+			//Check for pieces in the way
+			if (board.fields[1][rochadeY].piece == null && board.fields[2][rochadeY].piece == null && board.fields[3][rochadeY].piece == null)
+			{
+				//Check for pieces offending rochade fields
+				if (!isOpponentOffendingField(board, 1, rochadeY) && !isOpponentOffendingField(board, 2, rochadeY)
+						&& !isOpponentOffendingField(board, 3, rochadeY))
+				{
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), board.fields[1][rochadeY], getColor(), null, null));
+				}
+			}
+		}
+		
+		//short rochade
+		Piece rookShort = board.fields[7][rochadeY].piece;
+		if ((rookShort instanceof Rook) && rookShort.getColor().equals(getColor()) && !rookShort.getMoved())
+		{
+			//Check for pieces in the way
+			if (board.fields[5][rochadeY].piece == null && board.fields[6][rochadeY].piece == null)
+			{
+				//Check for pieces offending rochade fields
+				if (!isOpponentOffendingField(board, 5, rochadeY) && !isOpponentOffendingField(board, 6, rochadeY))
+				{
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), board.fields[6][rochadeY], getColor(), null, null));
+				}
+			}
+		}
+		
 		return moves;
+	}
+	
+	private boolean isOpponentOffendingField(Board board, int x, int y)
+	{
+		return board.isAnyPieceOffendingField(Color.getOpposite(getColor()), board.fields[x][y]);
 	}
 	
 	private void addPossibleMove(Board board, Coordinate coordinate, int toX, int toY, List<Move> moves)
