@@ -53,10 +53,9 @@ public class King extends BasicPiece implements Piece
 			if (board.fields[1][rochadeY].piece == null && board.fields[2][rochadeY].piece == null && board.fields[3][rochadeY].piece == null)
 			{
 				//Check for pieces offending rochade fields
-				if (!isOpponentOffendingField(board, 1, rochadeY) && !isOpponentOffendingField(board, 2, rochadeY)
-						&& !isOpponentOffendingField(board, 3, rochadeY))
+				if (!isOpponentOffendingField(board, 1, rochadeY) && !isOpponentOffendingField(board, 2, rochadeY)) //3 is allowed to be offended by rules!
 				{
-					moves.add(new Move(board.getLastMove(), board.getField(coordinate), board.fields[1][rochadeY], getColor(), null, null, false));
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), board.fields[2][rochadeY], getColor(), null, null, false));
 				}
 			}
 		}

@@ -125,14 +125,14 @@ class AvailabeMovesTest
 		board.fields[5][0].piece = null;
 		board.fields[6][0].piece = null;
 		
-		
+		System.out.println(board);
 		kingField = board.getKing(Color.WHITE);
 		moves = kingField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 4);
 		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
 		assertTrue(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
-		assertTrue(TestSuite.containsTargetCoordinateMove(1, 0, moves)); //rochade
+		assertTrue(TestSuite.containsTargetCoordinateMove(2, 0, moves)); //rochade
 		assertTrue(TestSuite.containsTargetCoordinateMove(6, 0, moves)); //rochade
 		
 		board.fields[3][0].piece = new Pawn(Color.WHITE);
@@ -142,7 +142,7 @@ class AvailabeMovesTest
 		assertTrue(moves.size() == 2);
 		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
 		assertFalse(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
-		assertFalse(TestSuite.containsTargetCoordinateMove(1, 0, moves)); //rochade
+		assertFalse(TestSuite.containsTargetCoordinateMove(2, 0, moves)); //rochade
 		assertTrue(TestSuite.containsTargetCoordinateMove(6, 0, moves)); //rochade
 		
 		board.fields[3][0].piece = new Pawn(Color.WHITE);
@@ -154,7 +154,7 @@ class AvailabeMovesTest
 		assertTrue(moves.size() == 1);
 		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
 		assertFalse(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
-		assertFalse(TestSuite.containsTargetCoordinateMove(1, 0, moves)); //rochade
+		assertFalse(TestSuite.containsTargetCoordinateMove(2, 0, moves)); //rochade
 		assertFalse(TestSuite.containsTargetCoordinateMove(6, 0, moves)); //rochade
 		
 		board.fields[7][0].piece.resetMoved();
