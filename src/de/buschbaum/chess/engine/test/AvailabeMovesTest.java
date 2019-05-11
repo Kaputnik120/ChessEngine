@@ -198,6 +198,6 @@ class AvailabeMovesTest
 		assertTrue(moves.size() == 3);
 		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
 		assertTrue(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 1, moves)); //basic king move
+		assertTrue(TestSuite.containsTargetCoordinateMove(4, 1, moves)); //capture
 	}
 }

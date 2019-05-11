@@ -12,6 +12,7 @@ public class Move
 	public final Field to;
 	public final Color color;
 	public final Piece promotion;
+	public final boolean isRochade;
 	
 	public Piece capture;
 	private double score;
@@ -25,7 +26,7 @@ public class Move
 	 * @param color Not null
 	 * @param promotion Is only unequal null if a pawn is promoted.
 	 */
-	public Move(Move lastMove, Field from, Field to, Color color, Piece promotion, Piece capture)
+	public Move(Move lastMove, Field from, Field to, Color color, Piece promotion, Piece capture, boolean isRochade)
 	{
 		Objects.requireNonNull(from);
 		Objects.requireNonNull(to);
@@ -37,10 +38,11 @@ public class Move
 		this.color = color;
 		this.promotion = promotion;
 		this.capture = capture;
+		this.isRochade = isRochade;
 	}
 	
 	/**
-	 * Creates a move for testing purposes. E.g. for creating a special field constellation. Moves created with this method are not valid for regular chess engine logic
+	 * Creates a move for testing purposes. E.g. for creating a special field constellation. Moves created with this method are not valid for regular chess engine logic.
 	 */
 	public Move(Field from, Field to)
 	{
@@ -53,6 +55,7 @@ public class Move
 		this.color = null;
 		this.promotion = null;
 		this.capture = null;
+		this.isRochade = false;
 	}
 
 	public double getScore()
