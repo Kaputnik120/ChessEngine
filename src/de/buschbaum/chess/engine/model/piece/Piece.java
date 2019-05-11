@@ -44,6 +44,8 @@ public interface Piece {
 	
 	boolean getMoved();
 	
+	void resetMoved();
+	
 	String getNotation();
 	
 	/**

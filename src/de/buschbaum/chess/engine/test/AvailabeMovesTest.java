@@ -13,7 +13,10 @@ import de.buschbaum.chess.engine.model.Color;
 import de.buschbaum.chess.engine.model.Coordinate;
 import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
+import de.buschbaum.chess.engine.model.piece.Pawn;
 import de.buschbaum.chess.engine.model.piece.Piece;
+import de.buschbaum.chess.engine.model.piece.Queen;
+import de.buschbaum.chess.engine.model.piece.Rook;
 
 class AvailabeMovesTest
 {
@@ -121,19 +124,80 @@ class AvailabeMovesTest
 		board.fields[3][0].piece = null;
 		board.fields[5][0].piece = null;
 		board.fields[6][0].piece = null;
-		System.out.println(board);
+		
 		
 		kingField = board.getKing(Color.WHITE);
 		moves = kingField.getAvailableMoves(board);
 		
-		System.out.println(moves);
 		assertTrue(moves.size() == 4);
-		assertFalse(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertTrue(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		assertTrue(TestSuite.containsTargetCoordinateMove(1, 0, moves)); //rochade
+		assertTrue(TestSuite.containsTargetCoordinateMove(6, 0, moves)); //rochade
+		
+		board.fields[3][0].piece = new Pawn(Color.WHITE);
+		kingField = board.getKing(Color.WHITE);
+		moves = kingField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 2);
+		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertFalse(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		assertFalse(TestSuite.containsTargetCoordinateMove(1, 0, moves)); //rochade
+		assertTrue(TestSuite.containsTargetCoordinateMove(6, 0, moves)); //rochade
+		
+		board.fields[3][0].piece = new Pawn(Color.WHITE);
+		board.applyMove(7, 0, 6, 0);
+		board.applyMove(6, 0, 7, 0);
+		kingField = board.getKing(Color.WHITE);
+		moves = kingField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 1);
+		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
 		assertFalse(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
 		assertFalse(TestSuite.containsTargetCoordinateMove(1, 0, moves)); //rochade
 		assertFalse(TestSuite.containsTargetCoordinateMove(6, 0, moves)); //rochade
 		
-		//TODO: Further rochade tests
+		board.fields[7][0].piece.resetMoved();
+		board.fields[6][1].piece = new Queen(Color.BLACK);
 		
+		kingField = board.getKing(Color.WHITE);
+		moves = kingField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 0);
+		
+		board.fields[6][1].piece = new Rook(Color.BLACK);
+		
+		kingField = board.getKing(Color.WHITE);
+		moves = kingField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 1);
+		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		
+		board.fields[3][0].piece = null;
+		board.fields[2][1].piece = new Rook(Color.BLACK);
+		kingField = board.getKing(Color.WHITE);
+		moves = kingField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 2);
+		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertTrue(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		
+		board.fields[4][0].piece.setMoved();
+		kingField = board.getKing(Color.WHITE);
+		moves = kingField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 2);
+		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertTrue(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		
+		board.fields[4][0].piece.resetMoved();
+		board.fields[4][1].piece = new Rook(Color.BLACK);
+		kingField = board.getKing(Color.WHITE);
+		moves = kingField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 3);
+		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertTrue(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		assertTrue(TestSuite.containsTargetCoordinateMove(4, 1, moves)); //basic king move
 	}
 }

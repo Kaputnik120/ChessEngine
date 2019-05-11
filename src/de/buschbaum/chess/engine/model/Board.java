@@ -122,7 +122,8 @@ public class Board {
 	
 	/**
 	 * Shortcut for applying a move.
-	 * Designed for testing - no promotion or lastMoves are added to the created moves! 
+	 * Designed for testing - no promotion or lastMoves are added to the created moves!
+	 * Always sets Moved status to true. 
 	 */
 	public void applyMove(int fromX, int fromY, int toX, int toY)
 	{
