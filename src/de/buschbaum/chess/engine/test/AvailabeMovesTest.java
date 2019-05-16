@@ -125,7 +125,6 @@ class AvailabeMovesTest
 		board.fields[5][0].piece = null;
 		board.fields[6][0].piece = null;
 		
-		System.out.println(board);
 		kingField = board.getKing(Color.WHITE);
 		moves = kingField.getAvailableMoves(board);
 		

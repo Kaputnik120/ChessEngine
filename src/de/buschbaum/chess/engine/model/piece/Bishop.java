@@ -47,13 +47,13 @@ public class Bishop extends BasicPiece implements Piece
 			if (fieldBetweenPiece == null)
 			{
 				//Empty field
-				moves.add(new Move(board.getLastMove(), fromField, fieldBetween, getColor(), null, fieldBetweenPiece, false));
+				moves.add(new Move(board.getLastMove(), fromField, fieldBetween, getColor(), null, fieldBetweenPiece));
 				continue;
 			}
 			else if (isEnemy(fieldBetweenPiece))
 			{
 				//Enemy piece field
-				moves.add(new Move(board.getLastMove(), fromField, fieldBetween, getColor(), null, fieldBetweenPiece, false));
+				moves.add(new Move(board.getLastMove(), fromField, fieldBetween, getColor(), null, fieldBetweenPiece));
 				break;
 			}
 			else

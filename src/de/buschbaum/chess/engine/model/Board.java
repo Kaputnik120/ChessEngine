@@ -56,6 +56,7 @@ public class Board {
 	 */
 	public void applyMove(Move move, boolean setMoved)
 	{
+		boolean isNextMoveRochade = isNextMoveRochade(move); //Check before any changes to the board are made
 		Field to = move.to;
 		Field from = move.from;
 		
@@ -67,22 +68,52 @@ public class Board {
 		appliedMoves.add(move);
 		
 		//Check rochade and move rook as defined by rules
-		if (to.piece instanceof King)
+		if (isNextMoveRochade)
 		{
-			int direction = to.piece.getColor().equals(Color.WHITE) ? 1 : -1;
-			if (to.coordinate.x == from.coordinate.x + direction * 2 || to.coordinate.x == from.coordinate.x + direction * 3)
+			if (to.coordinate.x == 6)
 			{
-				Field rookRochadeField = fields[to.coordinate.x + direction][to.coordinate.y];
-				Piece rookRochade = rookRochadeField.piece;
-				if (rookRochade instanceof Rook && rookRochade.getColor().equals(to.piece.getColor()))
-				{
-					Field rookRochadeTargetField = fields[to.coordinate.x - direction][to.coordinate.y];
-					rookRochadeTargetField.piece = rookRochade;
-					if (setMoved) rookRochade.setMoved();
-					rookRochadeField.piece = null;
-				}
+				Field rookRochadeField = fields[5][to.coordinate.y];
+				Field rookBeforeRochadeField = fields[7][to.coordinate.y];
+				rookRochadeField.piece = rookBeforeRochadeField.piece;
+				rookBeforeRochadeField.piece = null;
+				if (setMoved) rookRochadeField.piece.setMoved();
+			}
+			else if (to.coordinate.x == 2)
+			{
+				Field rookRochadeField = fields[3][to.coordinate.y];
+				Field rookBeforeRochadeField = fields[0][to.coordinate.y];
+				rookRochadeField.piece = rookBeforeRochadeField.piece;
+				rookBeforeRochadeField.piece = null;
+				if (setMoved) rookRochadeField.piece.setMoved();
 			}
 		}
+	}
+	
+	/**
+	 * Checks if the last move was a rochade move.
+	 */
+	public boolean isLastMoveRochade()
+	{
+		Move lastMove = getLastMove();
+		if (lastMove == null) return false;
+		Piece king = lastMove.to.piece;
+		if (!(king instanceof King)) return false;
+		
+		int y = king.getColor().equals(Color.WHITE) ? 0 : 7;
+		if (lastMove.to.coordinate.y != y) return false;
+		
+		int xDiffAbs = Math.abs(lastMove.to.coordinate.x - lastMove.from.coordinate.x); 
+		return xDiffAbs == 2;
+	}
+	
+	/**
+	 * Checks if the move given would be a rochade if applied to the current board. Doesn't work for past moves!
+	 */
+	public boolean isNextMoveRochade(Move move)
+	{
+		if (!(move.from.piece instanceof King)) return false;
+		int xDiffAbs = Math.abs(move.to.coordinate.x - move.from.coordinate.x); 
+		return xDiffAbs == 2;
 	}
 	
 	/**
@@ -91,26 +122,30 @@ public class Board {
 	public void unapplyMove()
 	{
 		if (appliedMoves == null || appliedMoves.isEmpty()) return;
-		Move lastMove = appliedMoves.get(appliedMoves.size() - 1);
+		
+		boolean lastMoveRochade = isLastMoveRochade(); //Check before any moves to the board are made
+		
+		Move lastMove = getLastMove();
 		lastMove.from.piece = lastMove.to.piece;
 		lastMove.to.piece = lastMove.capture;
 		
-		if (lastMove.isRochade)
+		if (lastMoveRochade)
 		{
 			Field kingFieldFrom = lastMove.from;
 			Field kingFieldTo = lastMove.to;
 			Piece king = kingFieldFrom.piece;
 			int direction = king.getColor().equals(Color.WHITE) ? -1 : 1;
-			Field rookRochadeField = fields[kingFieldTo.coordinate.x + direction][kingFieldTo.coordinate.y];
 			
 			if (kingFieldTo.coordinate.x == 6)
 			{
+				Field rookRochadeField = fields[5][kingFieldTo.coordinate.y];
 				Field rookBeforeRochadeField = fields[7][kingFieldTo.coordinate.y];
 				rookBeforeRochadeField.piece = rookRochadeField.piece;
 				rookRochadeField.piece = null;
 			}
 			else if (kingFieldTo.coordinate.x == 2)
 			{
+				Field rookRochadeField = fields[3][kingFieldTo.coordinate.y];
 				Field rookBeforeRochadeField = fields[0][kingFieldTo.coordinate.y];
 				rookBeforeRochadeField.piece = rookRochadeField.piece;
 				rookRochadeField.piece = null;
@@ -124,7 +159,7 @@ public class Board {
 	 * <li>The coordinates are within bounds of the board</li>
 	 * <li>The target field is empty or the piece on the field is of enemy color</li>
 	 * </ul>
-	 * The move is automatically set to not being a rochade or promotion move.
+	 * The move is automatically set to not being a promotion move.
 	 */
 	public Move createValidMove(Coordinate fromCoordinate, int toX, int toY)
 	{
@@ -138,7 +173,7 @@ public class Board {
 		
 		if (toPiece != null && !fromPiece.isEnemy(toPiece)) return null;
 		
-		return new Move(getLastMove(), fromField, toField, fromPiece.getColor(), null, toPiece, false);
+		return new Move(getLastMove(), fromField, toField, fromPiece.getColor(), null, toPiece);
 	}
 	
 	/**
@@ -162,11 +197,11 @@ public class Board {
 	/**
 	 * Shortcut for applying a move.
 	 * Designed for testing - no promotion or lastMoves are added to the created moves!
-	 * Always sets Moved status to true. Never sets rochade or promotion values.
+	 * Always sets Moved status to true. Never sets promotion values.
 	 */
 	public void applyMove(int fromX, int fromY, int toX, int toY)
 	{
-		applyMove(new Move(fields[fromX][fromY], fields[toX][toY]), true);
+		applyMove(new Move(fields[fromX][fromY], fields[toX][toY]), false);
 	}
 
 	/**
