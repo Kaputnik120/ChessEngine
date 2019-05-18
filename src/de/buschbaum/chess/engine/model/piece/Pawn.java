@@ -87,6 +87,9 @@ public class Pawn extends BasicPiece implements Piece
 				}
 			}
 		}
+		
+		//add promotion moves
+		//...
 		 */
 		
 		return null;
