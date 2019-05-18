@@ -1,5 +1,6 @@
 package de.buschbaum.chess.engine.model.piece;
 
+import java.util.ArrayList;
 import java.util.List;
 import de.buschbaum.chess.engine.model.Board;
 import de.buschbaum.chess.engine.model.Color;
@@ -15,11 +16,27 @@ public class Rook extends BasicPiece implements Piece
 	}
 
 	@Override
-	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) 
+	{
+		return getAvailableMovesStatic(board, coordinate, color);
 	}
-
+	
+	public static List<Move> getAvailableMovesStatic(Board board, Coordinate coordinate, Color color) 
+	{
+		Field fromField = board.getField(coordinate);
+		
+		List<Move> moves = new ArrayList<>();
+		
+		addLinearMoves(board, fromField, coordinate, moves, 0, 1, color);
+		addLinearMoves(board, fromField, coordinate, moves, 0, -1, color);
+		addLinearMoves(board, fromField, coordinate, moves, 1, 0, color);
+		addLinearMoves(board, fromField, coordinate, moves, -1, 0, color);
+		
+		board.stripCheckMoves(moves,color);
+		
+		return moves;
+	}
+	
 	@Override
 	public int getScoringValue() 
 	{

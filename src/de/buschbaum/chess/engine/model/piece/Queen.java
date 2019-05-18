@@ -16,9 +16,11 @@ public class Queen extends BasicPiece implements Piece
 	}
 
 	@Override
-	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) 
+	{
+		List<Move> moves = Bishop.getAvailableMovesStatic(board, coordinate, getColor());
+		moves.addAll(Rook.getAvailableMovesStatic(board, coordinate, getColor()));
+		return moves;
 	}
 
 	@Override
