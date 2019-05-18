@@ -150,6 +150,7 @@ class AvailabeMovesTest
 		kingField = board.getKing(Color.WHITE);
 		moves = kingField.getAvailableMoves(board);
 		
+		System.out.println(board);
 		assertTrue(moves.size() == 1);
 		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
 		assertFalse(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move

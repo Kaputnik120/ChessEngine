@@ -201,7 +201,7 @@ public class Board {
 	 */
 	public void applyMove(int fromX, int fromY, int toX, int toY)
 	{
-		applyMove(new Move(fields[fromX][fromY], fields[toX][toY]), false);
+		applyMove(new Move(fields[fromX][fromY], fields[toX][toY]), true);
 	}
 
 	/**
