@@ -1,5 +1,6 @@
 package de.buschbaum.chess.engine.model.piece;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,82 +18,78 @@ public class Pawn extends BasicPiece implements Piece
 	}
 
 	@Override
-	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) {
-		/*
-		 * int diffX = to.x - from.x;
-		int diffY = to.y - from.y;
-		int diffXAbs = Math.abs(diffX);
-		if (diffXAbs > 1 || Math.abs(diffY) > 2) return false;
-		
-		boolean isWhite = pawn.getColor().equals(Color.WHITE);
+	public List<Move> getAvailableMoves(Board board, Coordinate coordinate) 
+	{
+		List<Move> moves = new ArrayList<>();
+		boolean isWhite = getColor().equals(Color.WHITE);
 		int direction = isWhite ? 1 : -1;
 		
-		//simple move
-		if (diffY == direction && diffX == 0)
+		//simple move and potential promotion
+		int simpleMoveTargetY = coordinate.y + direction;
+		boolean isPromotion = (isWhite && simpleMoveTargetY == 7 ) || (!isWhite && simpleMoveTargetY == 0);
+		Field targetField = board.fields[coordinate.x][simpleMoveTargetY];
+		
+		if (targetField.isEmpty())
 		{
-			Piece pieceInPawnsWay = board.fields[to.x][to.y].piece;
-			if (pieceInPawnsWay == null)
+			if (isPromotion)
 			{
-				return true;
+				moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), new Queen(getColor()), null));
+				moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), new Knight(getColor()), null));
+				moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), new Rook(getColor()), null));
+				moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), new Bishop(getColor()), null));
 			}
 			else
 			{
-				return false;
+				moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), null, null));
+			}
+			
+			//initial two field move
+			if ((getColor().equals(Color.WHITE) && coordinate.y == 1) || (getColor().equals(Color.WHITE) && coordinate.y == 6))
+			{
+				int doubleMoveTargetY = simpleMoveTargetY + direction;
+				targetField = board.fields[coordinate.x][doubleMoveTargetY];
+				if (targetField.isEmpty())
+				{
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), null, null));
+				}
 			}
 		}
 		
-		//initial two field move
-		if (diffY == 2 * direction && diffX == 0)
-		{
-			if ((isWhite && from.y == 1) || (!isWhite && from.y == 6))
-			{
-				Piece pieceInPawnsWay = board.fields[from.x][from.y + 1 * direction].piece;
-				if (pieceInPawnsWay == null)
-				{
-					return true;
-				}
-			}
-			else
-			{
-				return false;
-			}
-		}
-
+		//capture and opt. promotion
+	
 		//potential capture
-		if (diffY == direction && diffXAbs == 1)
-		{
-			return true;
-		}
-		 * //capture
-		if (diffY == direction && diffX == 1)
-		{
-			Piece pieceInPawnsWay = board.fields[to.x][to.y].piece;
-			if (pieceInPawnsWay != null)
-			{
-				return true;
-			}
-			else
-			{
-				//check en passent rule
-				Move lastMove = board.getLastMove();
-				if (lastMove == null) return false;
-				
-				Field lastToField = lastMove.to;
-				if(!(lastToField.piece instanceof Pawn)) return false;
-				
-				Field lastFromField = lastMove.from;
-				if(Math.abs(lastToField.coordinate.x - from.x) == 1 && lastFromField.coordinate.y == from.y + 2 * direction)
-				{
-					return true;
-				}
-			}
-		}
+//		if (diffY == direction && diffXAbs == 1)
+//		{
+//			return true;
+//		}
+//		 * //capture
+//		if (diffY == direction && diffX == 1)
+//		{
+//			Piece pieceInPawnsWay = board.fields[to.x][to.y].piece;
+//			if (pieceInPawnsWay != null)
+//			{
+//				return true;
+//			}
+//			else
+//			{
+//				//check en passent rule
+//				Move lastMove = board.getLastMove();
+//				if (lastMove == null) return false;
+//				
+//				Field lastToField = lastMove.to;
+//				if(!(lastToField.piece instanceof Pawn)) return false;
+//				
+//				Field lastFromField = lastMove.from;
+//				if(Math.abs(lastToField.coordinate.x - from.x) == 1 && lastFromField.coordinate.y == from.y + 2 * direction)
+//				{
+//					return true;
+//				}
+//			}
+//		}
 		
-		//add promotion moves
-		//...
-		 */
+		board.stripCheckMoves(moves, getColor());
 		
-		return null;
+		return moves;
 	}
 
 	@Override
