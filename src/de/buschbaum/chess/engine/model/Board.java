@@ -52,22 +52,33 @@ public class Board {
 	 * No Rule checks are made.
 	 * If the piece on the from field is null, an exception is thrown.
 	 * If setMoved=true the moved piece gets the moved status. setMoved=false should only be used for calculations
-	 *  like validating a check situation and not for finally applied moves.
+	 * like validating a check situation and not for finally applied moves.
+	 * The rules for rochade and en passent moves are applied.
 	 */
 	public void applyMove(Move move, boolean setMoved)
 	{
 		boolean isNextMoveRochade = isNextMoveRochade(move); //Check before any changes to the board are made
+		boolean isNextMoveEnPassentCapture = !isNextMoveRochade && isNextMoveEnPassentCapture(move);
+		
 		Field to = move.to;
 		Field from = move.from;
 		
 		Objects.requireNonNull(from.piece);
-		move.capture = to.piece;
+		if (isNextMoveEnPassentCapture)
+		{
+			int enPassentX = to.coordinate.x;
+			int enPassentY = from.coordinate.y;
+			fields[enPassentX][enPassentY].piece = null;
+		}
+		else
+		{
+			move.capture = to.piece;
+		}
 		to.piece = from.piece;
 		from.piece = null;
 		if (setMoved) to.piece.setMoved();
 		appliedMoves.add(move);
 		
-		//Check rochade and move rook as defined by rules
 		if (isNextMoveRochade)
 		{
 			if (to.coordinate.x == 6)
@@ -87,6 +98,15 @@ public class Board {
 				if (setMoved) rookRochadeField.piece.setMoved();
 			}
 		}
+	}
+	
+	public boolean isNextMoveEnPassentCapture(Move move)
+	{
+		if (!(move.capture instanceof Pawn)) return false;
+		if (Math.abs(move.from.coordinate.x - move.to.coordinate.x) != 1) return false;
+		if (Math.abs(move.from.coordinate.y - move.to.coordinate.y) != 1) return false;
+		if (!move.to.isEmpty()) return false;
+		return true;
 	}
 	
 	/**

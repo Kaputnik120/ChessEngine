@@ -26,66 +26,92 @@ public class Pawn extends BasicPiece implements Piece
 		
 		//simple move and potential promotion
 		int simpleMoveTargetY = coordinate.y + direction;
-		boolean isPromotion = (isWhite && simpleMoveTargetY == 7 ) || (!isWhite && simpleMoveTargetY == 0);
-		Field targetField = board.fields[coordinate.x][simpleMoveTargetY];
-		
-		if (targetField.isEmpty())
+		boolean isSimpleMoveTargetPromotionField = (isWhite && simpleMoveTargetY == 7 ) || (!isWhite && simpleMoveTargetY == 0);
+		Field simpleMoveTargetField = board.fields[coordinate.x][simpleMoveTargetY];
+		if (simpleMoveTargetField.isEmpty())
 		{
-			if (isPromotion)
+			if (isSimpleMoveTargetPromotionField)
 			{
-				moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), new Queen(getColor()), null));
-				moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), new Knight(getColor()), null));
-				moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), new Rook(getColor()), null));
-				moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), new Bishop(getColor()), null));
+				moves.add(new Move(board.getLastMove(), board.getField(coordinate), simpleMoveTargetField, getColor(), new Queen(getColor()), null));
+				moves.add(new Move(board.getLastMove(), board.getField(coordinate), simpleMoveTargetField, getColor(), new Knight(getColor()), null));
+				moves.add(new Move(board.getLastMove(), board.getField(coordinate), simpleMoveTargetField, getColor(), new Rook(getColor()), null));
+				moves.add(new Move(board.getLastMove(), board.getField(coordinate), simpleMoveTargetField, getColor(), new Bishop(getColor()), null));
 			}
 			else
 			{
-				moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), null, null));
+				moves.add(new Move(board.getLastMove(), board.getField(coordinate), simpleMoveTargetField, getColor(), null, null));
 			}
 			
-			//initial two field move
+			//initial two field move (is never promotion)
 			if ((getColor().equals(Color.WHITE) && coordinate.y == 1) || (getColor().equals(Color.WHITE) && coordinate.y == 6))
 			{
 				int doubleMoveTargetY = simpleMoveTargetY + direction;
-				targetField = board.fields[coordinate.x][doubleMoveTargetY];
-				if (targetField.isEmpty())
+				Field doubleMoveTargetField = board.fields[coordinate.x][doubleMoveTargetY];
+				if (doubleMoveTargetField.isEmpty())
 				{
-					moves.add(new Move(board.getLastMove(), board.getField(coordinate), targetField, getColor(), null, null));
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), doubleMoveTargetField, getColor(), null, null));
 				}
 			}
 		}
 		
 		//capture and opt. promotion
-	
-		//potential capture
-//		if (diffY == direction && diffXAbs == 1)
-//		{
-//			return true;
-//		}
-//		 * //capture
-//		if (diffY == direction && diffX == 1)
-//		{
-//			Piece pieceInPawnsWay = board.fields[to.x][to.y].piece;
-//			if (pieceInPawnsWay != null)
-//			{
-//				return true;
-//			}
-//			else
-//			{
-//				//check en passent rule
-//				Move lastMove = board.getLastMove();
-//				if (lastMove == null) return false;
-//				
-//				Field lastToField = lastMove.to;
-//				if(!(lastToField.piece instanceof Pawn)) return false;
-//				
-//				Field lastFromField = lastMove.from;
-//				if(Math.abs(lastToField.coordinate.x - from.x) == 1 && lastFromField.coordinate.y == from.y + 2 * direction)
-//				{
-//					return true;
-//				}
-//			}
-//		}
+		int leftCaptureX = coordinate.x - 1;
+		int rightCaptureX = coordinate.x + 1;
+		
+		if (leftCaptureX >= 0)
+		{
+			Field leftCaptureField = board.fields[leftCaptureX][simpleMoveTargetY];
+			Piece leftCapturePiece = leftCaptureField.piece;
+			if(isEnemy(leftCapturePiece))
+			{
+				if (isSimpleMoveTargetPromotionField)
+				{
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), leftCaptureField, getColor(), new Queen(getColor()), leftCapturePiece));
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), leftCaptureField, getColor(), new Knight(getColor()), leftCapturePiece));
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), leftCaptureField, getColor(), new Rook(getColor()), leftCapturePiece));
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), leftCaptureField, getColor(), new Bishop(getColor()), leftCapturePiece));
+				}
+				else
+				{
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), leftCaptureField, getColor(), null, leftCapturePiece));
+				}
+			}
+		}
+		if (rightCaptureX <= 7)
+		{
+			Field rightCaptureField = board.fields[rightCaptureX][simpleMoveTargetY];
+			Piece rightCapturePiece = rightCaptureField.piece;
+			if(isEnemy(rightCapturePiece))
+			{
+				if (isSimpleMoveTargetPromotionField)
+				{
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), rightCaptureField, getColor(), new Queen(getColor()), rightCapturePiece));
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), rightCaptureField, getColor(), new Knight(getColor()), rightCapturePiece));
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), rightCaptureField, getColor(), new Rook(getColor()), rightCapturePiece));
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), rightCaptureField, getColor(), new Bishop(getColor()), rightCapturePiece));
+				}
+				else
+				{
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), rightCaptureField, getColor(), null, rightCapturePiece));
+				}
+			}
+		}
+		
+		//en passent (is never promotion)
+		Move lastMove = board.getLastMove();
+		if (lastMove != null)
+		{
+			Field lastToField = lastMove.to;
+			Piece lastToPiece = lastToField.piece;
+			if(lastToPiece instanceof Pawn)
+			{
+				Field lastFromField = lastMove.from;
+				if(Math.abs(lastToField.coordinate.x - coordinate.x) == 1 && lastFromField.coordinate.y == coordinate.y + 2 * direction)
+				{
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), board.fields[lastFromField.coordinate.y + direction][lastFromField.coordinate.x], getColor(), null, lastToPiece));
+				}
+			}
+		}
 		
 		board.stripCheckMoves(moves, getColor());
 		
