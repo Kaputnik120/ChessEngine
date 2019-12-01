@@ -248,7 +248,6 @@ class AvailabeMovesTest
 		assertTrue(moves.isEmpty());
 		
 		board.applyMove(3, 0, 3, 3);
-		System.out.println(board);
 		queenField = board.fields[3][3];
 		moves = queenField.getAvailableMoves(board);
 		
@@ -273,6 +272,47 @@ class AvailabeMovesTest
 		assertTrue(TestSuite.containsTargetCoordinateMove(2, 4, moves));
 		assertTrue(TestSuite.containsTargetCoordinateMove(1, 5, moves));
 		assertTrue(TestSuite.containsTargetCoordinateMove(0, 6, moves));
+		
+	}
+	
+	@Test
+	void pawnAvailableMoves()
+	{
+		Board board = new Board();
+		Field pawnField = board.fields[4][1];
+		
+		//Double and simple moves available
+		List<Move> moves = pawnField.getAvailableMoves(board);
+		assertTrue(moves.size() == 2);
+		assertTrue(TestSuite.containsTargetCoordinateMove(4, 2, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMove(4, 3, moves));
+		
+		//Only single move available
+		board.applyMove(4, 1, 4, 3);
+		pawnField = board.fields[4][3];
+		moves = pawnField.getAvailableMoves(board);
+		assertTrue(moves.size() == 1);
+		assertTrue(TestSuite.containsTargetCoordinateMove(4, 4, moves));
+		
+		//En passent capture
+		board.applyMove(4, 3, 4, 4);
+		board.applyMove(3, 6, 3, 4);
+		pawnField = board.fields[4][4];
+		moves = pawnField.getAvailableMoves(board);
+		assertTrue(moves.size() == 2);
+		assertTrue(TestSuite.containsTargetCoordinateMove(3, 5, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMove(4, 5, moves));
+		System.out.println(board);
+		
+		//Simple capture
+		board = new Board();
+		pawnField = board.fields[4][4];
+		
+		//Promotion
+		
+		//Promotion with capture
+		
+		//Simple move blocked
 		
 	}
 }

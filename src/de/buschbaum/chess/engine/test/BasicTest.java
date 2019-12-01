@@ -111,25 +111,23 @@ class BasicTest
 		assertTrue(board.fields[4][0].piece == null);
 		
 		board.unapplyMove();
-		System.out.println(board);
 		assertTrue(board.fields[5][0].piece == null);
 		assertTrue(board.fields[6][0].piece == null);
 		assertTrue(board.fields[7][0].piece instanceof Rook);
 		assertTrue(board.fields[4][0].piece instanceof King);
 		
 		board.applyMove(new Move(board.fields[4][0], board.fields[2][0]), false);
-		System.out.println(board);
 		assertTrue(board.fields[3][0].piece instanceof Rook);
 		assertTrue(board.fields[2][0].piece instanceof King);
 		assertTrue(board.fields[0][0].piece == null);
 		assertTrue(board.fields[4][0].piece == null);
 		
 		board.unapplyMove();
-		System.out.println(board);
 		assertTrue(board.fields[3][0].piece == null);
 		assertTrue(board.fields[2][0].piece == null);
 		assertTrue(board.fields[0][0].piece instanceof Rook);
 		assertTrue(board.fields[4][0].piece instanceof King);
 		
+		//TODO apply for en passent move
 	}
 }

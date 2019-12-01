@@ -28,7 +28,7 @@ public class Pawn extends BasicPiece implements Piece
 		int simpleMoveTargetY = coordinate.y + direction;
 		boolean isSimpleMoveTargetPromotionField = (isWhite && simpleMoveTargetY == 7 ) || (!isWhite && simpleMoveTargetY == 0);
 		Field simpleMoveTargetField = board.fields[coordinate.x][simpleMoveTargetY];
-		if (simpleMoveTargetField.isEmpty())
+ 		if (simpleMoveTargetField.isEmpty())
 		{
 			if (isSimpleMoveTargetPromotionField)
 			{
@@ -108,7 +108,7 @@ public class Pawn extends BasicPiece implements Piece
 				Field lastFromField = lastMove.from;
 				if(Math.abs(lastToField.coordinate.x - coordinate.x) == 1 && lastFromField.coordinate.y == coordinate.y + 2 * direction)
 				{
-					moves.add(new Move(board.getLastMove(), board.getField(coordinate), board.fields[lastFromField.coordinate.y + direction][lastFromField.coordinate.x], getColor(), null, lastToPiece));
+					moves.add(new Move(board.getLastMove(), board.getField(coordinate), board.fields[lastFromField.coordinate.x][coordinate.y + direction], getColor(), null, lastToPiece));
 				}
 			}
 		}
