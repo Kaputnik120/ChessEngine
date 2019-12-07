@@ -1,10 +1,11 @@
 package de.buschbaum.chess.engine.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.PrimitiveIterator.OfDouble;
 
 import de.buschbaum.chess.engine.model.piece.Bishop;
 import de.buschbaum.chess.engine.model.piece.King;
@@ -25,6 +26,11 @@ public class Board {
 	private List<Move> appliedMoves = new ArrayList<>();
 	
 	/**
+	 * Counts how many times a given position arised. Used for threefold repition.
+	 */
+	private Map<Integer, Integer> positions = new HashMap<>();
+	
+	/**
 	 * Creates a board with the initial fields.
 	 */
 	public Board()
@@ -39,6 +45,83 @@ public class Board {
 	public Board(Field[][] fields)
 	{
 		this.fields = fields;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int hashCode = 0;
+		for (int y = 7; y >= 0; y--)
+		{
+			for (int x = 0; x <= 7; x++)
+			{
+				Field field = fields[x][y];
+				//6 types of pieces 
+				//2 colors
+				//8 x coordinates
+				//8 y coordinates
+				//6 * 2 * 8 * 8 = 768 possible constellations for one field
+				//16 * 896 = 12288 possible board constellations
+				
+				/*
+				 * The hashCode is unique when summing up the following calculated values: x * y * unique piece number.
+				 * Here's a toy example of this formular with values from 1-3 and 3 fields:
+				 * 
+				 * A: 1, 2, 3 -> 1 * 2 + 2 * 2 + 3 * 3 = 15
+				 * B: 3, 2, 1 -> 1 * 3 + 2 * 2 + 3 * 1 = 10
+				 * C: 1, 3, 2 -> 1 * 1 + 2 * 3 + 3 * 2 = 12
+ 				 * 
+				 */
+				if (field.piece == null) continue;
+				
+				int number = x * y * field.piece.getNumber();
+				hashCode += number;
+			}
+		}
+		
+		return hashCode;
+	}
+	
+	public boolean isStalemate(Color color)
+	{
+		if (isFiftyMovesWithoutCapture()) return true;
+		if (isThreefoldRepition()) return true;
+		
+		for (int y = 7; y >= 0; y--)
+		{
+			for (int x = 0; x <= 7; x++)
+			{
+				Field field = fields[x][y];
+				Piece piece = field.piece;
+				if (piece != null && piece.getColor().equals(color))
+				{
+					if (piece.getAvailableMoves(this, field.coordinate).size() > 0)
+					{
+						return false;
+					}
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean isFiftyMovesWithoutCapture()
+	{
+		int i = 0;
+		for (Move move : appliedMoves)
+		{
+			if (i > 50) return true;
+			if (move.capture != null) return false;
+		}
+		return true;
+	}
+	
+	public boolean isThreefoldRepition()
+	{
+		Integer positionCount = positions.get(this.hashCode());
+		if (positionCount == null) return false;
+		return positionCount >= 3;
 	}
 	
 	public Field getField(Coordinate coordinate)
@@ -96,6 +179,42 @@ public class Board {
 				rookBeforeRochadeField.piece = null;
 				if (setMoved) rookRochadeField.piece.setMoved();
 			}
+		}
+		
+		incrementPositionCount();
+	}
+	
+	private void incrementPositionCount()
+	{
+		Integer hashCode = this.hashCode();
+		Integer currentCount = positions.get(hashCode);
+		if (currentCount == null)
+		{
+			currentCount = 1;
+		}
+		else
+		{
+			currentCount++;
+		}
+		positions.put(hashCode, currentCount);
+	}
+	
+	private void decrementPositionCount()
+	{
+		Integer hashCode = this.hashCode();
+		Integer currentCount = positions.get(hashCode);
+		if (currentCount == null)
+		{
+			return;
+		}
+		else if (currentCount == 1)
+		{
+			positions.remove(hashCode);
+		}
+		else
+		{
+			currentCount--;
+			positions.put(hashCode, currentCount);
 		}
 	}
 	
@@ -210,6 +329,8 @@ public class Board {
 			lastMove.from.piece = lastMove.to.piece;
 			lastMove.to.piece = lastMove.capture;
 		}
+		
+		decrementPositionCount();
 	}
 	
 	/**

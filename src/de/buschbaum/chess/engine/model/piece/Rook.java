@@ -61,6 +61,12 @@ public class Rook extends BasicPiece implements Piece
 		return "Rook [moved=" + moved + ", color=" + color + "]";
 	}
 	
+	@Override
+	public int getNumber()
+	{
+		return 6 + (color.equals(Color.BLACK) ? 7 : 0);
+	}
+	
 	/**
 	 * @see Piece#isOffending(Board, Coordinate, Coordinate) 
 	 */

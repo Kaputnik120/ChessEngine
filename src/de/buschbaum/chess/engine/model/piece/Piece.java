@@ -48,6 +48,8 @@ public interface Piece {
 	
 	String getNotation();
 	
+	int getNumber();
+	
 	/**
 	 * Return true if the parameter piece is not null and is of the opposite color of this piece.
 	 */

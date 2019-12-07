@@ -55,6 +55,12 @@ public class Bishop extends BasicPiece implements Piece
 	{
 		return getNotation('b');
 	}
+	
+	@Override
+	public int getNumber()
+	{
+		return 1 + (color.equals(Color.BLACK) ? 7 : 0);
+	}
 
 	@Override
 	public String toString()

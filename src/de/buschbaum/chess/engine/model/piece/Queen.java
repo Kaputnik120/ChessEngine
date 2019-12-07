@@ -40,6 +40,12 @@ public class Queen extends BasicPiece implements Piece
 	}
 
 	@Override
+	public int getNumber()
+	{
+		return 5 + (color.equals(Color.BLACK) ? 7 : 0);
+	}
+	
+	@Override
 	public String toString()
 	{
 		return "Queen [color=" + color + "]";
