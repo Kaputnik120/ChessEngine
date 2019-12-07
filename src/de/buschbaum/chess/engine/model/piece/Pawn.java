@@ -46,10 +46,13 @@ public class Pawn extends BasicPiece implements Piece
 			if ((getColor().equals(Color.WHITE) && coordinate.y == 1) || (getColor().equals(Color.WHITE) && coordinate.y == 6))
 			{
 				int doubleMoveTargetY = simpleMoveTargetY + direction;
-				Field doubleMoveTargetField = board.fields[coordinate.x][doubleMoveTargetY];
-				if (doubleMoveTargetField.isEmpty())
+				if (doubleMoveTargetY <= 7 && doubleMoveTargetY >= 0)
 				{
-					moves.add(new Move(board.getLastMove(), board.getField(coordinate), doubleMoveTargetField, getColor(), null, null));
+					Field doubleMoveTargetField = board.fields[coordinate.x][doubleMoveTargetY];
+					if (doubleMoveTargetField.isEmpty())
+					{
+						moves.add(new Move(board.getLastMove(), board.getField(coordinate), doubleMoveTargetField, getColor(), null, null));
+					}
 				}
 			}
 		}
@@ -106,7 +109,9 @@ public class Pawn extends BasicPiece implements Piece
 			if(lastToPiece instanceof Pawn)
 			{
 				Field lastFromField = lastMove.from;
-				if(Math.abs(lastToField.coordinate.x - coordinate.x) == 1 && lastFromField.coordinate.y == coordinate.y + 2 * direction)
+				if(Math.abs(lastToField.coordinate.x - coordinate.x) == 1 
+						&& lastFromField.coordinate.y == coordinate.y + 2 * direction
+						&& lastToField.coordinate.y == coordinate.y)
 				{
 					moves.add(new Move(board.getLastMove(), board.getField(coordinate), board.fields[lastFromField.coordinate.x][coordinate.y + direction], getColor(), null, lastToPiece));
 				}

@@ -2,6 +2,8 @@ package de.buschbaum.chess.engine.test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import de.buschbaum.chess.engine.model.Board;
@@ -11,6 +13,7 @@ import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
 import de.buschbaum.chess.engine.model.piece.King;
 import de.buschbaum.chess.engine.model.piece.Knight;
+import de.buschbaum.chess.engine.model.piece.Pawn;
 import de.buschbaum.chess.engine.model.piece.Piece;
 import de.buschbaum.chess.engine.model.piece.Queen;
 import de.buschbaum.chess.engine.model.piece.Rook;
@@ -103,8 +106,8 @@ class BasicTest
 		board.fields[5][0].piece = null;
 		board.fields[6][0].piece = null;
 		
+		//Rochade
 		board.applyMove(new Move(board.fields[4][0], board.fields[6][0]), false);
-		System.out.println(board);
 		assertTrue(board.fields[5][0].piece instanceof Rook);
 		assertTrue(board.fields[6][0].piece instanceof King);
 		assertTrue(board.fields[7][0].piece == null);
@@ -128,6 +131,23 @@ class BasicTest
 		assertTrue(board.fields[0][0].piece instanceof Rook);
 		assertTrue(board.fields[4][0].piece instanceof King);
 		
-		//TODO apply for en passent move
+		//En Passent
+		board = new Board();
+		board.applyMove(4, 1, 4, 3);
+		board.applyMove(4, 3, 4, 4);
+		board.applyMove(3, 6, 3, 4);
+		//For the board to function correctly the Move must be passed with a capture
+		Move enPassentMove = new Move(board.getLastMove(), board.fields[4][4], board.fields[3][5], Color.WHITE, null, board.fields[3][4].piece);
+		board.applyMove(enPassentMove, false);
+		
+		assertTrue(board.fields[3][4].piece == null);
+		assertTrue(board.fields[3][5].piece instanceof Pawn);
+		assertTrue(board.fields[4][4].piece == null);
+		
+		//unaplly en passent
+		board.unapplyMove();
+		assertTrue(board.fields[3][4].piece instanceof Pawn);
+		assertTrue(board.fields[3][5].piece == null);
+		assertTrue(board.fields[4][4].piece instanceof Pawn);
 	}
 }

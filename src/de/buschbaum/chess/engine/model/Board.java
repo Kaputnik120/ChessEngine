@@ -23,7 +23,6 @@ public class Board {
 	public Field[][] fields = null;
 	
 	private List<Move> appliedMoves = new ArrayList<>();
-	private List<Move> calculatedMoves = new ArrayList<>();
 	
 	/**
 	 * Creates a board with the initial fields.
@@ -100,12 +99,42 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Checks if the move given would be a en passent move if applied to the current board. Doesn't work for past moves!
+	 */
 	public boolean isNextMoveEnPassentCapture(Move move)
 	{
 		if (!(move.capture instanceof Pawn)) return false;
 		if (Math.abs(move.from.coordinate.x - move.to.coordinate.x) != 1) return false;
 		if (Math.abs(move.from.coordinate.y - move.to.coordinate.y) != 1) return false;
 		if (!move.to.isEmpty()) return false;
+		return true;
+	}
+	
+	/**
+	 * Checks if the last move was an en passent move
+	 */
+	public boolean isLastMoveEnPassentCapture()
+	{
+		Move lastMove = getLastMove();
+		if (lastMove == null) return false;
+		if (appliedMoves.size() - 2 < 0) return false;
+		Move beforeLastMove = appliedMoves.get(appliedMoves.size() - 2);
+		if (beforeLastMove == null) return false;
+		
+		if (!(lastMove.capture instanceof Pawn)) return false;
+		if (Math.abs(lastMove.from.coordinate.x - lastMove.to.coordinate.x) != 1) return false;
+		if (Math.abs(lastMove.from.coordinate.y - lastMove.to.coordinate.y) != 1) return false;
+
+		//Move before must have been a double move
+		if (Math.abs(beforeLastMove.from.coordinate.y - beforeLastMove.to.coordinate.y) != 2) return false;
+		//Pawn must have been removed
+		if (fields[beforeLastMove.to.coordinate.x][beforeLastMove.to.coordinate.y].piece != null) return false;
+		//Before last move's target must be on same y coordinate as from coordinate of last move
+		if (beforeLastMove.to.coordinate.y != lastMove.from.coordinate.y) return false;
+		//Before last move's target must be only one x coordinate away from coordinate of last move
+		if (Math.abs(beforeLastMove.to.coordinate.x - lastMove.from.coordinate.x) != 1) return false;
+		
 		return true;
 	}
 	
@@ -143,19 +172,16 @@ public class Board {
 	{
 		if (appliedMoves == null || appliedMoves.isEmpty()) return;
 		
-		boolean lastMoveRochade = isLastMoveRochade(); //Check before any moves to the board are made
-		
+		boolean lastMoveRochade = isLastMoveRochade(); //Check before any changes to the board are made
+		boolean isLastMoveEnPassentCapture = !lastMoveRochade && isLastMoveEnPassentCapture();
+
 		Move lastMove = getLastMove();
-		lastMove.from.piece = lastMove.to.piece;
-		lastMove.to.piece = lastMove.capture;
-		
 		if (lastMoveRochade)
 		{
-			Field kingFieldFrom = lastMove.from;
-			Field kingFieldTo = lastMove.to;
-			Piece king = kingFieldFrom.piece;
-			int direction = king.getColor().equals(Color.WHITE) ? -1 : 1;
+			lastMove.from.piece = lastMove.to.piece;
+			lastMove.to.piece = lastMove.capture;
 			
+			Field kingFieldTo = lastMove.to;
 			if (kingFieldTo.coordinate.x == 6)
 			{
 				Field rookRochadeField = fields[5][kingFieldTo.coordinate.y];
@@ -170,6 +196,19 @@ public class Board {
 				rookBeforeRochadeField.piece = rookRochadeField.piece;
 				rookRochadeField.piece = null;
 			}	
+		}
+		else if (isLastMoveEnPassentCapture)
+		{
+			lastMove.from.piece = lastMove.to.piece;
+			lastMove.to.piece = null;
+			
+			Move beforeLastMove = appliedMoves.get(appliedMoves.size() - 2);
+			beforeLastMove.to.piece = lastMove.capture;
+		}
+		else
+		{
+			lastMove.from.piece = lastMove.to.piece;
+			lastMove.to.piece = lastMove.capture;
 		}
 	}
 	
@@ -268,6 +307,37 @@ public class Board {
 		sb.append("\n");
 		
 		return sb.toString();
+	}
+	
+	/**
+	 * Sets an empty field array with only the white and the black king set.
+	 */
+	public void resetWithKingOnly()
+	{
+		if (fields == null)
+		{
+			fields = new Field[8][8];
+		}
+		for (int x = 0; x <= 7; x++)
+		{
+			for (int y = 0; y <= 7; y++)
+			{
+				if (x == 4 && y == 0)
+				{
+					King king = new King(Color.WHITE);
+					fields[x][y] = new Field(x, y, king);
+				}
+				else if (x == 4 && y == 7)
+				{
+					King king = new King(Color.BLACK);
+					fields[x][y] = new Field(x, y, king);
+				}
+				else
+				{
+					fields[x][y] = new Field(x, y, null);
+				}
+			}	
+		}
 	}
 	
 	/**

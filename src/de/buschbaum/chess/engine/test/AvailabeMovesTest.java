@@ -13,6 +13,8 @@ import de.buschbaum.chess.engine.model.Color;
 import de.buschbaum.chess.engine.model.Coordinate;
 import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
+import de.buschbaum.chess.engine.model.piece.Bishop;
+import de.buschbaum.chess.engine.model.piece.Knight;
 import de.buschbaum.chess.engine.model.piece.Pawn;
 import de.buschbaum.chess.engine.model.piece.Piece;
 import de.buschbaum.chess.engine.model.piece.Queen;
@@ -302,17 +304,70 @@ class AvailabeMovesTest
 		assertTrue(moves.size() == 2);
 		assertTrue(TestSuite.containsTargetCoordinateMove(3, 5, moves));
 		assertTrue(TestSuite.containsTargetCoordinateMove(4, 5, moves));
-		System.out.println(board);
 		
 		//Simple capture
 		board = new Board();
-		pawnField = board.fields[4][4];
+		board.applyMove(3, 6, 3, 4);
+		board.applyMove(2, 1, 2, 2);
+		board.applyMove(3, 4, 3, 3);
+		pawnField = board.fields[2][2];
+		moves = pawnField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 2);
+		assertTrue(TestSuite.containsTargetCoordinateMove(2, 3, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMove(3, 3, moves));
 		
 		//Promotion
+		board.resetWithKingOnly();
+		board.fields[1][6].piece = new Pawn(Color.WHITE);
+		pawnField = board.fields[1][6];
+		moves = pawnField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 4);
+		assertTrue(TestSuite.containsTargetCoordinateMove(1, 7, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Bishop.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Rook.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Queen.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Knight.class, moves));
 		
 		//Promotion with capture
+		board.resetWithKingOnly();
+		board.fields[1][6].piece = new Pawn(Color.WHITE);
+		board.fields[2][7].piece = new Pawn(Color.BLACK);
+		pawnField = board.fields[1][6];
+		moves = pawnField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 8);
+		assertTrue(TestSuite.containsTargetCoordinateMove(1, 7, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Bishop.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Rook.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Queen.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Knight.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMove(2, 7, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(2, 7, Bishop.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(2, 7, Rook.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(2, 7, Queen.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(2, 7, Knight.class, moves));
 		
 		//Simple move blocked
+		board = new Board();
+		board.applyMove(3, 1, 3, 3);
+		board.applyMove(3, 6, 3, 4);
+		board.applyMove(2, 0, 7, 5);
+		pawnField = board.fields[7][6];
+		moves = pawnField.getAvailableMoves(board);
 		
+		assertTrue(moves.size() == 0);
+		
+		//Simple move allowed, double move blocked
+		board = new Board();
+		board.applyMove(3, 1, 3, 3);
+		board.applyMove(3, 6, 3, 4);
+		board.applyMove(2, 0, 6, 4);
+		pawnField = board.fields[6][6];
+		moves = pawnField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 1);
+		assertTrue(TestSuite.containsTargetCoordinateMove(6, 5, moves));
 	}
 }

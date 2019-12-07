@@ -225,6 +225,4 @@ class IsOffendingTest
 		assertFalse(queen2Field.isOffending(board2, 0, 7));
 		assertFalse(queen2Field.isOffending(board2, 3, 7));
 	}
-	
-	//TODO offending pawn
 }

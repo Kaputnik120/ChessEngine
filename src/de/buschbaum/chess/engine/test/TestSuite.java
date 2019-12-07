@@ -23,4 +23,16 @@ public class TestSuite
 		}
 		return false;
 	}
+	
+	public static boolean containsTargetCoordinateMovePromotion(int x, int y, Class<?> pieceClass, List<Move> moves)
+	{
+		for (Move move : moves)
+		{
+			if (move.to.coordinate.x == x && move.to.coordinate.y == y && pieceClass.isInstance(move.promotion))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
