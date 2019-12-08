@@ -2,7 +2,12 @@ package de.buschbaum.chess.engine.test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +16,7 @@ import de.buschbaum.chess.engine.model.Color;
 import de.buschbaum.chess.engine.model.Coordinate;
 import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
+import de.buschbaum.chess.engine.model.piece.Bishop;
 import de.buschbaum.chess.engine.model.piece.King;
 import de.buschbaum.chess.engine.model.piece.Knight;
 import de.buschbaum.chess.engine.model.piece.Pawn;
@@ -149,5 +155,40 @@ class BasicTest
 		assertTrue(board.fields[3][4].piece instanceof Pawn);
 		assertTrue(board.fields[3][5].piece == null);
 		assertTrue(board.fields[4][4].piece instanceof Pawn);
+	}
+	
+	@Test
+	public void testDraw()
+	{
+		//Insufficient material
+		Board board = new Board();
+		board.resetWithKingOnly();
+		assertTrue(board.isDraw(Color.WHITE));
+		assertTrue(board.isDraw(Color.BLACK));
+		
+		board.fields[0][0].piece = new Knight(Color.WHITE);
+		assertTrue(board.isDraw(Color.WHITE));
+		assertTrue(board.isDraw(Color.BLACK));
+		
+		board.fields[0][0].piece = new Bishop(Color.BLACK);
+		assertTrue(board.isDraw(Color.WHITE));
+		assertTrue(board.isDraw(Color.BLACK));
+		
+		board.fields[0][1].piece = new Bishop(Color.WHITE);
+		assertFalse(board.isDraw(Color.WHITE));
+		assertFalse(board.isDraw(Color.BLACK));
+		
+		board.fields[0][1].piece = null;
+		board.fields[1][1].piece = new Bishop(Color.WHITE);
+		assertTrue(board.isDraw(Color.WHITE));
+		assertTrue(board.isDraw(Color.BLACK));
+		
+		board.fields[3][3].piece = new Rook(Color.WHITE);
+		assertFalse(board.isDraw(Color.WHITE));
+		assertFalse(board.isDraw(Color.BLACK));
+		
+		//TODO test stalemate
+		//TODO test threefold repition
+		//TODO test 50 moves without capture
 	}
 }

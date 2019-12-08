@@ -1,6 +1,7 @@
 package de.buschbaum.chess.engine.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,8 +16,8 @@ import de.buschbaum.chess.engine.model.piece.Piece;
 import de.buschbaum.chess.engine.model.piece.Queen;
 import de.buschbaum.chess.engine.model.piece.Rook;
 
-public class Board {
-
+public class Board 
+{
 	/**
 	 * The array of board fields always contains of the same field instances 
 	 * Different states of play are reflected by setting different pieces to the fields.
@@ -50,42 +51,31 @@ public class Board {
 	@Override
 	public int hashCode()
 	{
-		int hashCode = 0;
+		StringBuilder hashCodeBuilder = new StringBuilder(); 
 		for (int y = 7; y >= 0; y--)
 		{
 			for (int x = 0; x <= 7; x++)
 			{
 				Field field = fields[x][y];
-				//6 types of pieces 
-				//2 colors
-				//8 x coordinates
-				//8 y coordinates
-				//6 * 2 * 8 * 8 = 768 possible constellations for one field
-				//16 * 896 = 12288 possible board constellations
-				
-				/*
-				 * The hashCode is unique when summing up the following calculated values: x * y * unique piece number.
-				 * Here's a toy example of this formular with values from 1-3 and 3 fields:
-				 * 
-				 * A: 1, 2, 3 -> 1 * 2 + 2 * 2 + 3 * 3 = 15
-				 * B: 3, 2, 1 -> 1 * 3 + 2 * 2 + 3 * 1 = 10
-				 * C: 1, 3, 2 -> 1 * 1 + 2 * 3 + 3 * 2 = 12
- 				 * 
-				 */
-				if (field.piece == null) continue;
-				
-				int number = x * y * field.piece.getNumber();
-				hashCode += number;
+				if (field.piece == null)
+				{
+					hashCodeBuilder.append("xx");
+				}
+				else
+				{
+					hashCodeBuilder.append(field.piece.getNotation());
+				}
 			}
 		}
 		
-		return hashCode;
+		return hashCodeBuilder.toString().hashCode();
 	}
 	
-	public boolean isStalemate(Color color)
+	public boolean isDraw(Color color)
 	{
 		if (isFiftyMovesWithoutCapture()) return true;
 		if (isThreefoldRepition()) return true;
+		if (isInsufficientMaterial()) return true;
 		
 		for (int y = 7; y >= 0; y--)
 		{
@@ -114,7 +104,74 @@ public class Board {
 			if (i > 50) return true;
 			if (move.capture != null) return false;
 		}
-		return true;
+		return false;
+	}
+	
+	public boolean isInsufficientMaterial()
+	{
+		int wBishops = 0;
+		Color wBishopColor = null;
+		int wKnights = 0;
+		
+		int bBishops = 0;
+		Color bBishopColor = null;
+		int bKnights = 0;
+		
+		for (int y = 7; y >= 0; y--)
+		{
+			for (int x = 0; x <= 7; x++)
+			{
+				Field field = fields[x][y];
+				Piece piece = field.piece;
+				if (piece == null) continue;
+				if (piece instanceof Queen || piece instanceof Pawn || piece instanceof Rook)
+				{
+					return false;
+				}
+				else if (piece instanceof Bishop)
+				{
+					if (Color.WHITE.equals(piece.getColor()))
+					{
+						wBishops++;
+						wBishopColor = field.coordinate.color;
+					}
+					else
+					{
+						bBishops++;
+						bBishopColor = field.coordinate.color;
+					}
+				}
+				else if (piece instanceof Knight)
+				{
+					if (Color.WHITE.equals(piece.getColor()))
+					{
+						wKnights++;
+					}
+					else
+					{
+						bKnights++;
+					}
+				}
+			}
+		}
+		
+		if (wKnights == 0 && bKnights == 0 && wBishops == 0 && bBishops == 0)
+		{
+			return true;
+		}
+		if (wKnights == 1 ^ bKnights == 1 ^ wBishops == 1 ^ bBishops == 1)
+		{
+			return true;
+		}
+		if (wKnights == 0 && bKnights == 0 && wBishops == 1 && bBishops == 1)
+		{
+			if (wBishopColor.equals(bBishopColor))
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public boolean isThreefoldRepition()

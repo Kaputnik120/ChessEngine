@@ -38,12 +38,6 @@ public class Queen extends BasicPiece implements Piece
 	{
 		return getNotation('q');
 	}
-
-	@Override
-	public int getNumber()
-	{
-		return 5 + (color.equals(Color.BLACK) ? 7 : 0);
-	}
 	
 	@Override
 	public String toString()

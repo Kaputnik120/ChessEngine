@@ -153,12 +153,6 @@ public class Pawn extends BasicPiece implements Piece
 	{
 		return getNotation('p');
 	}
-
-	@Override
-	public int getNumber()
-	{
-		return 4 + (color.equals(Color.BLACK) ? 7 : 0);
-	}
 	
 	@Override
 	public String toString()
