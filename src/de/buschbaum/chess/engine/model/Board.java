@@ -24,7 +24,7 @@ public class Board
 	 */
 	public Field[][] fields = null;
 	
-	private List<Move> appliedMoves = new ArrayList<>();
+	public List<Move> appliedMoves = new ArrayList<>();
 	
 	/**
 	 * Counts how many times a given position arised. Used for threefold repition.
@@ -421,6 +421,8 @@ public class Board
 		Iterator<Move> moveIterator = moves.iterator();
 		while (moveIterator.hasNext())
 		{
+			int moveCountBefore = this.appliedMoves.size();
+			
 			Move move = moveIterator.next();
 			applyMove(move, false);
 			if (isCheck(color)) 
@@ -428,6 +430,11 @@ public class Board
 				moveIterator.remove();
 			}
 			unapplyMove();
+			
+			if (moveCountBefore != this.appliedMoves.size())
+			{
+				throw new RuntimeException("inconsistent unapply");
+			}
 		}
 	}
 	
@@ -489,9 +496,11 @@ public class Board
 	
 	/**
 	 * Sets an empty field array with only the white and the black king set.
+	 * Should be used for testing and therefore is not performance optimized.
 	 */
 	public void resetWithKingOnly()
 	{
+		reset();
 		if (fields == null)
 		{
 			fields = new Field[8][8];
@@ -523,6 +532,8 @@ public class Board
 	 */
 	public void reset()
 	{
+		appliedMoves.clear();
+		positions.clear();
 		if (fields == null)
 		{
 			fields = new Field[8][8];
