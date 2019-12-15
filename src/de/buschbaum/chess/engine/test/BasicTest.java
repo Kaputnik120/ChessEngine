@@ -113,6 +113,7 @@ class BasicTest
 		board.fields[6][0].piece = null;
 		
 		//Rochade
+		int sizeBefore = board.getAppliedMoves().size();
 		board.applyMove(new Move(board.fields[4][0], board.fields[6][0]), false);
 		assertTrue(board.fields[5][0].piece instanceof Rook);
 		assertTrue(board.fields[6][0].piece instanceof King);
@@ -120,11 +121,13 @@ class BasicTest
 		assertTrue(board.fields[4][0].piece == null);
 		
 		board.unapplyMove();
+		assertTrue(sizeBefore == board.getAppliedMoves().size());
 		assertTrue(board.fields[5][0].piece == null);
 		assertTrue(board.fields[6][0].piece == null);
 		assertTrue(board.fields[7][0].piece instanceof Rook);
 		assertTrue(board.fields[4][0].piece instanceof King);
 		
+		sizeBefore = board.getAppliedMoves().size();
 		board.applyMove(new Move(board.fields[4][0], board.fields[2][0]), false);
 		assertTrue(board.fields[3][0].piece instanceof Rook);
 		assertTrue(board.fields[2][0].piece instanceof King);
@@ -132,6 +135,7 @@ class BasicTest
 		assertTrue(board.fields[4][0].piece == null);
 		
 		board.unapplyMove();
+		assertTrue(sizeBefore == board.getAppliedMoves().size());
 		assertTrue(board.fields[3][0].piece == null);
 		assertTrue(board.fields[2][0].piece == null);
 		assertTrue(board.fields[0][0].piece instanceof Rook);
@@ -142,6 +146,7 @@ class BasicTest
 		board.applyMove(4, 1, 4, 3);
 		board.applyMove(4, 3, 4, 4);
 		board.applyMove(3, 6, 3, 4);
+		sizeBefore = board.getAppliedMoves().size();
 		//For the board to function correctly the Move must be passed with a capture
 		Move enPassentMove = new Move(board.getLastMove(), board.fields[4][4], board.fields[3][5], Color.WHITE, null, board.fields[3][4].piece);
 		board.applyMove(enPassentMove, false);
@@ -152,6 +157,7 @@ class BasicTest
 		
 		//unaplly en passent
 		board.unapplyMove();
+		assertTrue(sizeBefore == board.getAppliedMoves().size());
 		assertTrue(board.fields[3][4].piece instanceof Pawn);
 		assertTrue(board.fields[3][5].piece == null);
 		assertTrue(board.fields[4][4].piece instanceof Pawn);
@@ -216,12 +222,8 @@ class BasicTest
 		
 		//50 moves without capture
 		board = new Board();
-		System.out.println(board);
-		System.out.println(board.appliedMoves.size());
 		assertFalse(board.isDraw(Color.WHITE));
-		System.out.println(board.appliedMoves.size());
 		assertFalse(board.isDraw(Color.BLACK));
-		System.out.println(board.appliedMoves.size());
 		
 		//1-16 moves: pawn one field moves
 		board.applyMove(0, 1, 0, 2);
@@ -240,15 +242,11 @@ class BasicTest
 		board.applyMove(6, 6, 6, 5);
 		board.applyMove(7, 1, 7, 2);
 		board.applyMove(7, 6, 7, 5);
-		System.out.println(board);
-		System.out.println(board.appliedMoves.size());
 		assertFalse(board.isDraw(Color.WHITE));
 		assertFalse(board.isDraw(Color.BLACK));
 		
 		//17-32 moves: pawn next one field moves
 		board.applyMove(0, 2, 0, 3);
-		System.out.println(board);
-		System.out.println(board.appliedMoves.size());
 		board.applyMove(0, 5, 0, 4);
 		board.applyMove(1, 2, 1, 3);
 		board.applyMove(1, 5, 1, 4);
@@ -256,8 +254,6 @@ class BasicTest
 		board.applyMove(2, 5, 2, 4);
 		board.applyMove(3, 2, 3, 3);
 		board.applyMove(3, 5, 3, 4);
-		System.out.println(board);
-		System.out.println(board.appliedMoves.size());
 		board.applyMove(4, 2, 4, 3);
 		board.applyMove(4, 5, 4, 4);
 		board.applyMove(5, 2, 5, 3);
@@ -266,8 +262,6 @@ class BasicTest
 		board.applyMove(6, 5, 6, 4);
 		board.applyMove(7, 2, 7, 3);
 		board.applyMove(7, 5, 7, 4);
-		System.out.println(board);
-		System.out.println(board.appliedMoves.size());
 		assertFalse(board.isDraw(Color.WHITE));
 		assertFalse(board.isDraw(Color.BLACK));
 		
@@ -280,8 +274,6 @@ class BasicTest
 		board.applyMove(7, 7, 7, 6);
 		board.applyMove(7, 1, 7, 2);
 		board.applyMove(7, 6, 7, 5);
-		System.out.println(board);
-		System.out.println(board.appliedMoves.size());
 		assertFalse(board.isDraw(Color.WHITE));
 		assertFalse(board.isDraw(Color.BLACK));
 		
@@ -294,20 +286,14 @@ class BasicTest
 		board.applyMove(4, 7, 4, 6);
 		board.applyMove(4, 1, 4, 2);
 		board.applyMove(4, 6, 4, 5);
-		System.out.println(board);
-		System.out.println(board.appliedMoves.size());
 		assertFalse(board.isDraw(Color.WHITE));
 		assertFalse(board.isDraw(Color.BLACK));
 		
 		//49-50 moves: knights move forward
 		board.applyMove(1, 0, 2, 2);
-		System.out.println(board);
 		assertFalse(board.isDraw(Color.WHITE));
 		assertFalse(board.isDraw(Color.BLACK));
-		System.out.println(board.appliedMoves.size());
 		board.applyMove(1, 7, 2, 5);
-		System.out.println(board);
-		System.out.println(board.appliedMoves.size());
 		assertTrue(board.isDraw(Color.WHITE));
 		assertTrue(board.isDraw(Color.BLACK));
 		

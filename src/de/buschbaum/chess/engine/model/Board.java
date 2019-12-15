@@ -24,7 +24,7 @@ public class Board
 	 */
 	public Field[][] fields = null;
 	
-	public List<Move> appliedMoves = new ArrayList<>();
+	private List<Move> appliedMoves = new ArrayList<>();
 	
 	/**
 	 * Counts how many times a given position arised. Used for threefold repition.
@@ -98,10 +98,13 @@ public class Board
 	
 	public boolean isFiftyMovesWithoutCapture()
 	{
+		if (appliedMoves.size() < 50) return false;
+		
 		int i = 0;
 		for (Move move : appliedMoves)
 		{
-			if (i > 50) return true;
+			i++;
+			if (i >= 50) return true;
 			if (move.capture != null) return false;
 		}
 		return false;
@@ -388,6 +391,7 @@ public class Board
 		}
 		
 		decrementPositionCount();
+		appliedMoves.remove(appliedMoves.size() - 1);
 	}
 	
 	/**
@@ -421,8 +425,6 @@ public class Board
 		Iterator<Move> moveIterator = moves.iterator();
 		while (moveIterator.hasNext())
 		{
-			int moveCountBefore = this.appliedMoves.size();
-			
 			Move move = moveIterator.next();
 			applyMove(move, false);
 			if (isCheck(color)) 
@@ -430,11 +432,6 @@ public class Board
 				moveIterator.remove();
 			}
 			unapplyMove();
-			
-			if (moveCountBefore != this.appliedMoves.size())
-			{
-				throw new RuntimeException("inconsistent unapply");
-			}
 		}
 	}
 	
@@ -650,5 +647,10 @@ public class Board
 	{
 		Field kingsField = getKing(color);
 		return isAnyPieceOffendingField(Color.getOpposite(color), kingsField);
+	}
+	
+	public List<Move> getAppliedMoves()
+	{
+		return appliedMoves;
 	}
 }
