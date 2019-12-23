@@ -15,6 +15,7 @@ class GameTest
 		{
 			game.applyComputerMove();
 			System.out.println(game.board);
+			System.out.println(game.board.getAppliedMoves().size());
 		}
 	}
 	

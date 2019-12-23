@@ -66,14 +66,14 @@ public class Board
 		return appliedMoves.size() % 2 == 0 ? Color.WHITE : Color.BLACK;
 	}
 	
-	public boolean isDraw(Color color)
+	public DrawReason getDrawReason(Color color)
 	{
-		if (isFiftyMovesWithoutCapture()) return true;
-		if (isThreefoldRepition()) return true;
-		if (isInsufficientMaterial()) return true;
-		if (isStalemate(color) && !isCheck(color)) return true;
+		if (isFiftyMovesWithoutCapture()) return DrawReason.FIFTY_MOVES_NO_CAPTURE;
+		if (isThreefoldRepition()) return DrawReason.THREEFOLD_REPITION;
+		if (isInsufficientMaterial()) return DrawReason.INSUFFICIENT_MATERIAL;
+		if (isStalemate(color) && !isCheck(color)) return DrawReason.STALEMATE;
 		
-		return false;
+		return null;
 	}
 
 	public boolean isCheckmate(Color color)
@@ -356,6 +356,8 @@ public class Board
 	{
 		if (appliedMoves == null || appliedMoves.isEmpty()) return;
 		
+		decrementPositionCount();
+		
 		boolean lastMoveRochade = isLastMoveRochade(); //Check before any changes to the board are made
 		boolean isLastMoveEnPassentCapture = !lastMoveRochade && isLastMoveEnPassentCapture();
 
@@ -395,7 +397,6 @@ public class Board
 			lastMove.to.piece = lastMove.capture;
 		}
 		
-		decrementPositionCount();
 		appliedMoves.remove(appliedMoves.size() - 1);
 	}
 	

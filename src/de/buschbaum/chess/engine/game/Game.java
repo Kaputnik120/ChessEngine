@@ -4,6 +4,7 @@ package de.buschbaum.chess.engine.game;
 import de.buschbaum.chess.engine.calculation.MoveCalculation;
 import de.buschbaum.chess.engine.rules.Board;
 import de.buschbaum.chess.engine.rules.Color;
+import de.buschbaum.chess.engine.rules.DrawReason;
 
 public class Game
 {
@@ -48,7 +49,11 @@ public class Game
 	public boolean isGameEnded()
 	{
 		Color nextTurnColor = board.getNextTurnColor();
-		return board.isDraw(nextTurnColor) || board.isCheckmate(nextTurnColor);
+		DrawReason drawReason = board.getDrawReason(nextTurnColor);
+		boolean isCheckmate = board.isCheckmate(nextTurnColor);
+		System.out.println("drawReason: " + drawReason);
+		System.out.println("isCheckmate: " + isCheckmate);
+		return  drawReason != null || isCheckmate;
 	}
 	
 	public void applyComputerMove()

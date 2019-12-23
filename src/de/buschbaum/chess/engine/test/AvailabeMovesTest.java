@@ -409,5 +409,7 @@ class AvailabeMovesTest
 		
 		assertTrue(moves.size() == 1);
 		assertTrue(UnitTestBoard.containsTargetCoordinateMove(6, 5, moves));
+		
+		//TODO NPE @ Pawn:29 verhindern
 	}
 }

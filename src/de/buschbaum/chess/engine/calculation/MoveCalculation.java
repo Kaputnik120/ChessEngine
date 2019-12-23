@@ -31,7 +31,7 @@ public class MoveCalculation
 		
 		if (availableMoves.size() > 0)
 		{
-			calculatedMove = availableMoves.get((int) Math.round(Math.random() * availableMoves.size()));
+			calculatedMove = availableMoves.get(Math.max((int) Math.round(Math.random() * availableMoves.size()) - 1, 0));
 		}
 	}
 }

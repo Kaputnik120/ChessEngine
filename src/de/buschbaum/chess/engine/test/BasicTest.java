@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import de.buschbaum.chess.engine.rules.Color;
 import de.buschbaum.chess.engine.rules.Coordinate;
+import de.buschbaum.chess.engine.rules.DrawReason;
 import de.buschbaum.chess.engine.rules.Field;
 import de.buschbaum.chess.engine.rules.Move;
 import de.buschbaum.chess.engine.rules.piece.Bishop;
@@ -153,37 +154,39 @@ class BasicTest
 		assertTrue(board.fields[3][4].piece instanceof Pawn);
 		assertTrue(board.fields[3][5].piece == null);
 		assertTrue(board.fields[4][4].piece instanceof Pawn);
+		
+		//TODO check positions map after unapply
 	}
 	
 	@Test
-	public void testDraw()
+	public void testDrawAndCheckmate()
 	{
 		//Insufficient material
 		UnitTestBoard board = new UnitTestBoard();
 		board.resetWithKingOnly();
-		assertTrue(board.isDraw(Color.WHITE));
-		assertTrue(board.isDraw(Color.BLACK));
+		assertTrue(DrawReason.INSUFFICIENT_MATERIAL.equals(board.getDrawReason(Color.WHITE)));
+		assertTrue(DrawReason.INSUFFICIENT_MATERIAL.equals(board.getDrawReason(Color.BLACK)));
 		
 		board.fields[0][0].piece = new Knight(Color.WHITE);
-		assertTrue(board.isDraw(Color.WHITE));
-		assertTrue(board.isDraw(Color.BLACK));
+		assertTrue(DrawReason.INSUFFICIENT_MATERIAL.equals(board.getDrawReason(Color.WHITE)));
+		assertTrue(DrawReason.INSUFFICIENT_MATERIAL.equals(board.getDrawReason(Color.BLACK)));
 		
 		board.fields[0][0].piece = new Bishop(Color.BLACK);
-		assertTrue(board.isDraw(Color.WHITE));
-		assertTrue(board.isDraw(Color.BLACK));
+		assertTrue(DrawReason.INSUFFICIENT_MATERIAL.equals(board.getDrawReason(Color.WHITE)));
+		assertTrue(DrawReason.INSUFFICIENT_MATERIAL.equals(board.getDrawReason(Color.BLACK)));
 		
 		board.fields[0][1].piece = new Bishop(Color.WHITE);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		board.fields[0][1].piece = null;
 		board.fields[1][1].piece = new Bishop(Color.WHITE);
-		assertTrue(board.isDraw(Color.WHITE));
-		assertTrue(board.isDraw(Color.BLACK));
+		assertTrue(DrawReason.INSUFFICIENT_MATERIAL.equals(board.getDrawReason(Color.WHITE)));
+		assertTrue(DrawReason.INSUFFICIENT_MATERIAL.equals(board.getDrawReason(Color.BLACK)));
 		
 		board.fields[3][3].piece = new Rook(Color.WHITE);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		//threefold repitition
 		board = new UnitTestBoard();
@@ -196,26 +199,26 @@ class BasicTest
 		board.applyMove(3, 7, 3, 6);
 		board.applyMove(3, 1, 3, 0);
 		board.applyMove(3, 6, 3, 7);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		//2.repetition
 		board.applyMove(3, 0, 3, 1);
 		board.applyMove(3, 7, 3, 6);
 		board.applyMove(3, 1, 3, 0);
 		board.applyMove(3, 6, 3, 7);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		//3.repetition
 		board.applyMove(3, 0, 3, 1);
-		assertTrue(board.isDraw(Color.WHITE));
-		assertTrue(board.isDraw(Color.BLACK));
+		assertTrue(DrawReason.THREEFOLD_REPITION.equals(board.getDrawReason(Color.WHITE)));
+		assertTrue(DrawReason.THREEFOLD_REPITION.equals(board.getDrawReason(Color.BLACK)));
 		
 		//50 moves without capture
 		board = new UnitTestBoard();
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		//1-16 moves: pawn one field moves
 		board.applyMove(0, 1, 0, 2);
@@ -234,8 +237,8 @@ class BasicTest
 		board.applyMove(6, 6, 6, 5);
 		board.applyMove(7, 1, 7, 2);
 		board.applyMove(7, 6, 7, 5);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		//17-32 moves: pawn next one field moves
 		board.applyMove(0, 2, 0, 3);
@@ -254,8 +257,8 @@ class BasicTest
 		board.applyMove(6, 5, 6, 4);
 		board.applyMove(7, 2, 7, 3);
 		board.applyMove(7, 5, 7, 4);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		//33-40 moves: rook two times one piece forward
 		board.applyMove(0, 0, 0, 1);
@@ -266,8 +269,8 @@ class BasicTest
 		board.applyMove(7, 7, 7, 6);
 		board.applyMove(7, 1, 7, 2);
 		board.applyMove(7, 6, 7, 5);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		//41-48 moves: queen and king two times one piece forward
 		board.applyMove(3, 0, 3, 1);
@@ -278,40 +281,40 @@ class BasicTest
 		board.applyMove(4, 7, 4, 6);
 		board.applyMove(4, 1, 4, 2);
 		board.applyMove(4, 6, 4, 5);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		//49-50 moves: knights move forward
 		board.applyMove(1, 0, 2, 2);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		board.applyMove(1, 7, 2, 5);
-		assertTrue(board.isDraw(Color.WHITE));
-		assertTrue(board.isDraw(Color.BLACK));
+		assertTrue(DrawReason.FIFTY_MOVES_NO_CAPTURE.equals(board.getDrawReason(Color.WHITE)));
+		assertTrue(DrawReason.FIFTY_MOVES_NO_CAPTURE.equals(board.getDrawReason(Color.BLACK)));
 		
 		//Stalemate
 		board = new UnitTestBoard();
 		board.resetWithKingOnly();
 		board.fields[4][6].piece = new Pawn(Color.WHITE);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		board.fields[4][1].piece = new Queen(Color.WHITE);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		board.fields[3][0].piece = new Rook(Color.WHITE);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		board.fields[5][0].piece = new Rook(Color.WHITE);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertTrue(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(DrawReason.STALEMATE.equals(board.getDrawReason(Color.BLACK)));
 		
 		//Checkmate
 		board = new UnitTestBoard();
 		board.resetWithKingOnly();
 		board.applyMove(4, 0, 4, 5);
 		board.fields[7][7].piece = new Rook(Color.WHITE);
-		assertFalse(board.isDraw(Color.WHITE));
-		assertFalse(board.isDraw(Color.BLACK));
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		assertFalse(board.isCheckmate(Color.WHITE));
 		assertTrue(board.isCheckmate(Color.BLACK));
 	}
