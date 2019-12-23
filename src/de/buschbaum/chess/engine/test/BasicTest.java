@@ -298,7 +298,29 @@ class BasicTest
 		assertTrue(board.isDraw(Color.BLACK));
 		
 		//Stalemate
+		board = new Board();
+		board.resetWithKingOnly();
+		board.fields[4][6].piece = new Pawn(Color.WHITE);
+		assertFalse(board.isDraw(Color.WHITE));
+		assertFalse(board.isDraw(Color.BLACK));
+		board.fields[4][1].piece = new Queen(Color.WHITE);
+		assertFalse(board.isDraw(Color.WHITE));
+		assertFalse(board.isDraw(Color.BLACK));
+		board.fields[3][0].piece = new Rook(Color.WHITE);
+		assertFalse(board.isDraw(Color.WHITE));
+		assertFalse(board.isDraw(Color.BLACK));
+		board.fields[5][0].piece = new Rook(Color.WHITE);
+		assertFalse(board.isDraw(Color.WHITE));
+		assertTrue(board.isDraw(Color.BLACK));
 		
-		
+		//Checkmate
+		board = new Board();
+		board.resetWithKingOnly();
+		board.applyMove(4, 0, 4, 5);
+		board.fields[7][7].piece = new Rook(Color.WHITE);
+		assertFalse(board.isDraw(Color.WHITE));
+		assertFalse(board.isDraw(Color.BLACK));
+		assertFalse(board.isCheckmate(Color.WHITE));
+		assertTrue(board.isCheckmate(Color.BLACK));
 	}
 }

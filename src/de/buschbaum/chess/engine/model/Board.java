@@ -76,7 +76,18 @@ public class Board
 		if (isFiftyMovesWithoutCapture()) return true;
 		if (isThreefoldRepition()) return true;
 		if (isInsufficientMaterial()) return true;
+		if (isStalemate(color) && !isCheck(color)) return true;
 		
+		return false;
+	}
+
+	public boolean isCheckmate(Color color)
+	{
+		return isCheck(color) && isStalemate(color);
+	}
+	
+	private boolean isStalemate(Color color)
+	{
 		for (int y = 7; y >= 0; y--)
 		{
 			for (int x = 0; x <= 7; x++)
@@ -92,11 +103,10 @@ public class Board
 				}
 			}
 		}
-		
 		return true;
 	}
 	
-	public boolean isFiftyMovesWithoutCapture()
+	private boolean isFiftyMovesWithoutCapture()
 	{
 		if (appliedMoves.size() < 50) return false;
 		
@@ -110,7 +120,7 @@ public class Board
 		return false;
 	}
 	
-	public boolean isInsufficientMaterial()
+	private boolean isInsufficientMaterial()
 	{
 		int wBishops = 0;
 		Color wBishopColor = null;
@@ -177,7 +187,7 @@ public class Board
 		return false;
 	}
 	
-	public boolean isThreefoldRepition()
+	private boolean isThreefoldRepition()
 	{
 		Integer positionCount = positions.get(this.hashCode());
 		if (positionCount == null) return false;
