@@ -27,17 +27,6 @@ public interface Piece {
 	 */
 	boolean isOffending(Board board, Coordinate from, Coordinate to);
 	
-	/**
-	 * @see Piece#isOffending(Board, Coordinate, Coordinate)
-	 */
-	boolean isOffending(Board board, int fromX, int fromY, int toX, int toY);
-	
-	
-	/**
-	 * @see Piece#isOffending(Board, Coordinate, Coordinate)
-	 */
-	boolean isOffending(Board board, Field fromField, Field toField);
-	
 	Color getColor();
 	
 	void setMoved();

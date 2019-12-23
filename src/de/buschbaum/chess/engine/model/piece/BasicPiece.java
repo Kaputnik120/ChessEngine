@@ -54,16 +54,6 @@ public abstract class BasicPiece implements Piece
 		return color;
 	}
 	
-	public boolean isOffending(Board board, int fromX, int fromY, int toX, int toY)
-	{
-		return isOffending(board, new Coordinate(fromX, fromY), new Coordinate(toX, toY));
-	}
-	
-	public boolean isOffending(Board board, Field fromField, Field toField)
-	{
-		return isOffending(board, fromField.coordinate, toField.coordinate);
-	}
-	
 	public boolean isEnemy(Piece piece)
 	{
 		return isEnemyStatic(piece, getColor());

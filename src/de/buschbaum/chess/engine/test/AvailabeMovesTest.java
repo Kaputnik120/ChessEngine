@@ -305,6 +305,30 @@ class AvailabeMovesTest
 		assertTrue(TestSuite.containsTargetCoordinateMove(3, 5, moves));
 		assertTrue(TestSuite.containsTargetCoordinateMove(4, 5, moves));
 		
+		//Simple capture right side
+		board = new Board();
+		board.applyMove(3, 6, 3, 4);
+		board.applyMove(2, 1, 2, 2);
+		board.applyMove(3, 4, 3, 3);
+		pawnField = board.fields[2][2];
+		moves = pawnField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 2);
+		assertTrue(TestSuite.containsTargetCoordinateMove(2, 3, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMove(3, 3, moves));
+		
+		//Simple capture left side
+		board = new Board();
+		board.applyMove(1, 6, 1, 4);
+		board.applyMove(2, 1, 2, 2);
+		board.applyMove(1, 4, 1, 3);
+		pawnField = board.fields[2][2];
+		moves = pawnField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 2);
+		assertTrue(TestSuite.containsTargetCoordinateMove(2, 3, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMove(1, 3, moves));
+		
 		//Simple capture
 		board = new Board();
 		board.applyMove(3, 6, 3, 4);
@@ -330,7 +354,7 @@ class AvailabeMovesTest
 		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Queen.class, moves));
 		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Knight.class, moves));
 		
-		//Promotion with capture
+		//Promotion with capture right side
 		board.resetWithKingOnly();
 		board.fields[1][6].piece = new Pawn(Color.WHITE);
 		board.fields[2][7].piece = new Pawn(Color.BLACK);
@@ -348,6 +372,25 @@ class AvailabeMovesTest
 		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(2, 7, Rook.class, moves));
 		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(2, 7, Queen.class, moves));
 		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(2, 7, Knight.class, moves));
+		
+		//Promotion with capture left side
+		board.resetWithKingOnly();
+		board.fields[1][6].piece = new Pawn(Color.WHITE);
+		board.fields[0][7].piece = new Pawn(Color.BLACK);
+		pawnField = board.fields[1][6];
+		moves = pawnField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 8);
+		assertTrue(TestSuite.containsTargetCoordinateMove(1, 7, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Bishop.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Rook.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Queen.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Knight.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMove(0, 7, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(0, 7, Bishop.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(0, 7, Rook.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(0, 7, Queen.class, moves));
+		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(0, 7, Knight.class, moves));
 		
 		//Simple move blocked
 		board = new Board();
