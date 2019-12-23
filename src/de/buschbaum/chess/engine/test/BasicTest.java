@@ -1,17 +1,10 @@
 package de.buschbaum.chess.engine.test;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
-import de.buschbaum.chess.engine.model.Board;
 import de.buschbaum.chess.engine.model.Color;
 import de.buschbaum.chess.engine.model.Coordinate;
 import de.buschbaum.chess.engine.model.Field;
@@ -20,7 +13,6 @@ import de.buschbaum.chess.engine.model.piece.Bishop;
 import de.buschbaum.chess.engine.model.piece.King;
 import de.buschbaum.chess.engine.model.piece.Knight;
 import de.buschbaum.chess.engine.model.piece.Pawn;
-import de.buschbaum.chess.engine.model.piece.Piece;
 import de.buschbaum.chess.engine.model.piece.Queen;
 import de.buschbaum.chess.engine.model.piece.Rook;
 
@@ -65,7 +57,7 @@ class BasicTest
 	@Test
 	void getKingTest()
 	{
-		Board board =  new Board();
+		UnitTestBoard board =  new UnitTestBoard();
 		Field field = board.getKing(Color.BLACK);
 		assertTrue(field.coordinate.x == 4);
 		assertTrue(field.coordinate.y == 7);
@@ -78,7 +70,7 @@ class BasicTest
 	@Test
 	void checkTest()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		assertFalse(board.isCheck(Color.WHITE));
 		assertFalse(board.isCheck(Color.BLACK));
 		
@@ -95,7 +87,7 @@ class BasicTest
 		assertTrue(board.isCheck(Color.WHITE));
 		assertFalse(board.isCheck(Color.BLACK));
 		
-		board = new Board();
+		board = new UnitTestBoard();
 		board.applyMove(4, 0, 4, 2);
 		board.applyMove(4, 7, 5, 3);
 		assertTrue(board.isCheck(Color.WHITE));
@@ -105,7 +97,7 @@ class BasicTest
 	@Test
 	void applyAndUnapplyMoveTest()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		board.fields[1][0].piece = null;
 		board.fields[2][0].piece = null;
 		board.fields[3][0].piece = null;
@@ -142,7 +134,7 @@ class BasicTest
 		assertTrue(board.fields[4][0].piece instanceof King);
 		
 		//En Passent
-		board = new Board();
+		board = new UnitTestBoard();
 		board.applyMove(4, 1, 4, 3);
 		board.applyMove(4, 3, 4, 4);
 		board.applyMove(3, 6, 3, 4);
@@ -167,7 +159,7 @@ class BasicTest
 	public void testDraw()
 	{
 		//Insufficient material
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		board.resetWithKingOnly();
 		assertTrue(board.isDraw(Color.WHITE));
 		assertTrue(board.isDraw(Color.BLACK));
@@ -194,7 +186,7 @@ class BasicTest
 		assertFalse(board.isDraw(Color.BLACK));
 		
 		//threefold repitition
-		board = new Board();
+		board = new UnitTestBoard();
 		
 		board.applyMove(3, 1, 3, 3);
 		board.applyMove(3, 6, 3, 4);
@@ -221,7 +213,7 @@ class BasicTest
 		assertTrue(board.isDraw(Color.BLACK));
 		
 		//50 moves without capture
-		board = new Board();
+		board = new UnitTestBoard();
 		assertFalse(board.isDraw(Color.WHITE));
 		assertFalse(board.isDraw(Color.BLACK));
 		
@@ -298,7 +290,7 @@ class BasicTest
 		assertTrue(board.isDraw(Color.BLACK));
 		
 		//Stalemate
-		board = new Board();
+		board = new UnitTestBoard();
 		board.resetWithKingOnly();
 		board.fields[4][6].piece = new Pawn(Color.WHITE);
 		assertFalse(board.isDraw(Color.WHITE));
@@ -314,7 +306,7 @@ class BasicTest
 		assertTrue(board.isDraw(Color.BLACK));
 		
 		//Checkmate
-		board = new Board();
+		board = new UnitTestBoard();
 		board.resetWithKingOnly();
 		board.applyMove(4, 0, 4, 5);
 		board.fields[7][7].piece = new Rook(Color.WHITE);

@@ -39,15 +39,6 @@ public class Board
 		reset();
 	}
 	
-	/**
-	 * Create a board with the given fields. 
-	 * This constructor should be used for testing. 
-	 */
-	public Board(Field[][] fields)
-	{
-		this.fields = fields;
-	}
-	
 	@Override
 	public int hashCode()
 	{
@@ -291,7 +282,7 @@ public class Board
 	/**
 	 * Checks if the move given would be a en passent move if applied to the current board. Doesn't work for past moves!
 	 */
-	public boolean isNextMoveEnPassentCapture(Move move)
+	private boolean isNextMoveEnPassentCapture(Move move)
 	{
 		if (!(move.capture instanceof Pawn)) return false;
 		if (Math.abs(move.from.coordinate.x - move.to.coordinate.x) != 1) return false;
@@ -303,7 +294,7 @@ public class Board
 	/**
 	 * Checks if the last move was an en passent move
 	 */
-	public boolean isLastMoveEnPassentCapture()
+	private boolean isLastMoveEnPassentCapture()
 	{
 		Move lastMove = getLastMove();
 		if (lastMove == null) return false;
@@ -330,7 +321,7 @@ public class Board
 	/**
 	 * Checks if the last move was a rochade move.
 	 */
-	public boolean isLastMoveRochade()
+	private boolean isLastMoveRochade()
 	{
 		Move lastMove = getLastMove();
 		if (lastMove == null) return false;
@@ -347,7 +338,7 @@ public class Board
 	/**
 	 * Checks if the move given would be a rochade if applied to the current board. Doesn't work for past moves!
 	 */
-	public boolean isNextMoveRochade(Move move)
+	private boolean isNextMoveRochade(Move move)
 	{
 		if (!(move.from.piece instanceof King)) return false;
 		int xDiffAbs = Math.abs(move.to.coordinate.x - move.from.coordinate.x); 
@@ -446,16 +437,6 @@ public class Board
 	}
 	
 	/**
-	 * Shortcut for applying a move.
-	 * Designed for testing - no promotion or lastMoves are added to the created moves!
-	 * Always sets Moved status to true. Never sets promotion values.
-	 */
-	public void applyMove(int fromX, int fromY, int toX, int toY)
-	{
-		applyMove(new Move(fields[fromX][fromY], fields[toX][toY]), true);
-	}
-
-	/**
 	 * Returns the last move or null if there are no moves applied, yet.
 	 */
 	public Move getLastMove()
@@ -502,42 +483,9 @@ public class Board
 	}
 	
 	/**
-	 * Sets an empty field array with only the white and the black king set.
-	 * Should be used for testing and therefore is not performance optimized.
-	 */
-	public void resetWithKingOnly()
-	{
-		reset();
-		if (fields == null)
-		{
-			fields = new Field[8][8];
-		}
-		for (int x = 0; x <= 7; x++)
-		{
-			for (int y = 0; y <= 7; y++)
-			{
-				if (x == 4 && y == 0)
-				{
-					King king = new King(Color.WHITE);
-					fields[x][y] = new Field(x, y, king);
-				}
-				else if (x == 4 && y == 7)
-				{
-					King king = new King(Color.BLACK);
-					fields[x][y] = new Field(x, y, king);
-				}
-				else
-				{
-					fields[x][y] = new Field(x, y, null);
-				}
-			}	
-		}
-	}
-	
-	/**
 	 * Resets the board to start 
 	 */
-	public void reset()
+	protected void reset()
 	{
 		appliedMoves.clear();
 		positions.clear();

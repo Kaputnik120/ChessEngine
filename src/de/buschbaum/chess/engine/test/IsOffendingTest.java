@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import de.buschbaum.chess.engine.model.Board;
 import de.buschbaum.chess.engine.model.Color;
 import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.piece.Knight;
@@ -15,7 +14,7 @@ class IsOffendingTest
 	@Test
 	void offendingPawn()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		
 		Field pawnField = board.fields[3][1];
 		assertTrue(pawnField.isOffending(board, 2, 2));
@@ -25,7 +24,7 @@ class IsOffendingTest
 	@Test
 	void offendingBishop()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		board.applyMove(4, 1, 4, 3);
 		
 		Field bishopField = board.fields[5][0];
@@ -71,7 +70,7 @@ class IsOffendingTest
 	@Test
 	void offendingKing()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		
 		Field kingField = board.fields[4][0];
 		assertTrue(kingField.isOffending(board, 5, 1));
@@ -92,7 +91,7 @@ class IsOffendingTest
 	@Test
 	void offendingKnight()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		
 		Field knightField = board.fields[1][0];
 		assertTrue(knightField.isOffending(board, 2, 2));
@@ -124,7 +123,7 @@ class IsOffendingTest
 	@Test
 	void offendingRook()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		
 		Field rookField = board.fields[0][0];
 		assertTrue(rookField.isOffending(board, 0, 1));
@@ -151,7 +150,7 @@ class IsOffendingTest
 	@Test
 	void offendingQueen()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		board.fields[0][0].piece = new Queen(Color.WHITE);
 		
 		Field queenField = board.fields[0][0];
@@ -175,7 +174,7 @@ class IsOffendingTest
 		assertFalse(queenField.isOffending(board, 0, 7));
 		assertFalse(queenField.isOffending(board, 7, 0));
 		
-		Board board2 = new Board();
+		UnitTestBoard board2 = new UnitTestBoard();
 		board2.fields[5][0].piece = new Queen(Color.WHITE);
 		board2.applyMove(4, 1, 4, 3);
 		

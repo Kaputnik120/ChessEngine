@@ -8,15 +8,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import de.buschbaum.chess.engine.model.Board;
 import de.buschbaum.chess.engine.model.Color;
-import de.buschbaum.chess.engine.model.Coordinate;
 import de.buschbaum.chess.engine.model.Field;
 import de.buschbaum.chess.engine.model.Move;
 import de.buschbaum.chess.engine.model.piece.Bishop;
 import de.buschbaum.chess.engine.model.piece.Knight;
 import de.buschbaum.chess.engine.model.piece.Pawn;
-import de.buschbaum.chess.engine.model.piece.Piece;
 import de.buschbaum.chess.engine.model.piece.Queen;
 import de.buschbaum.chess.engine.model.piece.Rook;
 
@@ -26,13 +23,13 @@ class AvailabeMovesTest
 	@Test
 	void knightAvailableMoves()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		
 		Field knightField = board.fields[1][0];
 		List<Move> moves = knightField.getAvailableMoves(board);
 		assertTrue(moves.size() == 2);
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 2, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 2, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 2, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 2, moves));
 		
 		board.applyMove(3, 1, 3, 3);
 		board.applyMove(1, 0, 2, 2);
@@ -45,7 +42,7 @@ class AvailabeMovesTest
 	@Test
 	void bishopAvailableMoves()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		Field bishopField = board.fields[2][7];
 		
 		List<Move> moves = bishopField.getAvailableMoves(board);
@@ -58,13 +55,13 @@ class AvailabeMovesTest
 		
 		bishopField = board.fields[1][3];
 		moves = bishopField.getAvailableMoves(board);
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 4, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 2, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 4, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 5, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 6, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 7, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 2, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 4, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 2, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 4, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 6, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 7, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 2, moves));
 		assertTrue(moves.size() == 7);
 		
 		board.reset();
@@ -75,14 +72,14 @@ class AvailabeMovesTest
 		board.applyMove(3, 0, 2, 5);
 		
 		moves = bishopField.getAvailableMoves(board);
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 5, moves));
 		assertTrue(moves.size() == 1);
 	}
 	
 	@Test
 	void kingAvailableMoves()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		
 		Field kingField = board.getKing(Color.WHITE);
 		List<Move> moves = kingField.getAvailableMoves(board);
@@ -93,32 +90,32 @@ class AvailabeMovesTest
 		kingField = board.getKing(Color.WHITE);
 		moves = kingField.getAvailableMoves(board);
 		assertTrue(moves.size() == 8);
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 3, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 4, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 2, moves));
-		assertFalse(TestSuite.containsTargetCoordinateMove(4, 3, moves)); //king himself
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 4, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 2, moves));
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(4, 3, moves)); //king himself
 		
 		board.applyMove(1, 7, 2, 5);
 		
 		moves = kingField.getAvailableMoves(board);
 		assertTrue(moves.size() == 6);
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 2, moves));
-		assertFalse(TestSuite.containsTargetCoordinateMove(4, 3, moves)); //king himself
-		assertFalse(TestSuite.containsTargetCoordinateMove(3, 3, moves)); //check by knight
-		assertFalse(TestSuite.containsTargetCoordinateMove(4, 4, moves)); //check by knight
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 2, moves));
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(4, 3, moves)); //king himself
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(3, 3, moves)); //check by knight
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(4, 4, moves)); //check by knight
 		
 		board.applyMove(5, 1, 5, 3);
 		board.applyMove(7, 7, 5, 4);
 		
 		moves = kingField.getAvailableMoves(board);
 		assertTrue(moves.size() == 4);
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 2, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 4, moves)); //capturing enemy rook
-		assertFalse(TestSuite.containsTargetCoordinateMove(4, 3, moves)); //king himself
-		assertFalse(TestSuite.containsTargetCoordinateMove(3, 3, moves)); //check by knight
-		assertFalse(TestSuite.containsTargetCoordinateMove(4, 4, moves)); //check by knight
-		assertFalse(TestSuite.containsTargetCoordinateMove(3, 4, moves)); //check by rook
-		assertFalse(TestSuite.containsTargetCoordinateMove(5, 3, moves)); //allied pawn in the way
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 2, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 4, moves)); //capturing enemy rook
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(4, 3, moves)); //king himself
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(3, 3, moves)); //check by knight
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(4, 4, moves)); //check by knight
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(3, 4, moves)); //check by rook
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(5, 3, moves)); //allied pawn in the way
 		
 		board.reset();
 		board.fields[1][0].piece = null;
@@ -131,20 +128,20 @@ class AvailabeMovesTest
 		moves = kingField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 4);
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 0, moves)); //rochade
-		assertTrue(TestSuite.containsTargetCoordinateMove(6, 0, moves)); //rochade
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 0, moves)); //rochade
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(6, 0, moves)); //rochade
 		
 		board.fields[3][0].piece = new Pawn(Color.WHITE);
 		kingField = board.getKing(Color.WHITE);
 		moves = kingField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 2);
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
-		assertFalse(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
-		assertFalse(TestSuite.containsTargetCoordinateMove(2, 0, moves)); //rochade
-		assertTrue(TestSuite.containsTargetCoordinateMove(6, 0, moves)); //rochade
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(2, 0, moves)); //rochade
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(6, 0, moves)); //rochade
 		
 		board.fields[3][0].piece = new Pawn(Color.WHITE);
 		board.applyMove(7, 0, 6, 0);
@@ -153,10 +150,10 @@ class AvailabeMovesTest
 		moves = kingField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 1);
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
-		assertFalse(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
-		assertFalse(TestSuite.containsTargetCoordinateMove(2, 0, moves)); //rochade
-		assertFalse(TestSuite.containsTargetCoordinateMove(6, 0, moves)); //rochade
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(2, 0, moves)); //rochade
+		assertFalse(UnitTestBoard.containsTargetCoordinateMove(6, 0, moves)); //rochade
 		
 		board.fields[7][0].piece.resetMoved();
 		board.fields[6][1].piece = new Queen(Color.BLACK);
@@ -172,7 +169,7 @@ class AvailabeMovesTest
 		moves = kingField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 1);
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 0, moves)); //basic king move
 		
 		board.fields[3][0].piece = null;
 		board.fields[2][1].piece = new Rook(Color.BLACK);
@@ -180,16 +177,16 @@ class AvailabeMovesTest
 		moves = kingField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 2);
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 0, moves)); //basic king move
 		
 		board.fields[4][0].piece.setMoved();
 		kingField = board.getKing(Color.WHITE);
 		moves = kingField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 2);
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 0, moves)); //basic king move
 		
 		board.fields[4][0].piece.resetMoved();
 		board.fields[4][1].piece = new Rook(Color.BLACK);
@@ -197,15 +194,15 @@ class AvailabeMovesTest
 		moves = kingField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 3);
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 0, moves)); //basic king move
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 0, moves)); //basic king move
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 1, moves)); //capture
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 0, moves)); //basic king move
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 0, moves)); //basic king move
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 1, moves)); //capture
 	}
 	
 	@Test
 	void rookAvailableMoves()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		Field rookField = board.fields[0][7];
 		List<Move> moves = rookField.getAvailableMoves(board);
 		assertTrue(moves.isEmpty());
@@ -213,37 +210,37 @@ class AvailabeMovesTest
 		board.applyMove(0, 6, 0, 4);
 		moves = rookField.getAvailableMoves(board);
 		assertTrue(moves.size() == 2);
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 6, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 6, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 5, moves));
 		
 		board.applyMove(0, 7, 0, 5);
 		rookField = board.fields[0][5];
 		moves = rookField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 9);
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 6, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 7, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(1, 5, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 5, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 5, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 5, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 5, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(6, 5, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(7, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 6, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 7, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(1, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(6, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(7, 5, moves));
 		
 		board.applyMove(4, 7, 0, 7);
 		board.applyMove(3, 0, 0, 4);
 		moves = rookField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 2);
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 4, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 6, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 4, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 6, moves));
 	}
 	
 	@Test
 	void queenAvailableMoves()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		Field queenField = board.fields[3][0];
 		List<Move> moves = queenField.getAvailableMoves(board);
 		
@@ -254,47 +251,47 @@ class AvailabeMovesTest
 		moves = queenField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 19);
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 2, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 4, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 5, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 6, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 3, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(1, 3, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 3, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 3, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 3, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(6, 3, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(7, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 2, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 4, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 6, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(1, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(6, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(7, 3, moves));
 		
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 2, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 2, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 4, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(5, 5, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(6, 6, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 4, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(1, 5, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 6, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 2, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 2, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 4, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(5, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(6, 6, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 4, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(1, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 6, moves));
 		
 	}
 	
 	@Test
 	void pawnAvailableMoves()
 	{
-		Board board = new Board();
+		UnitTestBoard board = new UnitTestBoard();
 		Field pawnField = board.fields[4][1];
 		
 		//Double and simple moves available
 		List<Move> moves = pawnField.getAvailableMoves(board);
 		assertTrue(moves.size() == 2);
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 2, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 2, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 3, moves));
 		
 		//Only single move available
 		board.applyMove(4, 1, 4, 3);
 		pawnField = board.fields[4][3];
 		moves = pawnField.getAvailableMoves(board);
 		assertTrue(moves.size() == 1);
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 4, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 4, moves));
 		
 		//En passent capture
 		board.applyMove(4, 3, 4, 4);
@@ -302,11 +299,11 @@ class AvailabeMovesTest
 		pawnField = board.fields[4][4];
 		moves = pawnField.getAvailableMoves(board);
 		assertTrue(moves.size() == 2);
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 5, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(4, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(4, 5, moves));
 		
 		//Simple capture right side
-		board = new Board();
+		board = new UnitTestBoard();
 		board.applyMove(3, 6, 3, 4);
 		board.applyMove(2, 1, 2, 2);
 		board.applyMove(3, 4, 3, 3);
@@ -314,11 +311,11 @@ class AvailabeMovesTest
 		moves = pawnField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 2);
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 3, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 3, moves));
 		
 		//Simple capture left side
-		board = new Board();
+		board = new UnitTestBoard();
 		board.applyMove(1, 6, 1, 4);
 		board.applyMove(2, 1, 2, 2);
 		board.applyMove(1, 4, 1, 3);
@@ -326,11 +323,11 @@ class AvailabeMovesTest
 		moves = pawnField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 2);
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 3, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(1, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(1, 3, moves));
 		
 		//Simple capture
-		board = new Board();
+		board = new UnitTestBoard();
 		board.applyMove(3, 6, 3, 4);
 		board.applyMove(2, 1, 2, 2);
 		board.applyMove(3, 4, 3, 3);
@@ -338,8 +335,8 @@ class AvailabeMovesTest
 		moves = pawnField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 2);
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 3, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(3, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 3, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(3, 3, moves));
 		
 		//Promotion
 		board.resetWithKingOnly();
@@ -348,11 +345,11 @@ class AvailabeMovesTest
 		moves = pawnField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 4);
-		assertTrue(TestSuite.containsTargetCoordinateMove(1, 7, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Bishop.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Rook.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Queen.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Knight.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(1, 7, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Bishop.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Rook.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Queen.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Knight.class, moves));
 		
 		//Promotion with capture right side
 		board.resetWithKingOnly();
@@ -362,16 +359,16 @@ class AvailabeMovesTest
 		moves = pawnField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 8);
-		assertTrue(TestSuite.containsTargetCoordinateMove(1, 7, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Bishop.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Rook.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Queen.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Knight.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(2, 7, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(2, 7, Bishop.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(2, 7, Rook.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(2, 7, Queen.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(2, 7, Knight.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(1, 7, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Bishop.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Rook.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Queen.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Knight.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 7, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(2, 7, Bishop.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(2, 7, Rook.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(2, 7, Queen.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(2, 7, Knight.class, moves));
 		
 		//Promotion with capture left side
 		board.resetWithKingOnly();
@@ -381,19 +378,19 @@ class AvailabeMovesTest
 		moves = pawnField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 8);
-		assertTrue(TestSuite.containsTargetCoordinateMove(1, 7, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Bishop.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Rook.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Queen.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(1, 7, Knight.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMove(0, 7, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(0, 7, Bishop.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(0, 7, Rook.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(0, 7, Queen.class, moves));
-		assertTrue(TestSuite.containsTargetCoordinateMovePromotion(0, 7, Knight.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(1, 7, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Bishop.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Rook.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Queen.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(1, 7, Knight.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(0, 7, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(0, 7, Bishop.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(0, 7, Rook.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(0, 7, Queen.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(0, 7, Knight.class, moves));
 		
 		//Simple move blocked
-		board = new Board();
+		board = new UnitTestBoard();
 		board.applyMove(3, 1, 3, 3);
 		board.applyMove(3, 6, 3, 4);
 		board.applyMove(2, 0, 7, 5);
@@ -403,7 +400,7 @@ class AvailabeMovesTest
 		assertTrue(moves.size() == 0);
 		
 		//Simple move allowed, double move blocked
-		board = new Board();
+		board = new UnitTestBoard();
 		board.applyMove(3, 1, 3, 3);
 		board.applyMove(3, 6, 3, 4);
 		board.applyMove(2, 0, 6, 4);
@@ -411,6 +408,6 @@ class AvailabeMovesTest
 		moves = pawnField.getAvailableMoves(board);
 		
 		assertTrue(moves.size() == 1);
-		assertTrue(TestSuite.containsTargetCoordinateMove(6, 5, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(6, 5, moves));
 	}
 }
