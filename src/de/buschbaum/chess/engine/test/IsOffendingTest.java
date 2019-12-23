@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import de.buschbaum.chess.engine.model.Color;
-import de.buschbaum.chess.engine.model.Field;
-import de.buschbaum.chess.engine.model.piece.Knight;
-import de.buschbaum.chess.engine.model.piece.Queen;
+import de.buschbaum.chess.engine.Color;
+import de.buschbaum.chess.engine.Field;
+import de.buschbaum.chess.engine.piece.Knight;
+import de.buschbaum.chess.engine.piece.Queen;
 
 class IsOffendingTest
 {

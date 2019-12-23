@@ -1,4 +1,4 @@
-package de.buschbaum.chess.engine.model;
+package de.buschbaum.chess.engine;
 
 /**
  * @author Uli

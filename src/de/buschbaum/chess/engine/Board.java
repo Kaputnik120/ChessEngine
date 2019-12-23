@@ -1,20 +1,19 @@
-package de.buschbaum.chess.engine.model;
+package de.buschbaum.chess.engine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import de.buschbaum.chess.engine.model.piece.Bishop;
-import de.buschbaum.chess.engine.model.piece.King;
-import de.buschbaum.chess.engine.model.piece.Knight;
-import de.buschbaum.chess.engine.model.piece.Pawn;
-import de.buschbaum.chess.engine.model.piece.Piece;
-import de.buschbaum.chess.engine.model.piece.Queen;
-import de.buschbaum.chess.engine.model.piece.Rook;
+import de.buschbaum.chess.engine.piece.Bishop;
+import de.buschbaum.chess.engine.piece.King;
+import de.buschbaum.chess.engine.piece.Knight;
+import de.buschbaum.chess.engine.piece.Pawn;
+import de.buschbaum.chess.engine.piece.Piece;
+import de.buschbaum.chess.engine.piece.Queen;
+import de.buschbaum.chess.engine.piece.Rook;
 
 public class Board 
 {

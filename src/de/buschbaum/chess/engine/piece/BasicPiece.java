@@ -1,12 +1,12 @@
-package de.buschbaum.chess.engine.model.piece;
+package de.buschbaum.chess.engine.piece;
 
 import java.util.List;
 
-import de.buschbaum.chess.engine.model.Board;
-import de.buschbaum.chess.engine.model.Color;
-import de.buschbaum.chess.engine.model.Coordinate;
-import de.buschbaum.chess.engine.model.Field;
-import de.buschbaum.chess.engine.model.Move;
+import de.buschbaum.chess.engine.Board;
+import de.buschbaum.chess.engine.Color;
+import de.buschbaum.chess.engine.Coordinate;
+import de.buschbaum.chess.engine.Field;
+import de.buschbaum.chess.engine.Move;
 
 /**
  * @author Uli
