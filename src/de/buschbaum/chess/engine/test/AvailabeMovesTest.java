@@ -8,14 +8,14 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import de.buschbaum.chess.engine.Color;
-import de.buschbaum.chess.engine.Field;
-import de.buschbaum.chess.engine.Move;
-import de.buschbaum.chess.engine.piece.Bishop;
-import de.buschbaum.chess.engine.piece.Knight;
-import de.buschbaum.chess.engine.piece.Pawn;
-import de.buschbaum.chess.engine.piece.Queen;
-import de.buschbaum.chess.engine.piece.Rook;
+import de.buschbaum.chess.engine.rules.Color;
+import de.buschbaum.chess.engine.rules.Field;
+import de.buschbaum.chess.engine.rules.Move;
+import de.buschbaum.chess.engine.rules.piece.Bishop;
+import de.buschbaum.chess.engine.rules.piece.Knight;
+import de.buschbaum.chess.engine.rules.piece.Pawn;
+import de.buschbaum.chess.engine.rules.piece.Queen;
+import de.buschbaum.chess.engine.rules.piece.Rook;
 
 class AvailabeMovesTest
 {

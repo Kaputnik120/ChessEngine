@@ -1,4 +1,4 @@
-package de.buschbaum.chess.engine;
+package de.buschbaum.chess.engine.rules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import de.buschbaum.chess.engine.piece.Bishop;
-import de.buschbaum.chess.engine.piece.King;
-import de.buschbaum.chess.engine.piece.Knight;
-import de.buschbaum.chess.engine.piece.Pawn;
-import de.buschbaum.chess.engine.piece.Piece;
-import de.buschbaum.chess.engine.piece.Queen;
-import de.buschbaum.chess.engine.piece.Rook;
+import de.buschbaum.chess.engine.rules.piece.Bishop;
+import de.buschbaum.chess.engine.rules.piece.King;
+import de.buschbaum.chess.engine.rules.piece.Knight;
+import de.buschbaum.chess.engine.rules.piece.Pawn;
+import de.buschbaum.chess.engine.rules.piece.Piece;
+import de.buschbaum.chess.engine.rules.piece.Queen;
+import de.buschbaum.chess.engine.rules.piece.Rook;
 
 public class Board 
 {
@@ -59,6 +59,11 @@ public class Board
 		}
 		
 		return hashCodeBuilder.toString().hashCode();
+	}
+	
+	public Color getNextTurnColor()
+	{
+		return appliedMoves.size() % 2 == 0 ? Color.WHITE : Color.BLACK;
 	}
 	
 	public boolean isDraw(Color color)
@@ -609,5 +614,21 @@ public class Board
 	public List<Move> getAppliedMoves()
 	{
 		return appliedMoves;
+	}
+	
+	public List<Move> getAvailableMoves(Color color)
+	{
+		List<Move> availableMoves = new ArrayList<>();
+		for (int y = 7; y >= 0; y--)
+		{
+			for (int x = 0; x <= 7; x++)
+			{
+				Field pieceField = fields[x][y];
+				Piece piece = pieceField.piece;
+				if (piece == null || !piece.getColor().equals(color)) continue;
+				availableMoves.addAll(piece.getAvailableMoves(this, pieceField.coordinate));
+			}
+		}
+		return availableMoves;
 	}
 }

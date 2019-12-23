@@ -2,11 +2,11 @@ package de.buschbaum.chess.engine.test;
 
 import java.util.List;
 
-import de.buschbaum.chess.engine.Board;
-import de.buschbaum.chess.engine.Color;
-import de.buschbaum.chess.engine.Field;
-import de.buschbaum.chess.engine.Move;
-import de.buschbaum.chess.engine.piece.King;
+import de.buschbaum.chess.engine.rules.Board;
+import de.buschbaum.chess.engine.rules.Color;
+import de.buschbaum.chess.engine.rules.Field;
+import de.buschbaum.chess.engine.rules.Move;
+import de.buschbaum.chess.engine.rules.piece.King;
 
 public class UnitTestBoard extends Board
 {

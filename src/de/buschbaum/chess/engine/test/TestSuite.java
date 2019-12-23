@@ -5,7 +5,7 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.runner.RunWith;
 
 @RunWith(JUnitPlatform.class)
-@SelectClasses({AvailabeMovesTest.class, BasicTest.class, IsOffendingTest.class})
+@SelectClasses({AvailabeMovesTest.class, BasicTest.class, IsOffendingTest.class, GameTest.class})
 public class TestSuite
 {
 }

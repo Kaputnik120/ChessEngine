@@ -1,9 +1,9 @@
-package de.buschbaum.chess.engine;
+package de.buschbaum.chess.engine.rules;
 
 import java.util.List;
 import java.util.Objects;
 
-import de.buschbaum.chess.engine.piece.Piece;
+import de.buschbaum.chess.engine.rules.piece.Piece;
 
 public class Move 
 {

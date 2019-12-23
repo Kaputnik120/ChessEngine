@@ -1,9 +1,9 @@
-package de.buschbaum.chess.engine;
+package de.buschbaum.chess.engine.rules;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.buschbaum.chess.engine.piece.Piece;
+import de.buschbaum.chess.engine.rules.piece.Piece;
 
 public class Field {
 	

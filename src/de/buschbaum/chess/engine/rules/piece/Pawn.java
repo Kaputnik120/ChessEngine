@@ -1,14 +1,13 @@
-package de.buschbaum.chess.engine.piece;
+package de.buschbaum.chess.engine.rules.piece;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import de.buschbaum.chess.engine.Board;
-import de.buschbaum.chess.engine.Color;
-import de.buschbaum.chess.engine.Coordinate;
-import de.buschbaum.chess.engine.Field;
-import de.buschbaum.chess.engine.Move;
+import de.buschbaum.chess.engine.rules.Board;
+import de.buschbaum.chess.engine.rules.Color;
+import de.buschbaum.chess.engine.rules.Coordinate;
+import de.buschbaum.chess.engine.rules.Field;
+import de.buschbaum.chess.engine.rules.Move;
 
 public class Pawn extends BasicPiece implements Piece 
 {
