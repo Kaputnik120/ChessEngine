@@ -12,8 +12,10 @@ import de.buschbaum.chess.engine.rules.Color;
 import de.buschbaum.chess.engine.rules.Field;
 import de.buschbaum.chess.engine.rules.Move;
 import de.buschbaum.chess.engine.rules.piece.Bishop;
+import de.buschbaum.chess.engine.rules.piece.King;
 import de.buschbaum.chess.engine.rules.piece.Knight;
 import de.buschbaum.chess.engine.rules.piece.Pawn;
+import de.buschbaum.chess.engine.rules.piece.Piece;
 import de.buschbaum.chess.engine.rules.piece.Queen;
 import de.buschbaum.chess.engine.rules.piece.Rook;
 
@@ -410,6 +412,22 @@ class AvailabeMovesTest
 		assertTrue(moves.size() == 1);
 		assertTrue(UnitTestBoard.containsTargetCoordinateMove(6, 5, moves));
 		
-		//TODO NPE @ Pawn:29 verhindern
+		//Simple promotion (variant)
+		board = new UnitTestBoard();
+		board.clear();
+		
+		board.fields[2][6].piece = new Pawn(Color.WHITE);
+		board.fields[2][5].piece = new King(Color.WHITE);
+		board.fields[6][3].piece = new King(Color.BLACK);
+		pawnField = board.fields[2][6];
+		moves = pawnField.getAvailableMoves(board);
+		
+		assertTrue(moves.size() == 4);
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(2, 7, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(2, 7, Bishop.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(2, 7, Rook.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(2, 7, Queen.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(2, 7, Knight.class, moves));
+
 	}
 }

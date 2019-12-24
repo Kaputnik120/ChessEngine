@@ -79,6 +79,6 @@ public class Move
 	public String toString()
 	{
 		return "Move [from=" + from + ", to=" + to + ", color=" + color + ", promotion="
-				+ promotion + "]";
+				+ promotion + "]\n";
 	}
 }

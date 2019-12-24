@@ -1,6 +1,7 @@
 package de.buschbaum.chess.engine.test;
 
 import java.util.List;
+import java.util.Map;
 
 import de.buschbaum.chess.engine.rules.Board;
 import de.buschbaum.chess.engine.rules.Color;
@@ -26,7 +27,7 @@ public class UnitTestBoard extends Board
 	 */
 	public void resetWithKingOnly()
 	{
-		reset();
+		super.reset();
 		if (fields == null)
 		{
 			fields = new Field[8][8];
@@ -53,9 +54,30 @@ public class UnitTestBoard extends Board
 		}
 	}
 	
+	public void clear()
+	{
+		super.reset();
+		if (fields == null)
+		{
+			fields = new Field[8][8];
+		}
+		for (int x = 0; x <= 7; x++)
+		{
+			for (int y = 0; y <= 7; y++)
+			{
+				fields[x][y] = new Field(x, y, null);
+			}	
+		}
+	}
+	
 	public void reset()
 	{
 		super.reset();
+	}
+	
+	public Map<Integer, Integer> getPositions()
+	{
+		return positions;
 	}
 	
 	public static boolean containsTargetCoordinateMove(int x, int y, List<Move> moves)

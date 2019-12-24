@@ -192,26 +192,41 @@ class BasicTest
 		board = new UnitTestBoard();
 		
 		board.applyMove(3, 1, 3, 3);
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		board.applyMove(3, 6, 3, 4);
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		//1.repetition
 		board.applyMove(3, 0, 3, 1);
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		board.applyMove(3, 7, 3, 6);
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		board.applyMove(3, 1, 3, 0);
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		board.applyMove(3, 6, 3, 7);
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		assertTrue(board.getDrawReason(Color.WHITE) == null);
 		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		//2.repetition
 		board.applyMove(3, 0, 3, 1);
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		board.applyMove(3, 7, 3, 6);
+		assertTrue(board.getDrawReason(Color.WHITE) == null);
+		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		board.applyMove(3, 1, 3, 0);
-		board.applyMove(3, 6, 3, 7);
 		assertTrue(board.getDrawReason(Color.WHITE) == null);
 		assertTrue(board.getDrawReason(Color.BLACK) == null);
 		
 		//3.repetition
-		board.applyMove(3, 0, 3, 1);
+		board.applyMove(3, 6, 3, 7);
 		assertTrue(DrawReason.THREEFOLD_REPITION.equals(board.getDrawReason(Color.WHITE)));
 		assertTrue(DrawReason.THREEFOLD_REPITION.equals(board.getDrawReason(Color.BLACK)));
 		

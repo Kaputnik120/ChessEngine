@@ -28,7 +28,7 @@ public class Board
 	/**
 	 * Counts how many times a given position arised. Used for threefold repition.
 	 */
-	private Map<Integer, Integer> positions = new HashMap<>();
+	protected Map<Integer, Integer> positions = new HashMap<>();
 	
 	/**
 	 * Creates a board with the initial fields.
@@ -221,7 +221,17 @@ public class Board
 		{
 			move.capture = to.piece;
 		}
-		to.piece = from.piece;
+		
+		//TODO write test for this
+		if (move.promotion != null)
+		{
+			to.piece = move.promotion;
+		}
+		else
+		{
+			to.piece = from.piece;
+		}
+		
 		from.piece = null;
 		if (setMoved) to.piece.setMoved();
 		appliedMoves.add(move);

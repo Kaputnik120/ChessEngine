@@ -7,16 +7,25 @@ import de.buschbaum.chess.engine.game.PlayerType;
 class GameTest
 {
 
+	private final static int MAX_POSSIBLE_CHESS_GAMES_MOVES = 7000;
+	
 	@Test
-	void testComputerGame()
+	void testComputerGame() throws Exception
 	{
-		Game game = new Game(PlayerType.COMPUTER, PlayerType.COMPUTER, 0);
-		while (!game.isGameEnded())
+		for (int i = 0; i < 10000; i++)
 		{
-			game.applyComputerMove();
+			Game game = new Game(PlayerType.COMPUTER, PlayerType.COMPUTER, 0);
+			int moves = 0;
+			while (!game.isGameEnded() && moves < MAX_POSSIBLE_CHESS_GAMES_MOVES)
+			{
+				game.applyComputerMove();
+				moves++;
+			}
+			System.out.println("Game " + i + " -  Board after Move " + game.board.getAppliedMoves().size() + ":");
 			System.out.println(game.board);
-			System.out.println(game.board.getAppliedMoves().size());
+			
+//			System.out.println("Waiting to start next game");
+//			Thread.sleep(000l);
 		}
 	}
-	
 }

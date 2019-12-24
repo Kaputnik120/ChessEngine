@@ -51,8 +51,11 @@ public class Game
 		Color nextTurnColor = board.getNextTurnColor();
 		DrawReason drawReason = board.getDrawReason(nextTurnColor);
 		boolean isCheckmate = board.isCheckmate(nextTurnColor);
-		System.out.println("drawReason: " + drawReason);
-		System.out.println("isCheckmate: " + isCheckmate);
+		if (drawReason != null || isCheckmate)
+		{
+			System.out.println("drawReason: " + drawReason);
+			System.out.println("isCheckmate: " + isCheckmate);
+		}
 		return  drawReason != null || isCheckmate;
 	}
 	
