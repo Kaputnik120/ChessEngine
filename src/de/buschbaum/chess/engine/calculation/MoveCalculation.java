@@ -28,6 +28,7 @@ public class MoveCalculation
 	{
 		//Returning random move for the beginning
 		List<Move> availableMoves = board.getAvailableMoves(color);
+		System.out.println(availableMoves);
 		
 		if (availableMoves.size() > 0)
 		{

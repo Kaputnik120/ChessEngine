@@ -3,6 +3,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 
 import de.buschbaum.chess.engine.rules.Color;
@@ -155,7 +158,21 @@ class BasicTest
 		assertTrue(board.fields[3][5].piece == null);
 		assertTrue(board.fields[4][4].piece instanceof Pawn);
 		
-		//TODO check positions map after unapply
+		//Check positions map after unapply
+		board = new UnitTestBoard();
+		Map<Integer, Integer> positionsBefore = new HashMap<>(board.getPositions());
+		board.applyMove(4, 1, 4, 3);
+		board.unapplyMove();
+		Map<Integer, Integer> positionsAfter = board.getPositions();
+		assertTrue(positionsBefore.equals(positionsAfter));
+		
+		//Apply promotion
+		board = new UnitTestBoard();
+		board.resetWithKingOnly();
+		board.fields[0][6].piece = new Pawn(Color.WHITE);
+		board.applyMove(new Move(null, board.fields[0][6], board.fields[0][7], Color.WHITE, new Queen(Color.WHITE), null), true);
+		assertTrue(board.fields[0][6].piece == null);
+		assertTrue(board.fields[0][7].piece instanceof Queen);
 	}
 	
 	@Test

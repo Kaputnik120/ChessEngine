@@ -20,9 +20,9 @@ class GameTest
 			{
 				game.applyComputerMove();
 				moves++;
+				System.out.println("Game " + i + " -  Board after Move " + game.board.getAppliedMoves().size() + ":");
+				System.out.println(game.board);
 			}
-			System.out.println("Game " + i + " -  Board after Move " + game.board.getAppliedMoves().size() + ":");
-			System.out.println(game.board);
 			
 //			System.out.println("Waiting to start next game");
 //			Thread.sleep(000l);
