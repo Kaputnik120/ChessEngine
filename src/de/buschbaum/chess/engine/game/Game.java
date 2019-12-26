@@ -46,17 +46,26 @@ public class Game
 		return getNextTurnPlayerType().equals(PlayerType.HUMAN);
 	}
 	
-	public boolean isGameEnded()
+	/**
+	 * Returns a GameResult if the game has ended. Else returns null.
+	 */
+	public GameResult getGameResult()
 	{
 		Color nextTurnColor = board.getNextTurnColor();
 		DrawReason drawReason = board.getDrawReason(nextTurnColor);
 		boolean isCheckmate = board.isCheckmate(nextTurnColor);
-		if (drawReason != null || isCheckmate)
+		
+		if (drawReason == null && !isCheckmate)
 		{
-			System.out.println("drawReason: " + drawReason);
-			System.out.println("isCheckmate: " + isCheckmate);
+			return null;
 		}
-		return  drawReason != null || isCheckmate;
+		
+		if (drawReason != null)
+		{
+			return new GameResult(drawReason, null, board);
+		}
+		
+		return new GameResult(null, Color.getOpposite(nextTurnColor), board);
 	}
 	
 	public void applyComputerMove()

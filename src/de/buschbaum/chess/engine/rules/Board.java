@@ -403,7 +403,15 @@ public class Board
 		}
 		else
 		{
-			lastMove.from.piece = lastMove.to.piece;
+			if (lastMove.promotion != null)
+			{
+				lastMove.from.piece = new Pawn(lastMove.color);
+			}
+			else
+			{
+				lastMove.from.piece = lastMove.to.piece;
+			}
+			
 			lastMove.to.piece = lastMove.capture;
 		}
 		

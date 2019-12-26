@@ -435,33 +435,19 @@ class AvailabeMovesTest
 		board.fields[3][0].piece = new King(Color.BLACK);
 		board.fields[6][0].piece = new King(Color.WHITE);
 		board.fields[4][1].piece = new Pawn(Color.BLACK);
-		board.fields[4][3].piece = new Pawn(Color.BLACK);
-		System.out.println(board.getAvailableMoves(Color.BLACK));
-		//From field is bishop???
-		System.out.println(board);
-				
-//				Game 148 -  Board after Move 331:
-//					-- -- -- -- -- -- -- --  7
-//					-- -- -- -- -- -- -- --  6
-//					-- -- -- -- -- -- -- --  5
-//					-- -- -- -- -- -- -- --  4
-//					-- -- -- -- bp -- -- --  3
-//					-- -- -- -- -- -- -- --  2
-//					-- -- -- -- bp -- -- --  1
-//					-- -- -- bk -- -- wk --  0
-		//
-//					0  1  2  3  4  5  6  7  
-		//
-//					[Move [from=Field [coordinate=[4, 3, color=WHITE], piece=Pawn [color=BLACK]], to=Field [coordinate=[4, 2, color=BLACK], piece=null], color=BLACK, promotion=null]
-//					, Move [from=Field [coordinate=[4, 1, color=WHITE], piece=Bishop [color=BLACK]], to=Field [coordinate=[4, 0, color=BLACK], piece=null], color=BLACK, promotion=Queen [color=BLACK]]
-//					, Move [from=Field [coordinate=[4, 1, color=WHITE], piece=Bishop [color=BLACK]], to=Field [coordinate=[4, 0, color=BLACK], piece=null], color=BLACK, promotion=Knight [color=BLACK]]
-//					, Move [from=Field [coordinate=[4, 1, color=WHITE], piece=Bishop [color=BLACK]], to=Field [coordinate=[4, 0, color=BLACK], piece=null], color=BLACK, promotion=Rook [moved=false, color=BLACK]]
-//					, Move [from=Field [coordinate=[4, 1, color=WHITE], piece=Bishop [color=BLACK]], to=Field [coordinate=[4, 0, color=BLACK], piece=null], color=BLACK, promotion=Bishop [color=BLACK]]
-//					, Move [from=Field [coordinate=[3, 0, color=WHITE], piece=King [moved=true, color=BLACK]], to=Field [coordinate=[3, 1, color=BLACK], piece=null], color=BLACK, promotion=null]
-//					, Move [from=Field [coordinate=[3, 0, color=WHITE], piece=King [moved=true, color=BLACK]], to=Field [coordinate=[4, 0, color=BLACK], piece=null], color=BLACK, promotion=null]
-//					, Move [from=Field [coordinate=[3, 0, color=WHITE], piece=King [moved=true, color=BLACK]], to=Field [coordinate=[2, 0, color=BLACK], piece=null], color=BLACK, promotion=null]
-//					, Move [from=Field [coordinate=[3, 0, color=WHITE], piece=King [moved=true, color=BLACK]], to=Field [coordinate=[2, 1, color=WHITE], piece=null], color=BLACK, promotion=null]
+		moves = board.fields[4][1].piece.getAvailableMoves(board, board.fields[4][1].coordinate);
 		
-
+		assertTrue(moves.size() == 4);
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(4, 0, Bishop.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(4, 0, Rook.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(4, 0, Queen.class, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMovePromotion(4, 0, Knight.class, moves));
+		for (Move move : moves)
+		{
+			if (move.promotion != null)
+			{
+				assertTrue(move.from.piece instanceof Pawn);
+			}
+		}
 	}
 }

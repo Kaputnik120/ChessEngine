@@ -173,6 +173,26 @@ class BasicTest
 		board.applyMove(new Move(null, board.fields[0][6], board.fields[0][7], Color.WHITE, new Queen(Color.WHITE), null), true);
 		assertTrue(board.fields[0][6].piece == null);
 		assertTrue(board.fields[0][7].piece instanceof Queen);
+		
+		//Unapply promotion white
+		board = new UnitTestBoard();
+		board.resetWithKingOnly();
+		board.fields[0][6].piece = new Pawn(Color.WHITE);
+		board.applyMove(new Move(null, board.fields[0][6], board.fields[0][7], Color.WHITE, new Queen(Color.WHITE), null), true);
+		board.unapplyMove();
+		assertTrue(board.fields[0][6].piece instanceof Pawn);
+		assertTrue(board.fields[0][6].piece.getColor().equals(Color.WHITE));
+		assertTrue(board.fields[0][7].piece == null);
+		
+		//Unapply promotion black
+		board = new UnitTestBoard();
+		board.resetWithKingOnly();
+		board.fields[2][1].piece = new Pawn(Color.BLACK);
+		board.applyMove(new Move(null, board.fields[2][1], board.fields[2][0], Color.BLACK, new Queen(Color.BLACK), null), true);
+		board.unapplyMove();
+		assertTrue(board.fields[2][1].piece instanceof Pawn);
+		assertTrue(board.fields[2][1].piece.getColor().equals(Color.BLACK));
+		assertTrue(board.fields[2][0].piece == null);
 	}
 	
 	@Test
