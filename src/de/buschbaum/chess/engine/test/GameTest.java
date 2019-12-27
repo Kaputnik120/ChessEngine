@@ -26,7 +26,7 @@ class GameTest
 		results.put(Color.WHITE.toString(), 0);
 		results.put(Color.BLACK.toString(), 0);
 		
-		for (int i = 0; i < 10_000_000; i++)
+		for (int i = 0; i < 1_000; i++)
 		{
 			Game game = new Game(PlayerType.COMPUTER, PlayerType.COMPUTER, 0);
 			int moves = 0;
@@ -46,7 +46,7 @@ class GameTest
 				results.put(gameResult.winner.toString(), results.get(gameResult.winner.toString()) + 1);
 			}
 			
-			if (i % 1000 == 0)
+			if (i % 100 == 0)
 			{
 				System.out.println(results);
 			}
