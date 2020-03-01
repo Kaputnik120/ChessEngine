@@ -1,13 +1,18 @@
 @charset "UTF-8";
 
-.whiteField {
-	background-color: white;
+@media (min-width: 576px) {}
+@media (min-width: 768px) {}
+@media (min-width: 992px) {}
+@media (min-width: 1200px) {}
+
+/* Board */
+.board {
+	height: 576px;
+	width: 576px;
+	line-height: 11.835%;
 }
 
-.blackField {
-	background-color: grey;
-}
-
+/* Field */
 .field {
 	width: 11.8353%;
 	height: 11.835%;
@@ -16,6 +21,19 @@
 	padding: 0px;
 }
 
+.field.whiteField {
+	background-color: white;
+}
+
+.field.blackField {
+	background-color: grey;
+}
+
+.field.selected {
+	background-color: red;
+}
+
+/* Piece */
 .piece {
 	width: 100%;
 	height: 100%;
@@ -25,27 +43,9 @@
 	background-position: center;
 }
 
-.board {
-	height: 576px;
-	width: 576px;
-	line-height: 11.835%;
-}
+.whitePiece  {}
 
-@media (min-width: 576px) {}
-}
-@media (min-width: 768px) { ... }
-@media (min-width: 992px) { ... }
-@media (min-width: 1200px) {
-	
-}
-
-.whitePiece  {
-	
-}
-
-.blackPiece {
-	
-}
+.blackPiece {}
 
 .whitePiece.bishop {
 	background-image: url("whiteBishop.png");
@@ -70,6 +70,7 @@
 .whitePiece.rook {
 	background-image: url("whiteRook.png");
 }
+
 .blackPiece.bishop {
 	background-image: url("blackBishop.png");
 }

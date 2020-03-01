@@ -15,7 +15,7 @@ class GameTest
 
 	private final static int MAX_POSSIBLE_CHESS_GAMES_MOVES = 7000;
 	
-	@Test
+//	@Test
 	void testComputerGame() throws Exception
 	{
 		Map<String, Integer> results = new HashMap<>();

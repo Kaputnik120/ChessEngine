@@ -10,10 +10,11 @@
 %>
 <div class="board">
 <%
-	int direction = game.playerWhite.equals(PlayerType.HUMAN) ? -1 : 1;
-	int startY = game.playerWhite.equals(PlayerType.HUMAN) ? 7 : 0;
-	int endY = game.playerWhite.equals(PlayerType.HUMAN) ? 0 : 7;
-	for (int y = startY; y >= endY; y += direction)
+	boolean whitePlayerHuman = game.playerWhite.equals(PlayerType.HUMAN);
+	int direction = whitePlayerHuman ? -1 : 1;
+	int startY = whitePlayerHuman ? 7 : 0;
+	int endY = whitePlayerHuman ? 0 : 7;
+	for (int y = startY; whitePlayerHuman ? y >= endY : y <= endY; y += direction)
 	{
 		for (int x = 0; x <= 7; x++)
 		{
@@ -34,12 +35,14 @@
 					.append(" ")
 					.append(piece.getColor().equals(Color.WHITE) ? "whitePiece" : "blackPiece")
 					.append(" ")
+					.append(piece.getColor().equals(Color.WHITE) && whitePlayerHuman || piece.getColor().equals(Color.BLACK) && !whitePlayerHuman ? "humanPiece" : "computerPiece")
+					.append(" ")
 					.append(piece.getClass().getSimpleName().toLowerCase())
 					.append(" ")
 					.append("no-gutters");
 			}
 			%>
-				<div class="<%= fieldClassesBuilder.toString() %>">
+				<div class="<%= fieldClassesBuilder.toString() %>" onclick="onFieldClick(event.target);">
 					<%
 					if (piece != null)
 					{
