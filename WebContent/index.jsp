@@ -27,16 +27,16 @@
   </head>
   <body>
     <div class="container">
-    	<div class="row p-1">
+    	<div class="row">
     		<div class="col-12">
-    			<img class="img-fluid" src="https://picsum.photos/1110/150">
+    			<img class="img-fluid" src="header.jpg">
     		</div>
     	</div>
-    	<div class="row p-1">
-    		<div class="col-12 col-md-8">
+    	<div class="row">
+    		<div class="col-12 col-md pt-2">
     			<jsp:include page="board.jsp" />
     		</div>
-    		<div class="col-12 col-md-4">
+    		<div class="col-12 col-md pt-2">
 	    		<jsp:include page="menu.jsp" />
     		</div>
     	</div>

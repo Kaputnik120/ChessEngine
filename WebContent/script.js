@@ -45,6 +45,4 @@ function onFieldClick(element)
 		alert('doingMove');
 		return;
 	}
-	
-	
 }
