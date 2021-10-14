@@ -12,15 +12,12 @@ public class Game
 	public final PlayerType playerBlack;
 	public final Board board;
 	
-	public final int depth;
-	
-	public Game(PlayerType playerWhite, PlayerType playerBlack, int depth)
+	public Game(PlayerType playerWhite, PlayerType playerBlack)
 	{
 		this.playerWhite = playerWhite;
 		this.playerBlack = playerBlack;
 		
 		this.board = new Board();
-		this.depth = depth;
 	}
 	
 	public boolean isComputerOnlyGame()
@@ -71,7 +68,7 @@ public class Game
 	public void applyComputerMove()
 	{
 		Color nextTurnColor = board.getNextTurnColor();
-		MoveCalculation moveCalculation = new MoveCalculation(board, nextTurnColor, depth);
+		MoveCalculation moveCalculation = new MoveCalculation(board, nextTurnColor);
 		board.applyMove(moveCalculation.calculatedMove, true);
 	}
 }

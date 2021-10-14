@@ -37,14 +37,13 @@
 							.append(" ")
 							.append(piece.getColor().equals(Color.WHITE) && whitePlayerHuman || piece.getColor().equals(Color.BLACK) && !whitePlayerHuman ? "humanPiece" : "computerPiece");
 					}
-					%><div class="<%= fieldClassesBuilder.toString() %> d-inline-block" onclick="onFieldClick(event.target);"><%
+					
+					//In this part no whitespaces may be added to html:
+					%><div class="<%= fieldClassesBuilder.toString() %> d-inline-block" onclick="onFieldClick(event.target);" data-x="<%= x %>" data-y="<%= y %>"><%
 					if (piece != null)
 					{
 						String pieceName = piece.getClass().getSimpleName().toLowerCase();
-					%><div class="<%= pieceClassesBuilder %>">
-						<img src="<%=piece.getColor().name().toLowerCase() 
-							+ pieceName.substring(0, 1).toUpperCase() + pieceName.substring(1) %>.png">
-					</div><%
+					%><div class="<%= pieceClassesBuilder %>"><img src="<%=piece.getColor().name().toLowerCase() + pieceName.substring(0, 1).toUpperCase() + pieceName.substring(1) %>.png"></div><%
 					}
 					%></div><%
 				}	

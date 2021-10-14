@@ -7,13 +7,13 @@
 <div class="row">
 	<div class="col-12">
 		<fieldset class="bg-grey">
-			<input type="radio" name="color" value="black">
+			<input type="radio" name="color" value="<%= Color.WHITE %>">
 			<label>White</label>
-			<input type="radio" name="color" value="white">
+			<input type="radio" name="color" value="<%= Color.BLACK %>">
 			<label>Black</label>
 		</fieldset>
 	</div>
 	<div class="col-12">
-		<button type="button" class="btn btn-secondary">Start new game</button>
+		<button type="button" class="btn btn-secondary" onclick="onNewGameClick();">Start new game</button>
 	</div>
 </div>

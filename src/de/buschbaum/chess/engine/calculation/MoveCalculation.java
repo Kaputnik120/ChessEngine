@@ -11,14 +11,11 @@ public class MoveCalculation
 	public final Board board;
 	public final Color color;
 	
-	public final int depth;
-	
 	public Move calculatedMove;
 	
-	public MoveCalculation(Board board, Color color, int depth)
+	public MoveCalculation(Board board, Color color)
 	{
 		this.board = board;
-		this.depth = depth;
 		this.color = color;
 		
 		calculateMove();

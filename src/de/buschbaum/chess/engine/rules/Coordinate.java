@@ -1,5 +1,7 @@
 package de.buschbaum.chess.engine.rules;
 
+import java.util.Objects;
+
 public class Coordinate
 {
 	public final int x;
@@ -33,5 +35,24 @@ public class Coordinate
 	public String toString()
 	{
 		return "[" + x + ", " + y + ", color=" + color + "]";
+	}
+
+	@Override
+	public int hashCode() 
+	{
+		return Objects.hash(x, y);
+	}
+
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Coordinate other = (Coordinate) obj;
+		return x == other.x && y == other.y;
 	}
 }

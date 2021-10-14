@@ -8,7 +8,7 @@
 	Game game = (Game) session.getAttribute("game");
 	if (game == null)
 	{
-		game = new Game(PlayerType.HUMAN, PlayerType.COMPUTER, 0);
+		game = new Game(PlayerType.HUMAN, PlayerType.COMPUTER);
 		session.setAttribute("game", game);
 	}
 %>
@@ -49,4 +49,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
   </body>
+  <script>
+  		var contextPath = '<%= request.getContextPath() %>';
+  </script>
 </html>

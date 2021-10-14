@@ -2,6 +2,7 @@ package de.buschbaum.chess.engine.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.buschbaum.chess.engine.rules.piece.Piece;
 
@@ -85,5 +86,24 @@ public class Field {
 	public String toString()
 	{
 		return "Field [coordinate=" + coordinate + ", piece=" + piece + "]";
+	}
+
+	@Override
+	public int hashCode() 
+	{
+		return Objects.hash(coordinate, piece);
+	}
+
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Field other = (Field) obj;
+		return Objects.equals(coordinate, other.coordinate) && Objects.equals(piece, other.piece);
 	}
 }

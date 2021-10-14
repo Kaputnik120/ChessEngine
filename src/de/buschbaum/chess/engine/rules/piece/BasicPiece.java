@@ -1,6 +1,7 @@
 package de.buschbaum.chess.engine.rules.piece;
 
 import java.util.List;
+import java.util.Objects;
 
 import de.buschbaum.chess.engine.rules.Board;
 import de.buschbaum.chess.engine.rules.Color;
@@ -97,5 +98,24 @@ public abstract class BasicPiece implements Piece
 				break;
 			}
 		}
+	}
+
+	@Override
+	public int hashCode() 
+	{
+		return Objects.hash(color);
+	}
+
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BasicPiece other = (BasicPiece) obj;
+		return color == other.color;
 	}
 }

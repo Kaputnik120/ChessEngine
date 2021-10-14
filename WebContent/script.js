@@ -12,25 +12,28 @@ function onFieldClick(element)
 		$clickedField = $elem;
 	}
 	
-	var $clickedFieldPiece = $clickedField.find("div.piece.humanPiece");
-	var clickedFieldHasHumanPiece = $clickedFieldPiece.length == 0;
+	var $clickedFieldHumanPiece = $clickedField.find("div.piece.humanPiece");
+	var clickedFieldHasHumanPiece = $clickedFieldHumanPiece.length > 0;
+	
+	var $clickedFieldComputerPiece = $clickedField.find("div.piece.computerPiece");
+	var clickedFieldHasComputerPiece = $clickedFieldComputerPiece.length > 0;
 	
 	var $selectedFieldsBefore = $("div.board div.field.selected");
 	var selectedFieldsBeforeEmpty = $selectedFieldsBefore.length == 0;
-	if (clickedFieldHasHumanPiece && selectedFieldsBeforeEmpty)
+	if (!clickedFieldHasHumanPiece && selectedFieldsBeforeEmpty)
 	{
-		//Nothing selected yet and selected field is empty -> do nothing
+		//Nothing selected yet and selected field is empty or computer field -> do nothing
 		return;
 	}
 	
-	if (!clickedFieldHasHumanPiece && selectedFieldsBeforeEmpty)
+	if (clickedFieldHasHumanPiece && selectedFieldsBeforeEmpty)
 	{
 		//Nothing selected and selected field has human piece on it -> select this field
 		$clickedField.addClass("selected");
 		return;
 	}
 	
-	if (!clickedFieldHasHumanPiece && !selectedFieldsBeforeEmpty)
+	if (clickedFieldHasHumanPiece && !selectedFieldsBeforeEmpty)
 	{
 		//Somethig selected and selected field has human piece on it -> deselect other fields and select this field
 		$selectedFieldsBefore.removeClass("selected");
@@ -38,11 +41,65 @@ function onFieldClick(element)
 		return;
 	}
 	
-	if (clickedFieldHasHumanPiece && !selectedFieldsBeforeEmpty)
+	if ((clickedFieldHasComputerPiece || (!clickedFieldHasHumanPiece && !clickedFieldHasComputerPiece)) && !selectedFieldsBeforeEmpty)
 	{
-		//Something selected and selected field is empty -> send ajax request for move and reload board
-		//TODO
-		alert('doingMove');
+		//Human piece selected and target is computer field or empty -> send ajax request for move and reload board
+		$.post(contextPath + '/ajax.jsp', {
+			todo : 'move',
+			fromX : $selectedFieldsBefore.data('x'),
+			fromY : $selectedFieldsBefore.data('y'),
+			toX : $clickedField.data('x'),
+			toY : $clickedField.data('y'),
+		}, function(response)
+		{
+			if (response.result)
+			{
+				//update board
+				window.location.href = window.location.href;
+				
+				//setting loading screen
+				
+				
+				//requesting computer move
+				$.post(contextPath + '/ajax.jsp', {
+					todo : 'getComputerMove'
+				}, function(response)
+				{
+					if (response.result)
+					{
+						//applying computer move
+						window.location.href = window.location.href;
+					}
+					else
+					{
+						alert(response.message);
+					}
+				});
+			}
+			else
+			{
+				alert(response.message);
+			}
+		});
+		
 		return;
 	}
+}
+
+function onNewGameClick()
+{
+	$.post(contextPath + '/ajax.jsp', {
+			todo : 'newGame',
+			color : $('input[name=color]:checked').val()
+		}, function(response)
+		{
+			if (response.result)
+			{
+				window.location.href = window.location.href;  
+			}
+			else
+			{
+				alert(response.message);
+			}
+		});
 }

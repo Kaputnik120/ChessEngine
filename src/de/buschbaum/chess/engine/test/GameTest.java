@@ -28,7 +28,7 @@ class GameTest
 		
 		for (int i = 0; i < 1_000; i++)
 		{
-			Game game = new Game(PlayerType.COMPUTER, PlayerType.COMPUTER, 0);
+			Game game = new Game(PlayerType.COMPUTER, PlayerType.COMPUTER);
 			int moves = 0;
 			GameResult gameResult = null;
 			while ((gameResult = game.getGameResult()) == null && moves < MAX_POSSIBLE_CHESS_GAMES_MOVES)
