@@ -1,3 +1,5 @@
+<%@page import="java.util.Collections"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="application/json; charset=UTF-8"
 	import="de.buschbaum.chess.engine.game.*, 
 		de.buschbaum.chess.engine.rules.*, 
@@ -39,16 +41,24 @@
 				
 				Color nextTurnColor = board.getNextTurnColor();
 				
-	 			if (board.getAvailableMoves(nextTurnColor).contains(move))
-	 			{
-	 				board.applyMove(move, true);
-	 				result.setResult(true);
-	 			}
-	 			else
-	 			{
-	 				result.setResult(false);
-	 				result.setMessage("Illegal move");
-	 			}
+				if (!game.getNextTurnPlayerType().equals(PlayerType.HUMAN))
+				{
+					result.setResult(false);
+	 				result.setMessage("Not players turn");
+				}
+				else
+				{
+		 			if (board.getAvailableMoves(nextTurnColor).contains(move))
+		 			{
+		 				board.applyMove(move, true);
+		 				result.setResult(true);
+		 			}
+		 			else
+		 			{
+		 				result.setResult(false);
+		 				result.setMessage("Illegal move");
+		 			}
+				}
 				
 	 			out.write(new Gson().toJson(result));
 	 			
@@ -70,6 +80,45 @@
 				session.setAttribute("game", game);
 				
 				result.setResult(true);
+				out.write(new Gson().toJson(result));
+				
+				return;
+			}
+			case "getComputerMove" :
+			{
+				Game game = (Game) session.getAttribute("game");
+				Board board = game.board;
+				
+				if (!game.getNextTurnPlayerType().equals(PlayerType.COMPUTER))
+				{
+					result.setResult(false);
+	 				result.setMessage("Not computers turn");
+				}
+				else
+				{
+					List<Move> moves = board.getAvailableMoves(board.getNextTurnColor());
+					Collections.shuffle(moves);
+					
+					GameResult gameResult = game.getGameResult();
+					if (gameResult != null)
+					{
+						result.setResult(false);
+						if (gameResult.drawReason != null)
+						{
+							result.setMessage("Draw: " + gameResult.drawReason);
+						}
+						else
+						{
+							result.setMessage("Win: " + gameResult.winner);
+						}
+					}
+					else
+					{
+						board.applyMove(moves.get(0), true);
+		 				result.setResult(true);
+					}
+				}
+				
 				out.write(new Gson().toJson(result));
 				
 				return;

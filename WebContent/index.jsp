@@ -26,6 +26,10 @@
     <title>Stupid chess engine</title>
   </head>
   <body>
+  	<div id="overlay" style="position: absolute; left: 50%; top: 50%; z-index: 1000; background-color: white;">
+	  <div style="position: relative; left: -50%; top: -50%;">
+	  </div>
+	</div>
     <div class="container">
     	<div class="row">
     		<div class="col-12">

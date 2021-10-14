@@ -58,7 +58,9 @@ function onFieldClick(element)
 				window.location.href = window.location.href;
 				
 				//setting loading screen
-				
+				var $overlay = $('#overlay');
+				$overlay.show();
+				$overlay.html("Waiting for computer move");
 				
 				//requesting computer move
 				$.post(contextPath + '/ajax.jsp', {
@@ -67,6 +69,9 @@ function onFieldClick(element)
 				{
 					if (response.result)
 					{
+						//Removing loading screen
+						$overlay.hide();
+						
 						//applying computer move
 						window.location.href = window.location.href;
 					}
