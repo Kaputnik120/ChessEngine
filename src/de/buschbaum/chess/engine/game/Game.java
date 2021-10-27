@@ -18,6 +18,11 @@ public class Game
 		this.playerBlack = playerBlack;
 		
 		this.board = new Board();
+		
+		if (PlayerType.COMPUTER.equals(playerWhite))
+		{
+			applyComputerMove();
+		}
 	}
 	
 	public boolean isComputerOnlyGame()

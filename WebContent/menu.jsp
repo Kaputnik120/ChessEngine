@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="col-12">
 		<fieldset class="bg-grey">
-			<input type="radio" name="color" value="<%= Color.WHITE %>">
+			<input type="radio" name="color" value="<%= Color.WHITE %>" checked>
 			<label>White</label>
 			<input type="radio" name="color" value="<%= Color.BLACK %>">
 			<label>Black</label>

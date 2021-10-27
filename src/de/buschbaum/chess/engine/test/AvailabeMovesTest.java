@@ -449,5 +449,15 @@ class AvailabeMovesTest
 				assertTrue(move.from.piece instanceof Pawn);
 			}
 		}
+		
+		
+		//Double and simple moves available - BLACK
+		board = new UnitTestBoard();
+		pawnField = board.fields[6][6];
+		
+		moves = pawnField.getAvailableMoves(board);
+		assertTrue(moves.size() == 2);
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(6, 4, moves));
+		assertTrue(UnitTestBoard.containsTargetCoordinateMove(6, 5, moves));
 	}
 }

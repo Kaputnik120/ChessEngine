@@ -43,7 +43,7 @@
 					if (piece != null)
 					{
 						String pieceName = piece.getClass().getSimpleName().toLowerCase();
-					%><div class="<%= pieceClassesBuilder %>"><img src="<%=piece.getColor().name().toLowerCase() + pieceName.substring(0, 1).toUpperCase() + pieceName.substring(1) %>.png"></div><%
+					%><div class="<%= pieceClassesBuilder %> <%= pieceName %>"><img src="<%=piece.getColor().name().toLowerCase() + pieceName.substring(0, 1).toUpperCase() + pieceName.substring(1) %>.png"></div><%
 					}
 					%></div><%
 				}	

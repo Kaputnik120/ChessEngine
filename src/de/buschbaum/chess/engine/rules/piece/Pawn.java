@@ -42,7 +42,7 @@ public class Pawn extends BasicPiece implements Piece
 			}
 			
 			//initial two field move (is never promotion)
-			if ((getColor().equals(Color.WHITE) && coordinate.y == 1) || (getColor().equals(Color.WHITE) && coordinate.y == 6))
+			if ((getColor().equals(Color.WHITE) && coordinate.y == 1) || (getColor().equals(Color.BLACK) && coordinate.y == 6))
 			{
 				int doubleMoveTargetY = simpleMoveTargetY + direction;
 				if (doubleMoveTargetY <= 7 && doubleMoveTargetY >= 0)

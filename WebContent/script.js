@@ -43,51 +43,65 @@ function onFieldClick(element)
 	
 	if ((clickedFieldHasComputerPiece || (!clickedFieldHasHumanPiece && !clickedFieldHasComputerPiece)) && !selectedFieldsBeforeEmpty)
 	{
-		//Human piece selected and target is computer field or empty -> send ajax request for move and reload board
-		$.post(contextPath + '/ajax.jsp', {
-			todo : 'move',
-			fromX : $selectedFieldsBefore.data('x'),
-			fromY : $selectedFieldsBefore.data('y'),
-			toX : $clickedField.data('x'),
-			toY : $clickedField.data('y'),
-		}, function(response)
-		{
-			if (response.result)
-			{
-				//update board
-				window.location.href = window.location.href;
-				
-				//setting loading screen
-				var $overlay = $('#overlay');
-				$overlay.show();
-				$overlay.html("Waiting for computer move");
-				
-				//requesting computer move
-				$.post(contextPath + '/ajax.jsp', {
-					todo : 'getComputerMove'
-				}, function(response)
-				{
-					if (response.result)
-					{
-						//Removing loading screen
-						$overlay.hide();
-						
-						//applying computer move
-						window.location.href = window.location.href;
-					}
-					else
-					{
-						alert(response.message);
-					}
-				});
-			}
-			else
-			{
-				alert(response.message);
-			}
-		});
+		//Human piece selected and target is computer field or empty
 		
-		return;
+		//Promotion field?`-> show promotion dialog`
+		var promotion = '';
+		var toY = $clickedField.data('y');
+		if ($selectedFieldsBefore.hasClass('pawn') && 
+			(($selectedFieldsBefore.hasClass('whitePiece') && toY == 7) || ($selectedFieldsBefore.hasClass('blackPiece') && toY == 0)))
+		{
+			var $overlay = $('#overlay');
+			$overlay.show();
+			$overlay.html("Choose promotion piece");
+		}
+		else
+		{
+			//no promotion -> send ajax request for move and reload board
+			$.post(contextPath + '/ajax.jsp', {
+				todo : 'move',
+				fromX : $selectedFieldsBefore.data('x'),
+				fromY : $selectedFieldsBefore.data('y'),
+				toX : $clickedField.data('x'),
+				toY : toY,
+				promotion: promotion
+			}, function(response)
+			{
+				if (response.result)
+				{
+					//update board
+					window.location.href = window.location.href;
+					
+					//setting loading screen
+					var $overlay = $('#overlay');
+					$overlay.show();
+					$overlay.html("Waiting for computer move");
+					
+					//requesting computer move
+					$.post(contextPath + '/ajax.jsp', {
+						todo : 'getComputerMove'
+					}, function(response)
+					{
+						if (response.result)
+						{
+							//Removing loading screen
+							$overlay.hide();
+							
+							//applying computer move
+							window.location.href = window.location.href;
+						}
+						else
+						{
+							alert(response.message);
+						}
+					});
+				}
+				else
+				{
+					alert(response.message);
+				}
+			});
+		}
 	}
 }
 
