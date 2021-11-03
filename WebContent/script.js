@@ -48,12 +48,11 @@ function onFieldClick(element)
 		//Promotion field?`-> show promotion dialog`
 		var promotion = '';
 		var toY = $clickedField.data('y');
-		if ($selectedFieldsBefore.hasClass('pawn') && 
-			(($selectedFieldsBefore.hasClass('whitePiece') && toY == 7) || ($selectedFieldsBefore.hasClass('blackPiece') && toY == 0)))
+		var $selectedPieceBefore = $selectedFieldsBefore.find('div');
+		if ($selectedPieceBefore.hasClass('pawn') && 
+			(($selectedPieceBefore.hasClass('whitePiece') && toY == 7) || ($selectedPieceBefore.hasClass('blackPiece') && toY == 0)))
 		{
-			var $overlay = $('#overlay');
-			$overlay.show();
-			$overlay.html("Choose promotion piece");
+			showPromotionDialog();
 		}
 		else
 		{
@@ -103,6 +102,35 @@ function onFieldClick(element)
 			});
 		}
 	}
+}
+
+function showPromotionDialog()
+{
+	var $overlay = $('#overlay');
+	$overlay.show();
+	$overlay.html
+	(
+		'<div class="d-inline-block" onclick="onPromotionFieldClick(event.target);">' +
+		 	'<div class="whiteBishop">' +
+				'<img src="whiteBishop.png">' +
+		 	'</div>' +
+		'</div>' +
+		'<div class="d-inline-block"  onclick="onPromotionFieldClick(event.target);">' +
+		 	'<div class="whiteKnight">' +
+				'<img src="whiteKnight.png">' +
+		 	'</div>' +
+		'</div>' +
+		'<div class="d-inline-block"  onclick="onPromotionFieldClick(event.target);">' +
+		 	'<div class="whiteRook">' +
+				'<img src="whiteRook.png">' +
+		 	'</div>' +
+		'</div>' +
+		'<div class="d-inline-block"  onclick="onPromotionFieldClick(event.target);">' +
+		 	'<div class="whiteQueen">' +
+				'<img src="whiteQueen.png">' +
+		 	'</div>' +
+		'</div>'
+	);
 }
 
 function onNewGameClick()
